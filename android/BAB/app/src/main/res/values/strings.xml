@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Build-a-bridge</string>
+    <string name="facebook_app_id">459412514480213</string>
+    <string name="fb_login_protocol_scheme">fb459412514480213</string>
 </resources>
