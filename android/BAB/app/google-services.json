@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "845941741342",
+    "firebase_url": "https://build-a-bridge-207816.firebaseio.com",
+    "project_id": "build-a-bridge-207816",
+    "storage_bucket": "build-a-bridge-207816.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845941741342:android:994817d37b930354",
+        "android_client_info": {
+          "package_name": "bab.com.build_a_bridge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "845941741342-o2lmmvl61a2em9u83k2087er9uaeu7qq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "bab.com.build_a_bridge",
+            "certificate_hash": "6fecce93bd233e0df9214abfb193aa4670357e0a"
+          }
+        },
+        {
+          "client_id": "845941741342-05j95m2o7njk2mph0t746rqso6q7qrho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqQ8NKTGme_gCLApuDl8abZjYs6jGtCzI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "845941741342-05j95m2o7njk2mph0t746rqso6q7qrho.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "845941741342-lbv29q2oo35nd16svbe3sksvi35v5mpe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "BaB.BaBTest"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
