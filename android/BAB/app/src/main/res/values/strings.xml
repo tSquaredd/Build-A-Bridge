@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Build-a-bridge</string>
-    <string name="facebook_app_id">459412514480213</string>
-    <string name="fb_login_protocol_scheme">fb459412514480213</string>
+
+    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+    <string name="facebook_application_id" translatable="false">459412514480213</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">ffb459412514480213</string>
+
+    <string name="sign_out">Sign Out</string>
 </resources>
