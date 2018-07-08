@@ -6,4 +6,5 @@
     <string name="facebook_login_protocol_scheme" translatable="false">ffb459412514480213</string>
 
     <string name="sign_out">Sign Out</string>
+    <string name="email_verification">An email has been sent to your address. Please verify your address before continuing</string>
 </resources>

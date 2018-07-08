@@ -5,16 +5,15 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
+import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
-import java.util.Arrays.asList
-
-
 
 
 class LoginActivity : AppCompatActivity() {
@@ -25,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        if(FirebaseAuth.getInstance().currentUser == null) firebaseAuth()
+       checkFirebaseCredentials()
 
     }
 
@@ -39,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
             R.id.action_sign_out -> {
                 AuthUI.getInstance()
                         .signOut(this)
-                        .addOnCompleteListener { firebaseAuth() }
+                        .addOnCompleteListener { runFirebaseAuth() }
             }
         }
         return true
@@ -50,11 +49,21 @@ class LoginActivity : AppCompatActivity() {
 
        when(requestCode){
            RC_SIGN_IN -> {
+               // user signed in
                val response = IdpResponse.fromResultIntent(data)
 
                if(resultCode == Activity.RESULT_OK){
                    // Successfully signed in
                    val user = FirebaseAuth.getInstance().currentUser
+                   if(user != null){
+                       if(!user.isEmailVerified){
+                           user.sendEmailVerification()
+                                   .addOnCompleteListener { email_verification_message.visibility = View.VISIBLE }
+
+
+
+                       }
+                   }
                } else {
                    // Sign in failed. If response is null user cancelled sign in.
                    // Otherwise check response.getError().getErrorCode() to handle error
@@ -63,7 +72,12 @@ class LoginActivity : AppCompatActivity() {
        }
     }
 
-    fun firebaseAuth(){
+    fun checkFirebaseCredentials(){
+        if(FirebaseAuth.getInstance().currentUser == null) runFirebaseAuth()
+
+    }
+
+    fun runFirebaseAuth(){
         // Choose authentication providers
         val providers = Arrays.asList(
                 AuthUI.IdpConfig.EmailBuilder().build(),
