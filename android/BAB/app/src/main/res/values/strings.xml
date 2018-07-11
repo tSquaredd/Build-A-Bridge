@@ -1,10 +1,17 @@
 <resources>
-    <string name="app_name">Build-a-bridge</string>
+    <!-- keep in alphabetical order please!! -->
 
+    <string name="app_name">Build-a-bridge</string>
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">459412514480213</string>
     <string name="facebook_login_protocol_scheme" translatable="false">ffb459412514480213</string>
-
+    <string name="email_verification">A verification email has been sent to your address. It is required that you verify the address provided before continuing\n\n\n\n\nNot receiving the email?\n\nClick the button below to resend</string>
+    <string name="email_not_verified_toast">Address has not been verified. Try again in a moment or re-verify</string>
+    <string name="check_verification">Check Verification</string>
+    <string name="send_email">Send Email</string>
     <string name="sign_out">Sign Out</string>
-    <string name="email_verification">An email has been sent to your address. Please verify your address before continuing</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
