@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_email_verification.*
 
 
 class EmailVerificationFragment : Fragment() {
-    lateinit var callback: EmailVerification
+    private lateinit var callback: EmailVerification
 
     interface EmailVerification{
         fun emailVerified()

@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/refugee_immigrant_choice_hint" />
 
 
-    <view
+    <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="2dp"

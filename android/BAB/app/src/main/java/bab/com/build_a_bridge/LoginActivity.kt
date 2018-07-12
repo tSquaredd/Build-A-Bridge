@@ -19,7 +19,10 @@ import com.google.firebase.database.ValueEventListener
 import java.util.*
 
 
-class LoginActivity : AppCompatActivity(), EmailVerificationFragment.EmailVerification {
+class LoginActivity : AppCompatActivity(),
+        EmailVerificationFragment.EmailVerification,
+        RegistrationFragment.UserTypeChoice {
+
 
     val RC_SIGN_IN = 123
 
@@ -101,9 +104,12 @@ class LoginActivity : AppCompatActivity(), EmailVerificationFragment.EmailVerifi
         if (FirebaseAuth.getInstance().currentUser == null) runFirebaseAuthUi()
         else {
             val userData = FirebaseAuth.getInstance().currentUser!!.providerData
-            for(i in 0 until userData.size)
-                if(userData[i].providerId.equals("password"))
+            for (i in 0 until userData.size)
+                if (userData[i].providerId.equals("password"))
                     checkIfEmailVerified()
+
+            // user from different provider ( facebook or google )
+            checkIfNewUser()
 
         }
 
@@ -131,6 +137,19 @@ class LoginActivity : AppCompatActivity(), EmailVerificationFragment.EmailVerifi
                         .setLogo(R.drawable.bab_logo)
                         .build(),
                 RC_SIGN_IN)
+    }
+
+    /**
+     * Since fragments are being swapped in and out, when back is pressed at any fragment within this
+     * Activity execution backs out of application. This function checks where user and goes back
+     * to appropriate fragment.
+     */
+    override fun onBackPressed() {
+        if(supportFragmentManager.findFragmentById(R.id.login_frame_container) is RegistrationUserInfoFragment){
+            swapFragment(RegistrationFragment())
+        } else {
+            super.onBackPressed()
+        }
     }
 
 
@@ -188,9 +207,9 @@ class LoginActivity : AppCompatActivity(), EmailVerificationFragment.EmailVerifi
                         .addOnCompleteListener {
                             swapFragment(EmailVerificationFragment())
                         }
+            } else {
+                checkIfNewUser()
             }
-        } else {
-            checkIfNewUser()
         }
     }
 
@@ -199,6 +218,26 @@ class LoginActivity : AppCompatActivity(), EmailVerificationFragment.EmailVerifi
      */
     override fun emailVerified() {
         checkIfNewUser()
+    }
+
+    /**
+     * Called from RegistrationFragment.
+     *
+     * When called this user has selected either Refugee / Immigrant or
+     * Volunteer from RegistrationFragment
+     *
+     *
+     */
+    override fun refugee(wasChosen: Boolean) {
+        val fragment = RegistrationUserInfoFragment()
+        val bundle = Bundle()
+        when {
+            wasChosen -> bundle.putSerializable(ExtraNames.USER_TYPE.toString(), UserType.REFUGEE)
+            else -> bundle.putSerializable(ExtraNames.USER_TYPE.toString(), UserType.VOLUNTEER)
+        }
+
+        fragment.arguments = bundle
+        swapFragment(fragment)
     }
 
 
