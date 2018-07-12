@@ -90,6 +90,13 @@ class LoginActivity : AppCompatActivity(), EmailVerificationFragment.EmailVerifi
         }
     }
 
+    /**
+     * Checks if user is already signed in
+     *
+     * If no, start up FirebaseAuthUi login flow
+     * If yes, check that if user accout is of type username/password that
+     * they have verified there email
+     */
     private fun checkFirebaseCredentials() {
         if (FirebaseAuth.getInstance().currentUser == null) runFirebaseAuthUi()
         else {
@@ -108,7 +115,7 @@ class LoginActivity : AppCompatActivity(), EmailVerificationFragment.EmailVerifi
      * google
      * facebook
      */
-    fun runFirebaseAuthUi() {
+    private fun runFirebaseAuthUi() {
         // Choose authentication providers
         val providers = Arrays.asList(
                 AuthUI.IdpConfig.EmailBuilder().build(),
@@ -116,7 +123,7 @@ class LoginActivity : AppCompatActivity(), EmailVerificationFragment.EmailVerifi
                 AuthUI.IdpConfig.FacebookBuilder().build())
 
 
-// Create and launch sign-in intent
+        // Create and launch sign-in intent
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
@@ -166,7 +173,8 @@ class LoginActivity : AppCompatActivity(), EmailVerificationFragment.EmailVerifi
 
             })
         }
-        //TODO: Need to worry if uid is null ??
+        /*TODO: Need to worry if uid is null ?? Seems it would be impossible since checkFirebaseCredentials
+        * checks for this condition already*/
 
 
     }
@@ -180,8 +188,6 @@ class LoginActivity : AppCompatActivity(), EmailVerificationFragment.EmailVerifi
                         .addOnCompleteListener {
                             swapFragment(EmailVerificationFragment())
                         }
-
-
             }
         } else {
             checkIfNewUser()
@@ -192,7 +198,6 @@ class LoginActivity : AppCompatActivity(), EmailVerificationFragment.EmailVerifi
      * Function called from EmailVerificationFragment when email has been verified
      */
     override fun emailVerified() {
-        Log.i(this.toString(), "in function emailVerified")
         checkIfNewUser()
     }
 

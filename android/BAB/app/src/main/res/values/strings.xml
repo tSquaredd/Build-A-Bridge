@@ -8,8 +8,14 @@
     <string name="email_verification">A verification email has been sent to your address. It is required that you verify the address provided before continuing\n\n\n\n\nNot receiving the email?\n\nClick the button below to resend</string>
     <string name="email_not_verified_toast">Address has not been verified. Try again in a moment or re-verify</string>
     <string name="check_verification">Check Verification</string>
+    <string name="next">Next</string>
+    <string name="refugee_immigrant_choice_label">I AM A REFUGEE / IMMIGRANT</string>
+    <string name="refugee_immigrant_choice_hint">Are you new to the country? Let us help you settle in and build a new home</string>
     <string name="send_email">Send Email</string>
     <string name="sign_out">Sign Out</string>
+    <string name="volunteer_choice_label">I AM A VOLUNTEER</string>
+    <string name="volunteer_choice_hint">Are you willing to help? From sparing a few hours a week to sponsoring a family.\nEvery bit helps</string>
+    <string name="who_are_you">Who are you?</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

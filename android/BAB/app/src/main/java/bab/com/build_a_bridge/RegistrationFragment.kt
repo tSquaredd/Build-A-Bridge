@@ -7,7 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-
+/**
+ * This fragment is the begining of registration and prompts the user to choose whether they are
+ * of type Refugee/Immigrant or Volunteer
+ */
 class RegistrationFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
