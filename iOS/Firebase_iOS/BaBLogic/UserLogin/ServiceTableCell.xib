@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ServiceCell" rowHeight="170" id="PqM-10-6Yn" customClass="ServiceTableCell" customModule="BaBLogic" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="290" height="170"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PqM-10-6Yn" id="pzk-0J-a13">
+                <rect key="frame" x="0.0" y="0.0" width="290" height="170"/>
+                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wec-aM-6QH">
+                        <rect key="frame" x="16" y="11" width="258" height="148"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Home" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xh6-1A-f2s">
+                                <rect key="frame" x="121" y="8" width="116" height="79"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="116" id="F54-1I-ZPo"/>
+                                    <constraint firstAttribute="height" constant="79" id="UsT-8I-Qec"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r39-D1-ABu">
+                                <rect key="frame" x="10" y="50" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="A6j-HL-shb"/>
+                                    <constraint firstAttribute="height" constant="48" id="cHb-fw-CGw"/>
+                                </constraints>
+                                <state key="normal" image="notSelectedCheckbox">
+                                    <color key="titleColor" red="0.18434520439999999" green="0.45617861679999999" blue="0.2113655528" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="selectionClick:" destination="PqM-10-6Yn" eventType="touchUpInside" id="Wuu-PW-CYf"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="placeholder" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="je3-kZ-Z2a">
+                                <rect key="frame" x="138" y="92" width="82" height="21"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" staticText="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="u55-Gq-4Hn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="r39-D1-ABu" firstAttribute="centerY" secondItem="Wec-aM-6QH" secondAttribute="centerY" id="0XL-SC-aUh"/>
+                            <constraint firstItem="r39-D1-ABu" firstAttribute="leading" secondItem="Wec-aM-6QH" secondAttribute="leading" constant="10" id="39l-7h-xi1"/>
+                            <constraint firstItem="xh6-1A-f2s" firstAttribute="centerX" secondItem="Wec-aM-6QH" secondAttribute="centerX" constant="50" id="7mh-Nr-Uoo"/>
+                            <constraint firstItem="je3-kZ-Z2a" firstAttribute="top" secondItem="xh6-1A-f2s" secondAttribute="bottom" constant="5" id="VFz-my-exT"/>
+                            <constraint firstItem="xh6-1A-f2s" firstAttribute="top" secondItem="Wec-aM-6QH" secondAttribute="top" constant="8" id="h07-vZ-sKe"/>
+                            <constraint firstItem="je3-kZ-Z2a" firstAttribute="centerX" secondItem="Wec-aM-6QH" secondAttribute="centerX" constant="50" id="yH1-Q1-pQF"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottomMargin" secondItem="Wec-aM-6QH" secondAttribute="bottom" id="SXQ-Fg-9FJ"/>
+                    <constraint firstItem="Wec-aM-6QH" firstAttribute="trailing" secondItem="pzk-0J-a13" secondAttribute="trailingMargin" id="Zx0-ke-JEp"/>
+                    <constraint firstItem="Wec-aM-6QH" firstAttribute="leading" secondItem="pzk-0J-a13" secondAttribute="leadingMargin" id="hNO-ar-OVi"/>
+                    <constraint firstItem="Wec-aM-6QH" firstAttribute="top" secondItem="pzk-0J-a13" secondAttribute="topMargin" id="skS-EW-Ou7"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="button" destination="r39-D1-ABu" id="iLS-MO-dg6"/>
+                <outlet property="desc" destination="je3-kZ-Z2a" id="e8W-zl-yT2"/>
+                <outlet property="theImageView" destination="xh6-1A-f2s" id="8Tc-G5-4tm"/>
+            </connections>
+            <point key="canvasLocation" x="-267" y="-61"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Home" width="276" height="216"/>
+        <image name="notSelectedCheckbox" width="128" height="128"/>
+    </resources>
+</document>
