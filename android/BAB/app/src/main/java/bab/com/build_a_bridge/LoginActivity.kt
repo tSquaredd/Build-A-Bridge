@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import bab.com.build_a_bridge.enums.ExtraNames
 import bab.com.build_a_bridge.enums.FirebaseNames
+import bab.com.build_a_bridge.enums.UserType
 import com.google.firebase.auth.FirebaseAuth
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -170,11 +171,10 @@ class LoginActivity : AppCompatActivity(),
      * If they do not exists in DB send them to the RegistrationFragment
      */
     private fun checkIfNewUser() {
-        val uid = FirebaseAuth.getInstance().uid
-        if (uid != null) {
+
             val db = FirebaseDatabase.getInstance().reference
                     .child(FirebaseNames.USERS.toString())
-                    .child(uid)
+                    .child(FirebaseAuth.getInstance().uid!!)
 
             db.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -192,11 +192,6 @@ class LoginActivity : AppCompatActivity(),
                 }
 
             })
-        }
-        /*TODO: Need to worry if uid is null ?? Seems it would be impossible since checkFirebaseCredentials
-        * checks for this condition already*/
-
-
     }
 
     private fun checkIfEmailVerified() {

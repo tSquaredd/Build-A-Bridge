@@ -9,9 +9,13 @@
     <string name="email_verification">A verification email has been sent to your address. It is required that you verify the address provided before continuing\n\n\n\n\nNot receiving the email?\n\nClick the button below to resend</string>
     <string name="email_not_verified_toast">Address has not been verified. Try again in a moment or re-verify</string>
     <string name="first_name">First Name</string>
+    <string name="invalid_character">Invalid character</string>
     <string name="last_name">Last Name</string>
     <string name="more_options">More Options</string>
     <string name="next">Next</string>
+    <string name="please_select_region">Please select a region</string>
+    <string name="please_select_state">Please select a state</string>
+    <string name="phone_number_error">Numbers Only</string>
     <string name="phone_number_optional">Phone Number (optional)</string>
     <string name="photo_upload_failure">Problem uploading photo, try again</string>
     <string name="photo_upload_success">Photo uploaded successfully</string>
@@ -19,6 +23,7 @@
     <string name="refugee_immigrant_choice_hint">Are you new to the country? Let us help you settle in and build a new home</string>
     <string name="region">Region</string>
     <string name="select_picture">Select Picture</string>
+    <string name="select_region">Select Region</string>
     <string name="select_state">Select State</string>
     <string name="send_email">Send Email</string>
     <string name="sign_out">Sign Out</string>
