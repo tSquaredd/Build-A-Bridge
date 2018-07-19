@@ -6,9 +6,10 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import bab.com.build_a_bridge.enums.ExtraNames
+import bab.com.build_a_bridge.enums.FirebaseNames
 import com.google.firebase.auth.FirebaseAuth
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
