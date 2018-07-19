@@ -8,34 +8,68 @@
 
 /* Begin PBXBuildFile section */
 		9E6D3331545C759428557306 /* Pods_BaBLogic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D4CB1B639B9A42DBE55C713 /* Pods_BaBLogic.framework */; };
-		EB0F286120F29909006E3DB3 /* ViewControllerLoginEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0F286020F29909006E3DB3 /* ViewControllerLoginEmail.swift */; };
-		EB387E2820F6F4D5004EF991 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB387E2720F6F4D5004EF991 /* GoogleService-Info.plist */; };
+		B95847C520F70B48005BE2EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B95847C420F70B48005BE2EB /* GoogleService-Info.plist */; };
+		B95847C720F7A9BD005BE2EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B95847C620F7A9BD005BE2EB /* Main.storyboard */; };
+		B958480720F7D7C6005BE2EB /* ServiceTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B958480620F7D7C6005BE2EB /* ServiceTableCell.xib */; };
+		B958480920F7E90A005BE2EB /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = B958480820F7E90A005BE2EB /* Utility.swift */; };
+		B958480B20F7EDF1005BE2EB /* VolunteerSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B958480A20F7EDF0005BE2EB /* VolunteerSignUpViewController.swift */; };
+		B958480D20F7F956005BE2EB /* RefugeeServiceForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B958480C20F7F956005BE2EB /* RefugeeServiceForm.swift */; };
+		B958480F20F7F984005BE2EB /* VolunteerServiceForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B958480E20F7F984005BE2EB /* VolunteerServiceForm.swift */; };
+		B958481120F7FA7A005BE2EB /* ServiceTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B958481020F7FA7A005BE2EB /* ServiceTableCell.swift */; };
+		B958481320F811C5005BE2EB /* PickSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = B958481220F811C5005BE2EB /* PickSide.swift */; };
+		B958481520F81306005BE2EB /* DoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B958481420F81305005BE2EB /* DoneViewController.swift */; };
+		B9A8464A20FBFB210022C05E /* TableViewMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8464520FBFB1E0022C05E /* TableViewMenuController.swift */; };
+		B9A8464B20FBFB210022C05E /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8464620FBFB1E0022C05E /* BaseViewController.swift */; };
+		B9A8464C20FBFB210022C05E /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8464720FBFB1E0022C05E /* ZFRippleButton.swift */; };
+		B9A8464D20FBFB210022C05E /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8464820FBFB1F0022C05E /* MenuTableViewCell.swift */; };
+		B9A8464E20FBFB210022C05E /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8464920FBFB200022C05E /* ChildViewController.swift */; };
+		B9A8465020FC040A0022C05E /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8464F20FC040A0022C05E /* TextField.swift */; };
+		B9A8465220FC08AE0022C05E /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8465120FC08AE0022C05E /* NavigationBar.swift */; };
+		B9A8465520FC0E620022C05E /* ProfessionalHeadshotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B9A8465420FC0E620022C05E /* ProfessionalHeadshotCell.xib */; };
+		B9A8465720FC11B30022C05E /* ProfessionalHeadshotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8465620FC11B30022C05E /* ProfessionalHeadshotCell.swift */; };
+		B9A8465920FC13CE0022C05E /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8465820FC13CE0022C05E /* ProfileTableViewController.swift */; };
 		EBE6FD2820F280C10027D94A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE6FD2720F280C10027D94A /* AppDelegate.swift */; };
-		EBE6FD2A20F280C10027D94A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE6FD2920F280C10027D94A /* ViewController.swift */; };
-		EBE6FD2D20F280C10027D94A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBE6FD2B20F280C10027D94A /* Main.storyboard */; };
+		EBE6FD2A20F280C10027D94A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE6FD2920F280C10027D94A /* MainViewController.swift */; };
+		EBE6FD2D20F280C10027D94A /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBE6FD2B20F280C10027D94A /* Login.storyboard */; };
 		EBE6FD2F20F280C30027D94A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBE6FD2E20F280C30027D94A /* Assets.xcassets */; };
 		EBE6FD3220F280C30027D94A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBE6FD3020F280C30027D94A /* LaunchScreen.storyboard */; };
-		EBE6FD3E20F283960027D94A /* ViewControllerSignUpCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE6FD3D20F283960027D94A /* ViewControllerSignUpCustom.swift */; };
-		EBE6FD4020F284400027D94A /* ViewControllerSignUpTasking.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE6FD3F20F284400027D94A /* ViewControllerSignUpTasking.swift */; };
-		EBE6FD4220F284A60027D94A /* ViewControllerMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE6FD4120F284A60027D94A /* ViewControllerMain.swift */; };
+		EBE6FD3E20F283960027D94A /* RefugeeSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE6FD3D20F283960027D94A /* RefugeeSignUpViewController.swift */; };
+		EBE6FD4220F284A60027D94A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE6FD4120F284A60027D94A /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5D4CB1B639B9A42DBE55C713 /* Pods_BaBLogic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaBLogic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B95847C420F70B48005BE2EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B95847C620F7A9BD005BE2EB /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B958480620F7D7C6005BE2EB /* ServiceTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServiceTableCell.xib; sourceTree = "<group>"; };
+		B958480820F7E90A005BE2EB /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		B958480A20F7EDF0005BE2EB /* VolunteerSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VolunteerSignUpViewController.swift; path = "/Users/iosdesigncoding/Desktop/Projects/babfoundation-mark1/iOS/Firebase_iOS/BaBLogic/UserLogin/VolunteerSignUpViewController.swift"; sourceTree = "<absolute>"; };
+		B958480C20F7F956005BE2EB /* RefugeeServiceForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefugeeServiceForm.swift; sourceTree = "<group>"; };
+		B958480E20F7F984005BE2EB /* VolunteerServiceForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolunteerServiceForm.swift; sourceTree = "<group>"; };
+		B958481020F7FA7A005BE2EB /* ServiceTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceTableCell.swift; sourceTree = "<group>"; };
+		B958481220F811C5005BE2EB /* PickSide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickSide.swift; sourceTree = "<group>"; };
+		B958481420F81305005BE2EB /* DoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneViewController.swift; sourceTree = "<group>"; };
+		B9A8464520FBFB1E0022C05E /* TableViewMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewMenuController.swift; sourceTree = "<group>"; };
+		B9A8464620FBFB1E0022C05E /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		B9A8464720FBFB1E0022C05E /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZFRippleButton.swift; sourceTree = "<group>"; };
+		B9A8464820FBFB1F0022C05E /* MenuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
+		B9A8464920FBFB200022C05E /* ChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildViewController.swift; sourceTree = "<group>"; };
+		B9A8464F20FC040A0022C05E /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
+		B9A8465120FC08AE0022C05E /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
+		B9A8465420FC0E620022C05E /* ProfessionalHeadshotCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfessionalHeadshotCell.xib; sourceTree = "<group>"; };
+		B9A8465620FC11B30022C05E /* ProfessionalHeadshotCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfessionalHeadshotCell.swift; sourceTree = "<group>"; };
+		B9A8465820FC13CE0022C05E /* ProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
 		C6C36BCCA3D0196411381A3B /* Pods-BaBLogic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaBLogic.release.xcconfig"; path = "Pods/Target Support Files/Pods-BaBLogic/Pods-BaBLogic.release.xcconfig"; sourceTree = "<group>"; };
 		D0026BFBF3EB5C023735D14C /* Pods-BaBLogic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaBLogic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BaBLogic/Pods-BaBLogic.debug.xcconfig"; sourceTree = "<group>"; };
-		EB0F286020F29909006E3DB3 /* ViewControllerLoginEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerLoginEmail.swift; sourceTree = "<group>"; };
-		EB387E2720F6F4D5004EF991 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EBE6FD2420F280C10027D94A /* BaBLogic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaBLogic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBE6FD2720F280C10027D94A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EBE6FD2920F280C10027D94A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		EBE6FD2C20F280C10027D94A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EBE6FD2920F280C10027D94A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		EBE6FD2C20F280C10027D94A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
 		EBE6FD2E20F280C30027D94A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EBE6FD3120F280C30027D94A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EBE6FD3320F280C30027D94A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EBE6FD3D20F283960027D94A /* ViewControllerSignUpCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerSignUpCustom.swift; sourceTree = "<group>"; };
-		EBE6FD3F20F284400027D94A /* ViewControllerSignUpTasking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerSignUpTasking.swift; sourceTree = "<group>"; };
-		EBE6FD4120F284A60027D94A /* ViewControllerMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerMain.swift; sourceTree = "<group>"; };
+		EBE6FD3D20F283960027D94A /* RefugeeSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefugeeSignUpViewController.swift; sourceTree = "<group>"; };
+		EBE6FD4120F284A60027D94A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +90,47 @@
 				5D4CB1B639B9A42DBE55C713 /* Pods_BaBLogic.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B958480520F7D456005BE2EB /* UserLogin */ = {
+			isa = PBXGroup;
+			children = (
+				EBE6FD2B20F280C10027D94A /* Login.storyboard */,
+				EBE6FD4120F284A60027D94A /* LoginViewController.swift */,
+				EBE6FD3D20F283960027D94A /* RefugeeSignUpViewController.swift */,
+				B958480A20F7EDF0005BE2EB /* VolunteerSignUpViewController.swift */,
+				B958480620F7D7C6005BE2EB /* ServiceTableCell.xib */,
+				B958480C20F7F956005BE2EB /* RefugeeServiceForm.swift */,
+				B958480E20F7F984005BE2EB /* VolunteerServiceForm.swift */,
+				B958481020F7FA7A005BE2EB /* ServiceTableCell.swift */,
+				B958481220F811C5005BE2EB /* PickSide.swift */,
+				B958481420F81305005BE2EB /* DoneViewController.swift */,
+			);
+			path = UserLogin;
+			sourceTree = "<group>";
+		};
+		B9A8464420FBFB0C0022C05E /* NavigationDrawer */ = {
+			isa = PBXGroup;
+			children = (
+				B9A8464620FBFB1E0022C05E /* BaseViewController.swift */,
+				B9A8464920FBFB200022C05E /* ChildViewController.swift */,
+				B9A8464820FBFB1F0022C05E /* MenuTableViewCell.swift */,
+				B9A8464520FBFB1E0022C05E /* TableViewMenuController.swift */,
+				B9A8464720FBFB1E0022C05E /* ZFRippleButton.swift */,
+				B9A8465820FC13CE0022C05E /* ProfileTableViewController.swift */,
+			);
+			path = NavigationDrawer;
+			sourceTree = "<group>";
+		};
+		B9A8465320FC0E300022C05E /* CustomComponents */ = {
+			isa = PBXGroup;
+			children = (
+				B9A8464F20FC040A0022C05E /* TextField.swift */,
+				B9A8465120FC08AE0022C05E /* NavigationBar.swift */,
+				B9A8465420FC0E620022C05E /* ProfessionalHeadshotCell.xib */,
+				B9A8465620FC11B30022C05E /* ProfessionalHeadshotCell.swift */,
+			);
+			path = CustomComponents;
 			sourceTree = "<group>";
 		};
 		EBE6FD1B20F280C00027D94A = {
@@ -79,17 +154,17 @@
 		EBE6FD2620F280C10027D94A /* BaBLogic */ = {
 			isa = PBXGroup;
 			children = (
+				B9A8465320FC0E300022C05E /* CustomComponents */,
+				B9A8464420FBFB0C0022C05E /* NavigationDrawer */,
+				B958480520F7D456005BE2EB /* UserLogin */,
+				B95847C420F70B48005BE2EB /* GoogleService-Info.plist */,
 				EBE6FD2720F280C10027D94A /* AppDelegate.swift */,
-				EBE6FD2920F280C10027D94A /* ViewController.swift */,
-				EBE6FD2B20F280C10027D94A /* Main.storyboard */,
-				EB0F286020F29909006E3DB3 /* ViewControllerLoginEmail.swift */,
-				EBE6FD4120F284A60027D94A /* ViewControllerMain.swift */,
-				EBE6FD3F20F284400027D94A /* ViewControllerSignUpTasking.swift */,
-				EBE6FD3D20F283960027D94A /* ViewControllerSignUpCustom.swift */,
+				EBE6FD2920F280C10027D94A /* MainViewController.swift */,
 				EBE6FD2E20F280C30027D94A /* Assets.xcassets */,
 				EBE6FD3020F280C30027D94A /* LaunchScreen.storyboard */,
 				EBE6FD3320F280C30027D94A /* Info.plist */,
-				EB387E2720F6F4D5004EF991 /* GoogleService-Info.plist */,
+				B95847C620F7A9BD005BE2EB /* Main.storyboard */,
+				B958480820F7E90A005BE2EB /* Utility.swift */,
 			);
 			path = BaBLogic;
 			sourceTree = "<group>";
@@ -164,9 +239,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBE6FD3220F280C30027D94A /* LaunchScreen.storyboard in Resources */,
-				EB387E2820F6F4D5004EF991 /* GoogleService-Info.plist in Resources */,
+				B95847C720F7A9BD005BE2EB /* Main.storyboard in Resources */,
+				B9A8465520FC0E620022C05E /* ProfessionalHeadshotCell.xib in Resources */,
+				B95847C520F70B48005BE2EB /* GoogleService-Info.plist in Resources */,
 				EBE6FD2F20F280C30027D94A /* Assets.xcassets in Resources */,
-				EBE6FD2D20F280C10027D94A /* Main.storyboard in Resources */,
+				B958480720F7D7C6005BE2EB /* ServiceTableCell.xib in Resources */,
+				EBE6FD2D20F280C10027D94A /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,24 +298,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EBE6FD2A20F280C10027D94A /* ViewController.swift in Sources */,
+				B9A8464B20FBFB210022C05E /* BaseViewController.swift in Sources */,
+				EBE6FD2A20F280C10027D94A /* MainViewController.swift in Sources */,
 				EBE6FD2820F280C10027D94A /* AppDelegate.swift in Sources */,
-				EBE6FD4020F284400027D94A /* ViewControllerSignUpTasking.swift in Sources */,
-				EB0F286120F29909006E3DB3 /* ViewControllerLoginEmail.swift in Sources */,
-				EBE6FD4220F284A60027D94A /* ViewControllerMain.swift in Sources */,
-				EBE6FD3E20F283960027D94A /* ViewControllerSignUpCustom.swift in Sources */,
+				B958480920F7E90A005BE2EB /* Utility.swift in Sources */,
+				B958481520F81306005BE2EB /* DoneViewController.swift in Sources */,
+				B9A8464A20FBFB210022C05E /* TableViewMenuController.swift in Sources */,
+				B9A8465920FC13CE0022C05E /* ProfileTableViewController.swift in Sources */,
+				B9A8465020FC040A0022C05E /* TextField.swift in Sources */,
+				B958480D20F7F956005BE2EB /* RefugeeServiceForm.swift in Sources */,
+				B9A8465720FC11B30022C05E /* ProfessionalHeadshotCell.swift in Sources */,
+				B9A8464E20FBFB210022C05E /* ChildViewController.swift in Sources */,
+				B958480B20F7EDF1005BE2EB /* VolunteerSignUpViewController.swift in Sources */,
+				EBE6FD4220F284A60027D94A /* LoginViewController.swift in Sources */,
+				B9A8464C20FBFB210022C05E /* ZFRippleButton.swift in Sources */,
+				B958481120F7FA7A005BE2EB /* ServiceTableCell.swift in Sources */,
+				B9A8465220FC08AE0022C05E /* NavigationBar.swift in Sources */,
+				B958480F20F7F984005BE2EB /* VolunteerServiceForm.swift in Sources */,
+				EBE6FD3E20F283960027D94A /* RefugeeSignUpViewController.swift in Sources */,
+				B958481320F811C5005BE2EB /* PickSide.swift in Sources */,
+				B9A8464D20FBFB210022C05E /* MenuTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		EBE6FD2B20F280C10027D94A /* Main.storyboard */ = {
+		EBE6FD2B20F280C10027D94A /* Login.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				EBE6FD2C20F280C10027D94A /* Base */,
 			);
-			name = Main.storyboard;
+			name = Login.storyboard;
 			sourceTree = "<group>";
 		};
 		EBE6FD3020F280C30027D94A /* LaunchScreen.storyboard */ = {
@@ -371,7 +463,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KU9582JQND;
+				DEVELOPMENT_TEAM = M7XT3Z682V;
 				INFOPLIST_FILE = BaBLogic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -390,7 +482,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KU9582JQND;
+				DEVELOPMENT_TEAM = M7XT3Z682V;
 				INFOPLIST_FILE = BaBLogic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
