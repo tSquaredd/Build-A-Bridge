@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,12 +27,14 @@ import bab.com.build_a_bridge.utils.ValidationUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_registration_user_info.*
+import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
 import java.io.IOException
 
 
-class RegistrationUserInfoFragment : Fragment() {
+class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
 
     private val IMG_RESULT_CODE = 1
     lateinit var filePath: Uri
@@ -48,7 +51,7 @@ class RegistrationUserInfoFragment : Fragment() {
 
         // disable button by default unitl fields are filled
         next_button.isEnabled = false
-
+        checkForNames()
         spinnerSetup()
         setTextInputListeners()
         // Set click listener for next button
@@ -69,6 +72,23 @@ class RegistrationUserInfoFragment : Fragment() {
         }
     }
 
+    /**
+     * Check for names already obtained from firebase auth so user does not have to enter name twice
+     */
+    fun checkForNames(){
+        val user = FirebaseAuth.getInstance().currentUser
+        if(user != null){
+            val fullName = user.displayName
+            val firstName = fullName?.split(" ")?.get(0)
+            val lastName = fullName?.split(" ")?.get(1)
+
+            first_name_text_input_edit_text.setText(firstName)
+            last_name_text_input_edit_text.setText(lastName)
+
+            viewModel.firstName = firstName
+            viewModel.lastName = lastName
+        }
+    }
 
     /**
      * Text input listeners watch the edit text fields for changes and check that
