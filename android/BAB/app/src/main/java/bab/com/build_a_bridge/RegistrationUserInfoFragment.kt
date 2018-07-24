@@ -279,6 +279,7 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
 
                 // Start main activity and clears stack of registration and login activities
                 startActivity(Intent(context, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+                activity?.finish()
 
             }
         }

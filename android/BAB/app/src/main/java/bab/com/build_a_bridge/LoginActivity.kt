@@ -11,6 +11,7 @@ import android.view.MenuItem
 import bab.com.build_a_bridge.enums.ExtraNames
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.UserType
+import bab.com.build_a_bridge.utils.ProfilePicUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -41,12 +42,16 @@ class LoginActivity : AppCompatActivity(),
         return true
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_sign_out -> {
                 AuthUI.getInstance()
                         .signOut(this)
-                        .addOnCompleteListener { runFirebaseAuthUi() }
+                        .addOnCompleteListener {
+                            ProfilePicUtil.removePhoto(applicationContext)
+                            runFirebaseAuthUi()
+                        }
             }
         }
         return true
@@ -180,7 +185,8 @@ class LoginActivity : AppCompatActivity(),
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
                         // User already exists
-                        startActivity(Intent(applicationContext, MainActivity::class.java))
+                        startActivity(Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
+                        finish()
                     } else {
                         // User does not exist yet. Start RegistrationFragment
                         swapFragment(RegistrationFragment())
@@ -235,6 +241,5 @@ class LoginActivity : AppCompatActivity(),
         fragment.arguments = bundle
         swapFragment(fragment)
     }
-
 
 }
