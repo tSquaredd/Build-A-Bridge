@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuItem
 import bab.com.build_a_bridge.enums.ExtraNames
-import bab.com.build_a_bridge.enums.FirebaseNames
+import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.UserType
 import com.google.firebase.auth.FirebaseAuth
 import com.firebase.ui.auth.AuthUI
@@ -173,7 +173,7 @@ class LoginActivity : AppCompatActivity(),
     private fun checkIfNewUser() {
 
             val db = FirebaseDatabase.getInstance().reference
-                    .child(FirebaseNames.USERS.toString())
+                    .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
                     .child(FirebaseAuth.getInstance().uid!!)
 
             db.addListenerForSingleValueEvent(object : ValueEventListener {

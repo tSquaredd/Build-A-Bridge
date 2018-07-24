@@ -2,30 +2,37 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_feed"
-        android:title="@string/feed"/>
+        android:title="@string/feed"
+        android:icon="@drawable/ic_feed"/>
 
     <item
         android:id="@+id/nav_requests"
-        android:title="@string/requests"/>
+        android:title="@string/requests"
+        android:icon="@drawable/ic_request"/>
 
     <item
         android:id="@+id/nav_skills"
-        android:title="@string/skills"/>
+        android:title="@string/skills"
+        android:icon="@drawable/ic_skills"/>
 
     <item
         android:id="@+id/nav_messages"
-        android:title="@string/messages"/>
+        android:title="@string/messages"
+        android:icon="@drawable/ic_messages"/>
 
     <item
         android:id="@+id/nav_friends"
-        android:title="@string/friends"/>
+        android:title="@string/friends"
+        android:icon="@drawable/ic_friends"/>
 
     <item
         android:id="@+id/nav_settings"
-        android:title="@string/settings"/>
+        android:title="@string/settings"
+        android:icon="@drawable/ic_settings"/>
 
     <item
         android:id="@+id/nav_sign_out"
-        android:title="@string/sign_out"/>
+        android:title="@string/sign_out"
+        android:icon="@drawable/ic_sign_out"/>
 
 </menu>
