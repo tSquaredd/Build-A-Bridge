@@ -2,15 +2,18 @@ package bab.com.build_a_bridge
 
 
 import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuItem
-import bab.com.build_a_bridge.enums.ExtraNames
-import bab.com.build_a_bridge.enums.FirebaseDbNames
-import bab.com.build_a_bridge.enums.UserType
+import bab.com.build_a_bridge.enums.*
+import bab.com.build_a_bridge.objects.User
 import bab.com.build_a_bridge.utils.ProfilePicUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.firebase.ui.auth.AuthUI
@@ -19,12 +22,18 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.gson.Gson
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
+import java.io.File
 import java.util.*
 
 
 class LoginActivity : AppCompatActivity(),
         EmailVerificationFragment.EmailVerification,
-        RegistrationFragment.UserTypeChoice {
+        RegistrationFragment.UserTypeChoice,
+        AnkoLogger {
 
 
     val RC_SIGN_IN = 123
@@ -104,7 +113,7 @@ class LoginActivity : AppCompatActivity(),
      * Checks if user is already signed in
      *
      * If no, start up FirebaseAuthUi login flow
-     * If yes, check that if user accout is of type username/password that
+     * If yes, check that if user account is of type username/password that
      * they have verified there email
      */
     private fun checkFirebaseCredentials() {
@@ -152,7 +161,7 @@ class LoginActivity : AppCompatActivity(),
      * to appropriate fragment.
      */
     override fun onBackPressed() {
-        if(supportFragmentManager.findFragmentById(R.id.login_frame_container) is RegistrationUserInfoFragment){
+        if (supportFragmentManager.findFragmentById(R.id.login_frame_container) is RegistrationUserInfoFragment) {
             swapFragment(RegistrationFragment())
         } else {
             super.onBackPressed()
@@ -177,27 +186,54 @@ class LoginActivity : AppCompatActivity(),
      */
     private fun checkIfNewUser() {
 
-            val db = FirebaseDatabase.getInstance().reference
-                    .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
-                    .child(FirebaseAuth.getInstance().uid!!)
+        val db = FirebaseDatabase.getInstance().reference
+                .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
+                .child(FirebaseAuth.getInstance().uid!!)
 
-            db.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        // User already exists
-                        startActivity(Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
-                        finish()
-                    } else {
-                        // User does not exist yet. Start RegistrationFragment
-                        swapFragment(RegistrationFragment())
+        db.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // User already exists
+
+                    // get user data for prefs
+                    val user = dataSnapshot.getValue(User::class.java)
+                    info("USER IS " + user.toString())
+                    val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext).edit()
+                    prefs.putString(PreferenceNames.USER.toString(), Gson().toJson(user))
+                    prefs.apply()
+
+
+
+                    // Check for profile picture
+                    val storageRef = FirebaseStorage.getInstance().reference
+                            .child(FirebaseStorageNames.PROFILE_PICTURES.toString())
+                            .child(FirebaseAuth.getInstance().uid!!)
+
+                    val contextWrapper = ContextWrapper(applicationContext)
+                    val fileDirectory = contextWrapper.getDir(ProfilePicUtil.PHOTO_DIRECTORY, Context.MODE_PRIVATE)
+                    val filePath = File(fileDirectory, ProfilePicUtil.FILE_NAME)
+
+                    storageRef.getFile(filePath).addOnSuccessListener {
+                        val bitmap = BitmapFactory.decodeFile(filePath.toString())
+                        val savedFilePath = ProfilePicUtil.savePhoto(applicationContext, bitmap)
+                        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext).edit()
+                        prefs.putString(PreferenceNames.PROFILE_PICTURE.toString(), savedFilePath).apply()
                     }
-                }
 
-                override fun onCancelled(p0: DatabaseError) {
-                    // Do nothing
-                }
 
-            })
+                    startActivity(Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
+                    finish()
+                } else {
+                    // User does not exist yet. Start RegistrationFragment
+                    swapFragment(RegistrationFragment())
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                // Do nothing
+            }
+
+        })
     }
 
     private fun checkIfEmailVerified() {

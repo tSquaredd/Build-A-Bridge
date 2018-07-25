@@ -13,5 +13,7 @@ enum class RegionCodes {
     ROCHESTER,
     SCHENECTADY,
     SYRACUSE,
-    YONKERS
+    YONKERS,
+
+    DEFAULT
 }

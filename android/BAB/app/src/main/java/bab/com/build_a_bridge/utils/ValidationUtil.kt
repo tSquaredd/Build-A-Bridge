@@ -6,9 +6,9 @@ class ValidationUtil {
          * If the input name is valid returns null, otherwise returns the first
          * invalid character it finds
          */
-        fun isNameValid(name: String): Char? {
+        fun isNameValid(name: String, vararg exceptions: Char): Char? {
             for(char in name){
-                if(char !in 'a'..'z' && char !in 'A'..'Z')
+                if(char !in 'a'..'z' && char !in 'A'..'Z' && !exceptions.contains(char))
                     return char
             }
             return null
@@ -17,7 +17,7 @@ class ValidationUtil {
 
         /**
          *  basic phone number validator. Only accepts numbers without special characters
-         *  such as '-'. //TODO: IS THIS OKAY?
+         *  such as '-'. //
          */
         fun isNumberValid(number: String): Boolean {
             for( char in number)
@@ -25,5 +25,6 @@ class ValidationUtil {
                     return false
             return true
         }
+
     }
 }

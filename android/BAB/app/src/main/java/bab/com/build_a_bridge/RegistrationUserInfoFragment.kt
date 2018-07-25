@@ -26,6 +26,7 @@ import bab.com.build_a_bridge.utils.ProfilePicUtil
 import bab.com.build_a_bridge.utils.ValidationUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_registration_user_info.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.design.snackbar
@@ -259,7 +260,8 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
                 // And state and region are checked above.
                 val user = User(viewModel.firstName!!, viewModel.lastName!!,
                         viewModel.phoneNumber, viewModel.state!!, viewModel.region!!,
-                        null, FirebaseAuth.getInstance().currentUser?.email)
+                        null, FirebaseAuth.getInstance().currentUser?.email!!,
+                        FirebaseAuth.getInstance().uid.toString())
 
                 val userDb = FirebaseDatabase.getInstance().reference
                         .child(FirebaseDbNames.USERS.toString())
@@ -276,6 +278,11 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
                         .child(FirebaseAuth.getInstance().uid!!)
 
                 userDirectoryDb.setValue(user)
+
+                // Save user to prefs
+                val prefs = PreferenceManager.getDefaultSharedPreferences(context).edit()
+                prefs.putString(PreferenceNames.USER.toString(), Gson().toJson(user))
+                prefs.apply()
 
                 // Start main activity and clears stack of registration and login activities
                 startActivity(Intent(context, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK))
