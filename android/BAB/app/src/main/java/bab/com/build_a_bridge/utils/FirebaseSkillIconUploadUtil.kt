@@ -1,30 +1,27 @@
 package bab.com.build_a_bridge.utils
 
-import android.content.Context
 import android.net.Uri
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 
-abstract class FirebaseProfilePicUploadUtil {
-    abstract fun onPhotoUploadSuccess()
+abstract class FirebaseSkillIconUploadUtil {
+    abstract fun onPhotUploadSuccess()
     abstract fun onPhotoUploadFailure()
     abstract fun photoUploadProgress(progress: Double)
 
-    fun uploadPhoto(filePath: Uri){
+    fun uploadPhoto(filePath: Uri, skillId: String){
         val storageRef =
                 FirebaseStorage.getInstance().reference
-                .child(FirebaseStorageNames.PROFILE_PICTURES.toString())
-                .child(FirebaseAuth.getInstance().uid!!)
-
+                        .child(FirebaseStorageNames.SKILL_ICONS.toString())
+                        .child(skillId)
 
         storageRef.putFile(filePath)
-                .addOnSuccessListener { onPhotoUploadSuccess() }
-                .addOnFailureListener { onPhotoUploadFailure() }
+                .addOnSuccessListener { onPhotUploadSuccess() }
                 .addOnProgressListener {
                     val progress = (100.0 * it.bytesTransferred / it.totalByteCount)
                     photoUploadProgress(progress)
                 }
+                .addOnFailureListener { onPhotoUploadFailure() }
 
     }
 }

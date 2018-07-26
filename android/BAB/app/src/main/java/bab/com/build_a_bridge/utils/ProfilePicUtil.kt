@@ -32,7 +32,6 @@ class ProfilePicUtil {
             }
 
             return fileDirectory.absolutePath
-
         }
 
         fun loadPhotoFromInternalStorage(context: Context): Bitmap?{
@@ -55,6 +54,5 @@ class ProfilePicUtil {
             val file = File(filePath, FILE_NAME)
             file.delete()
         }
-
     }
 }

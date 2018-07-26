@@ -69,7 +69,7 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
             filePath = data.data
 
             val photoUploader = FirebasePhotoUploader()
-            photoUploader.uploadPhoto(filePath, context!!)
+            photoUploader.uploadPhoto(filePath)
         }
     }
 

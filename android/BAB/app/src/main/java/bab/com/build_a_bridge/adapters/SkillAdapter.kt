@@ -13,7 +13,7 @@ import bab.com.build_a_bridge.enums.BundleParamNames
 import bab.com.build_a_bridge.objects.Skill
 import kotlinx.android.synthetic.main.skill_list_item.view.*
 
-class SkillAdapter(skillList: MutableList<Skill>, activity: Activity) : RecyclerView.Adapter<SkillAdapter.SkillHolder>() {
+class SkillAdapter(skillList: ArrayList<Skill>, activity: Activity) : RecyclerView.Adapter<SkillAdapter.SkillHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): SkillHolder {
         val inflater = LayoutInflater.from(parent?.context)
         val view = inflater.inflate(R.layout.skill_list_item, parent, false)
