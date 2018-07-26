@@ -11,7 +11,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
-import android.text.Editable
 
 import android.view.LayoutInflater
 import android.view.View
@@ -26,8 +25,6 @@ import bab.com.build_a_bridge.objects.Skill
 import bab.com.build_a_bridge.utils.ValidationUtil
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_admin_edit_skills.*
-import java.util.*
-import android.widget.LinearLayout
 import bab.com.build_a_bridge.utils.FirebaseSkillIconUploadUtil
 import org.jetbrains.anko.design.snackbar
 import java.io.IOException
@@ -65,7 +62,7 @@ class AdminEditSkillsFragment : Fragment() {
 
         admin_skills_delete_button.setOnClickListener { deleteSkill() }
 
-        admin_edit_skills_icon.setOnClickListener { choosePhoto() }
+        skills_icon.setOnClickListener { choosePhoto() }
 
     }
 
@@ -76,7 +73,7 @@ class AdminEditSkillsFragment : Fragment() {
 
             try{
                 val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, filePath)
-                admin_edit_skills_icon.setImageBitmap(bitmap)
+                skills_icon.setImageBitmap(bitmap)
             } catch (e: IOException){
                 e.printStackTrace()
             }
@@ -189,7 +186,7 @@ class AdminEditSkillsFragment : Fragment() {
 
     inner class FirebasePhotoUploader : FirebaseSkillIconUploadUtil() {
         override fun onPhotUploadSuccess() {
-            snackbar(admin_edit_skills_icon, getString(R.string.photo_upload_success))
+            snackbar(skills_icon, getString(R.string.photo_upload_success))
             if (editingSkill) viewModel.systemSkillsList.removeAt(skillListIndex)
             viewModel.systemSkillsList.add(skill)
             notifyAdapterDatasetChanged()
@@ -198,7 +195,7 @@ class AdminEditSkillsFragment : Fragment() {
         }
 
         override fun onPhotoUploadFailure() {
-           snackbar(admin_edit_skills_icon, getString(R.string.photo_upload_failure))
+           snackbar(skills_icon, getString(R.string.photo_upload_failure))
         }
 
         override fun photoUploadProgress(progress: Double) {

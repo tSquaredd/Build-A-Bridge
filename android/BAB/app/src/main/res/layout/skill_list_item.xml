@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/circleImageView"
+        android:id="@+id/skill_icon"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -24,8 +24,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/circleImageView"
-        app:layout_constraintTop_toTopOf="@+id/circleImageView"
+        app:layout_constraintStart_toEndOf="@+id/skill_icon"
+        app:layout_constraintTop_toTopOf="@+id/skill_icon"
         tools:text="Transportation" />
 
     <TextView
@@ -36,9 +36,9 @@
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/circleImageView"
+        app:layout_constraintBottom_toBottomOf="@+id/skill_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/circleImageView"
+        app:layout_constraintStart_toEndOf="@+id/skill_icon"
         app:layout_constraintTop_toBottomOf="@+id/skill_name"
         tools:text="Provide transportation" />
 

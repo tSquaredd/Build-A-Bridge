@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+
+
 android {
     compileSdkVersion 'android-P'
     defaultConfig {
@@ -16,7 +18,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -46,7 +48,7 @@ dependencies {
 
     //implementation 'com.facebook.android:facebook-android-sdk:4.22.1'
     implementation 'com.facebook.android:facebook-login:4.34.0'
-    implementation 'com.twitter.sdk.android:twitter-core:3.2.0'
+
 
     implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
     implementation 'com.android.support:support-v4:28.0.0-alpha3'
@@ -62,6 +64,8 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.2'
 
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 }
 

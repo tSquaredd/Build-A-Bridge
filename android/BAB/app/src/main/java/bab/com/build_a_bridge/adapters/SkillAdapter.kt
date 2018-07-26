@@ -1,6 +1,7 @@
 package bab.com.build_a_bridge.adapters
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -10,10 +11,20 @@ import bab.com.build_a_bridge.MainActivity
 import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.admin.AdminEditSkillsFragment
 import bab.com.build_a_bridge.enums.BundleParamNames
+import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.objects.Skill
+import bab.com.build_a_bridge.utils.FirebaseRequestHandler
+
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_admin_edit_skills.view.*
 import kotlinx.android.synthetic.main.skill_list_item.view.*
 
-class SkillAdapter(skillList: ArrayList<Skill>, activity: Activity) : RecyclerView.Adapter<SkillAdapter.SkillHolder>() {
+class SkillAdapter(skillList: ArrayList<Skill>, activity: Activity, context: Context) : RecyclerView.Adapter<SkillAdapter.SkillHolder>() {
+
+    val activity = activity
+    val skillList = skillList
+    val context = context
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): SkillHolder {
         val inflater = LayoutInflater.from(parent?.context)
         val view = inflater.inflate(R.layout.skill_list_item, parent, false)
@@ -27,14 +38,29 @@ class SkillAdapter(skillList: ArrayList<Skill>, activity: Activity) : RecyclerVi
     override fun onBindViewHolder(holder: SkillHolder, position: Int) {
         holder.skillNameTextView.text = skillList[position].name
         holder.skillDescriptionTextView.text = skillList[position].description
+
+        val storageRef = FirebaseStorage.getInstance().reference
+                .child(FirebaseStorageNames.SKILL_ICONS.toString())
+                .child(skillList[position].skillId)
+
+        storageRef.downloadUrl.addOnSuccessListener {
+            val picassoInstance = Picasso.Builder(this.activity.applicationContext)
+                    .addRequestHandler(FirebaseRequestHandler()).build()
+
+            picassoInstance.load(it).into(holder.skillIcon)
+        }
+
+
+
+
     }
 
-    val activity = activity
-    val skillList = skillList
+
 
     inner class SkillHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val skillNameTextView = itemView.skill_name
         val skillDescriptionTextView = itemView.skill_description
+        val skillIcon = itemView.skill_icon
 
         init {
             itemView.setOnClickListener {

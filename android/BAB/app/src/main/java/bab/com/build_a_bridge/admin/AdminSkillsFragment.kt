@@ -35,7 +35,7 @@ class AdminSkillsFragment : Fragment() {
 
         admin_skills_recycler_view.layoutManager = layoutManager
         admin_skills_recycler_view.setHasFixedSize(true)
-        skillAdapter = SkillAdapter(viewModel.systemSkillsList, activity!!)
+        skillAdapter = SkillAdapter(viewModel.systemSkillsList, activity!!, context!!)
         admin_skills_recycler_view.adapter = skillAdapter
 
 
