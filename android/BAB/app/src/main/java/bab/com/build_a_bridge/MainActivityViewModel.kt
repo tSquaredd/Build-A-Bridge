@@ -2,7 +2,6 @@ package bab.com.build_a_bridge
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.ViewModel
 import android.preference.PreferenceManager
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.PreferenceNames
@@ -13,8 +12,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
+
 
 class MainActivityViewModel(application: Application) : AndroidViewModel(application){
     var user: User? = null

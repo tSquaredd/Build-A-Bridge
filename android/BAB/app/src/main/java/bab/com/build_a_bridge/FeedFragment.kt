@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.fragment_feed.*
 
 
 class FeedFragment : Fragment() {
@@ -19,6 +20,10 @@ class FeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = getString(R.string.feed)
+        feed_fab.setOnClickListener {
+            val mainActivity = activity as MainActivity
+            mainActivity.swapFragments(CreateRequestFragment())
+        }
     }
 
 
