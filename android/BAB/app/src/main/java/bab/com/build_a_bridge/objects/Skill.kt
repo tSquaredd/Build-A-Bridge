@@ -1,6 +1,7 @@
 package bab.com.build_a_bridge.objects
 
-import java.util.*
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-data class Skill(var skillId: String = "", var name: String = "", var description: String = "") {
-}
+@Parcelize
+data class Skill(var id: String = "", var name: String = "", var description: String = ""): Parcelable

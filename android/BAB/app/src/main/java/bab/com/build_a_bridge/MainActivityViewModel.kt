@@ -16,20 +16,26 @@ import com.google.gson.Gson
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
-class MainActivityViewModel(application: Application) : AndroidViewModel(application), AnkoLogger {
+class MainActivityViewModel(application: Application) : AndroidViewModel(application){
     var user: User? = null
     var systemSkillsList: ArrayList<Skill> = arrayListOf()
 
+    /**
+     * Initializes the ViewModel
+     */
     fun init(){
         val prefs = PreferenceManager.getDefaultSharedPreferences(getApplication())
         val json = prefs.getString(PreferenceNames.USER.toString(), "")
         user = Gson().fromJson(json, User::class.java)
-        info(user.toString())
 
         getSystemSkillsList()
     }
 
-    fun getSystemSkillsList(){
+
+    /**
+     * Gets list of skills from firebase DB
+     */
+    private fun getSystemSkillsList(){
         // empty the list
         systemSkillsList = arrayListOf()
 
@@ -41,17 +47,14 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                 // Do nothing
             }
 
+            // add skill instance to skills list
             override fun onDataChange(data: DataSnapshot) {
                val skills = data.children
                 for(skill: DataSnapshot in skills){
                     val skillInstance = skill.getValue(Skill::class.java)
                     skillInstance?.let { systemSkillsList.add(skillInstance) }
                 }
-
-                for(skill in systemSkillsList)
-                    info("Skills list is " + skill.toString())
             }
-
         })
     }
 }

@@ -28,6 +28,10 @@ android {
     }
 }
 
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
 
     def anko_version = '0.10.5'

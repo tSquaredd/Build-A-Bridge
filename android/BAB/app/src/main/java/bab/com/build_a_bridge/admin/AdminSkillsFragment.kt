@@ -30,15 +30,16 @@ class AdminSkillsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = getString(R.string.skills_admin)
 
+        // Adapter setup
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,
                 false)
-
         admin_skills_recycler_view.layoutManager = layoutManager
         admin_skills_recycler_view.setHasFixedSize(true)
         skillAdapter = SkillAdapter(viewModel.systemSkillsList, activity!!, context!!)
         admin_skills_recycler_view.adapter = skillAdapter
 
 
+        // FAB
         admin_skills_fab.setOnClickListener {
             val activity = activity as MainActivity
             activity.swapFragments(AdminEditSkillsFragment())
@@ -50,7 +51,6 @@ class AdminSkillsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        //skillAdapter.notifyDataSetChanged()
         if(viewModel.systemSkillsList.isEmpty()) empty_admin_skills_list_text_view.visibility = View.VISIBLE
         else empty_admin_skills_list_text_view.visibility = View.INVISIBLE
     }
