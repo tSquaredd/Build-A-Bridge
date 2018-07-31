@@ -141,6 +141,7 @@ class CreateRequestFragment :  Fragment() {
 
     fun requestCreation(){
 
+        // add request to REQUESTS on firabse DB
         var db = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.REQUESTS.toString())
                 .child(FirebaseDbNames.STATE.toString())
@@ -156,6 +157,15 @@ class CreateRequestFragment :  Fragment() {
         db = db.child(reqId.toString())
 
         db.setValue(viewModel.newRequest)
+
+        // add request to REQUESTS_BY_USER on firebase DB
+        val db2 = FirebaseDatabase.getInstance().reference
+                .child(FirebaseDbNames.REQUESTS_BY_USER.toString())
+                .child(viewModel.user?.userId!!)
+                .child(RequestStatusCodes.REQUESTED.toString())
+                .child(reqId.toString())
+
+        db2.setValue(viewModel.newRequest)
 
         activity?.onBackPressed()
 
