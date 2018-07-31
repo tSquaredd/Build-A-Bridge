@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_admin_skills.*
 
 class AdminSkillsFragment : Fragment() {
 
-    lateinit var skillAdapter: SkillAdapter
+    lateinit var skillAdapter: AdminSkillAdapter
     val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

@@ -8,12 +8,14 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_marginTop="8dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="40"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,30 +23,34 @@
         <android.support.design.widget.TextInputEditText
             android:id="@+id/request_title"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="@string/request_title"
-            android:inputType="text"
-            android:layout_height="wrap_content" />
+            android:inputType="text" />
 
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:counterEnabled="true"
+        app:counterMaxLength="240"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+        app:layout_constraintTop_toBottomOf="@+id/skill_selection_item">
 
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/request_details"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="@string/request_description"
             android:inputType="text"
-            android:layout_height="wrap_content" />
+            android:minLines="3" />
     </android.support.design.widget.TextInputLayout>
 
 
@@ -60,4 +66,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/skill_selection_item"
+        layout="@layout/skill_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 </android.support.constraint.ConstraintLayout>

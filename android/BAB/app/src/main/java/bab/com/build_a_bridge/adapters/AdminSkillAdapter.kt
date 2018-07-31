@@ -1,6 +1,5 @@
 package bab.com.build_a_bridge.adapters
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import bab.com.build_a_bridge.MainActivity

@@ -1,23 +1,16 @@
 package bab.com.build_a_bridge.adapters
 
-import android.app.Activity
 import android.content.Context
-import android.net.Uri
-import android.os.Bundle
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import bab.com.build_a_bridge.MainActivity
 import bab.com.build_a_bridge.R
-import bab.com.build_a_bridge.admin.AdminEditSkillsFragment
-import bab.com.build_a_bridge.enums.BundleParamNames
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.objects.Skill
 import bab.com.build_a_bridge.utils.FirebaseRequestHandler
-
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.skill_list_item.view.*

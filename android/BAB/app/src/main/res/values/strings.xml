@@ -38,12 +38,15 @@
     <string name="refugee_immigrant_choice_hint">Are you new to the country? Let us help you settle in and build a new home</string>
     <string name="region">Region</string>
     <string name="request_description">Request Description</string>
+    <string name="request_details_length_error">Details cannot exceed 240 characters</string>
     <string name="request_title">Request Title</string>
+    <string name="request_title_length_error">Title cannot exceed 40 characters</string>
     <string name="requests">Requests</string>
     <string name="save">Save</string>
     <string name="select_picture">Select Picture</string>
     <string name="select_region">Select Region</string>
     <string name="select_state">Select State</string>
+    <string name="select_skill">Select a Skill</string>
     <string name="send_email">Send Email</string>
     <string name="settings">Settings</string>
     <string name="sign_out">Sign Out</string>
