@@ -68,6 +68,13 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
         if (requestCode == IMG_RESULT_CODE && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
             filePath = data.data
 
+            val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, filePath)
+
+            // save image to storage
+            val imagePath = ProfilePicUtil.savePhoto(context!!, bitmap)
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context).edit()
+            prefs.putString(PreferenceNames.PROFILE_PICTURE.toString(), imagePath).apply()
+
             val photoUploader = FirebasePhotoUploader()
             photoUploader.uploadPhoto(filePath)
         }
@@ -302,12 +309,6 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
                 val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, filePath)
                 // display on screen
                 profile_pic_circle_image_view.setImageBitmap(bitmap)
-
-
-                // save image to storage
-                val imagePath = ProfilePicUtil.savePhoto(context!!, bitmap)
-                val prefs = PreferenceManager.getDefaultSharedPreferences(context).edit()
-                prefs.putString(PreferenceNames.PROFILE_PICTURE.toString(), imagePath).apply()
 
 
             } catch (e: IOException) {
