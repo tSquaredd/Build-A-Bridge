@@ -37,7 +37,7 @@ class CreateRequestFragment :  Fragment(){
     fun testCreation(){
 
 
-        val db = FirebaseDatabase.getInstance().reference
+        var db = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.REQUESTS.toString())
                 .child(FirebaseDbNames.STATE.toString())
                 .child(viewModel.user?.state.toString())
@@ -46,6 +46,8 @@ class CreateRequestFragment :  Fragment(){
                 .child(RequestStatusCodes.REQUESTED.toString())
 
         val reqId = db.push().key
+
+        db = db.child(reqId.toString())
 
         val request = Request(reqId.toString(), viewModel.user, null, RequestStatusCodes.REQUESTED, Skill("7", "Translation", "Help as a translator"),
                 "Need help reading newspaper", "I can not understand this darn newspaper, and I want to be " +

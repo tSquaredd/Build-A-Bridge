@@ -12,6 +12,7 @@ import bab.com.build_a_bridge.MainActivity
 import bab.com.build_a_bridge.MainActivityViewModel
 
 import bab.com.build_a_bridge.R
+import bab.com.build_a_bridge.adapters.AdminSkillAdapter
 import bab.com.build_a_bridge.adapters.SkillAdapter
 import kotlinx.android.synthetic.main.fragment_admin_skills.*
 
@@ -35,7 +36,7 @@ class AdminSkillsFragment : Fragment() {
                 false)
         admin_skills_recycler_view.layoutManager = layoutManager
         admin_skills_recycler_view.setHasFixedSize(true)
-        skillAdapter = SkillAdapter(viewModel.systemSkillsList, activity!!, context!!)
+        skillAdapter = AdminSkillAdapter(viewModel.systemSkillsList, context!!, activity as MainActivity)
         admin_skills_recycler_view.adapter = skillAdapter
 
 

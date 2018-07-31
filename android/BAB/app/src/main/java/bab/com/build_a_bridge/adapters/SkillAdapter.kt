@@ -23,8 +23,10 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.skill_list_item.view.*
 
 
-class SkillAdapter(var skillList: ArrayList<Skill>, val activity: Activity, val context: Context) :
+abstract class SkillAdapter(var skillList: ArrayList<Skill>, val context: Context) :
         RecyclerView.Adapter<SkillAdapter.SkillHolder>() {
+
+   abstract fun onItemClick(position: Int)
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): SkillHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -47,7 +49,7 @@ class SkillAdapter(var skillList: ArrayList<Skill>, val activity: Activity, val 
                 .child(skillList[position].id)
 
         storageRef.downloadUrl.addOnSuccessListener {
-            val picassoInstance = Picasso.Builder(this.activity.applicationContext)
+            val picassoInstance = Picasso.Builder(context)
                     .addRequestHandler(FirebaseRequestHandler()).build()
 
             // TODO: Image loading is slow here.
@@ -64,13 +66,7 @@ class SkillAdapter(var skillList: ArrayList<Skill>, val activity: Activity, val 
 
         init {
             itemView.setOnClickListener {
-                val mainActivity = activity as MainActivity
-                val bundle = Bundle()
-                bundle.putParcelable(BundleParamNames.SKILL.toString(), skillList[adapterPosition])
-                bundle.putInt(BundleParamNames.SKILL_LIST_INDEX.toString(), adapterPosition)
-                val fragment = AdminEditSkillsFragment()
-                fragment.arguments = bundle
-                mainActivity.swapFragments(fragment)
+                onItemClick(adapterPosition)
             }
         }
     }
