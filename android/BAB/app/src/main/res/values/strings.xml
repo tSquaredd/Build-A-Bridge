@@ -16,6 +16,7 @@
     <string name="email_verification">A verification email has been sent to your address. It is required that you verify the address provided before continuing\n\n\n\n\nNot receiving the email?\n\nClick the button below to resend</string>
     <string name="email_not_verified_toast">Address has not been verified. Try again in a moment or re-verify</string>
     <string name="empty_admin_skills_list">No skills have been added yet.\n\nAdd one with the \'+\' button</string>
+    <string name="empty_request_feed">No requests found in your area. Check back later</string>
     <string name="feed">Feed</string>
     <string name="first_name">First Name</string>
     <string name="friends">Friends</string>

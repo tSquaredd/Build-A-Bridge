@@ -12,7 +12,7 @@ import bab.com.build_a_bridge.adapters.SkillSelectionAdapter
 import kotlinx.android.synthetic.main.fragment_skill_selection.*
 
 
-class SkillSelectionFragment : Fragment(){
+class SkillSelectionFragment : Fragment() {
     val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

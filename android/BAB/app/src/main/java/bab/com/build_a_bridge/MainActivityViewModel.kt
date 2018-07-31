@@ -32,7 +32,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         user = Gson().fromJson(json, User::class.java)
 
         getSystemSkillsList()
-        getRequestFeedList()
+
     }
 
 
@@ -71,37 +71,5 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
             newRequest?.requester = user
         }
 
-    }
-
-    /**
-     * Gets all requests with status REQUESTED in users state/region that are not
-     * requests of the user themselves
-     */
-    private fun getRequestFeedList() {
-        val db = FirebaseDatabase.getInstance().reference
-                .child(FirebaseDbNames.REQUESTS.toString())
-                .child(FirebaseDbNames.STATE.toString())
-                .child(user?.state.toString())
-                .child(FirebaseDbNames.REGION.toString())
-                .child(user?.region.toString())
-                .child(RequestStatusCodes.REQUESTED.toString())
-
-        db.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                // Do nothing
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                val requests = p0.children
-                for (d: DataSnapshot in requests) {
-                    val request = d.getValue(Request::class.java)
-                    request?.let {
-                        if (it.requestId != user?.userId)
-                            requestFeedList.add(it)
-                    }
-                }
-            }
-
-        })
     }
 }
