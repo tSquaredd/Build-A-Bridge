@@ -60,6 +60,9 @@ class FeedFragment : Fragment() {
      * requests of the user themselves
      */
     private fun getRequestFeedList() {
+
+        // empty the list of requests
+        viewModel.requestFeedList = arrayListOf()
         val db = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.REQUESTS.toString())
                 .child(FirebaseDbNames.STATE.toString())
