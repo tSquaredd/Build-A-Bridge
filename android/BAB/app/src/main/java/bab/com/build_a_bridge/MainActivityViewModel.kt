@@ -22,6 +22,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     var systemSkillsList: ArrayList<Skill> = arrayListOf()
     var newRequest: Request? = null
     var requestFeedList: ArrayList<Request> = arrayListOf()
+    var requestForDetails: Request = Request()
 
     /**
      * Initializes the ViewModel

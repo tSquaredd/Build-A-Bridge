@@ -6,16 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import bab.com.build_a_bridge.MainActivity
 import bab.com.build_a_bridge.R
+import bab.com.build_a_bridge.RequestDetailsFragment
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.objects.Request
 import bab.com.build_a_bridge.utils.FirebaseRequestHandler
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.fragment_registration.*
 import kotlinx.android.synthetic.main.request_list_item.view.*
 
-class RequestAdapter(val requestList: ArrayList<Request>, val context: Context): RecyclerView.Adapter<RequestAdapter.RequestHolder>() {
+class RequestAdapter(val requestList: ArrayList<Request>, val context: Context, val activity: MainActivity): RecyclerView.Adapter<RequestAdapter.RequestHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): RequestHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.request_list_item, parent, false)
@@ -51,7 +54,8 @@ class RequestAdapter(val requestList: ArrayList<Request>, val context: Context):
 
         init {
             itemView.setOnClickListener {
-                // TODO: add click listener
+                activity.viewModel.requestForDetails = requestList[adapterPosition]
+                activity.swapFragments(RequestDetailsFragment())
             }
         }
     }

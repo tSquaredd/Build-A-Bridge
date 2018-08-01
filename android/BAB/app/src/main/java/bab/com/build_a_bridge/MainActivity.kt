@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         }
     }
 
-    fun setupNavigationListener(){
+    private fun setupNavigationListener(){
         nav_view.setNavigationItemSelectedListener {
             it.isChecked = true
             drawer_layout.closeDrawers()
@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         }
     }
 
-    fun setNavigationHeader(){
+    private fun setNavigationHeader(){
         val header = nav_view.getHeaderView(0)
         val profilePic = ProfilePicUtil.loadPhotoFromInternalStorage(applicationContext)
         if(profilePic != null){

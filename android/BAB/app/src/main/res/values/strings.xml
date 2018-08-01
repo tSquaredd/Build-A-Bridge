@@ -29,6 +29,7 @@
     <string name="must_specify_name">Must specify a name</string>
     <string name="next">Next</string>
     <string name="no">No</string>
+    <string name="offer_help">Offer Help</string>
     <string name="please_select_region">Please select a region</string>
     <string name="please_select_state">Please select a state</string>
     <string name="phone_number_error">Numbers Only</string>

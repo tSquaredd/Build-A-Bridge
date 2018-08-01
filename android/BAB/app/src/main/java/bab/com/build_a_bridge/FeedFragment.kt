@@ -51,7 +51,7 @@ class FeedFragment : Fragment() {
     private fun setAdapter() {
         feed_progress_bar.visibility = View.GONE
         request_feed_rv.visibility = View.VISIBLE
-        request_feed_rv.adapter = RequestAdapter(viewModel.requestFeedList, context!!)
+        request_feed_rv.adapter = RequestAdapter(viewModel.requestFeedList, context!!, activity as MainActivity)
     }
 
 
