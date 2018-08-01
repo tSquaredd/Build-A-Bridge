@@ -123,6 +123,8 @@ class AdminEditSkillsFragment : Fragment() {
                 db.setValue(skill)
 
 
+
+
                 // upload skill icon if there is one.
                 if (filePath != null) {
                     val photoUploader = FirebasePhotoUploader()
