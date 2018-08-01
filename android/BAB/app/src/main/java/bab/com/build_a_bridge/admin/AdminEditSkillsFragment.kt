@@ -107,13 +107,18 @@ class AdminEditSkillsFragment : Fragment() {
         // If no errors
             else -> {
                 // Skill is valid add to skills list
-                skill = Skill(if (editingSkill) skill.id else getNewSkillId(),
+                var db = FirebaseDatabase.getInstance().reference
+                        .child(FirebaseDbNames.SKILLS.toString())
+
+                // If new skill get a new ID, else use same ID
+                val skillId = if (editingSkill) skill.id else db.push().key.toString()
+
+
+                db = db.child(skillId)
+
+                skill = Skill(skillId,
                         admin_skill_name_edit_text.text.toString(),
                         admin_skill_description_edit_text.text.toString())
-
-                val db = FirebaseDatabase.getInstance().reference
-                        .child(FirebaseDbNames.SKILLS.toString())
-                        .child(skill.id)
 
                 db.setValue(skill)
 
@@ -133,22 +138,6 @@ class AdminEditSkillsFragment : Fragment() {
         }
     }
 
-    /**
-     * Ensures a unique skill id is selected upon creation of a new skill
-     */
-    private fun getNewSkillId(): String{
-        for(i in 0 until viewModel.systemSkillsList.size){
-            var found = false
-            for(j in 0 until viewModel.systemSkillsList.size){
-                if(viewModel.systemSkillsList[j].id == i.toString()) {
-                    found = true
-                    break
-                }
-            }
-            if (!found) return i.toString()
-        }
-        return viewModel.systemSkillsList.size.toString()
-    }
 
     private fun deleteSkill() {
 
@@ -178,7 +167,7 @@ class AdminEditSkillsFragment : Fragment() {
                 notifyAdapterDatasetChanged()
                 activity?.onBackPressed()
             }
-            neutralPressed(getString(R.string.no)){
+            neutralPressed(getString(R.string.no)) {
                 // do nothing user cancelled deletion
             }
             iconResource = R.drawable.ic_warning

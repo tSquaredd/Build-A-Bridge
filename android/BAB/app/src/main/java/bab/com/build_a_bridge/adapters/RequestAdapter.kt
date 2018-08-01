@@ -13,12 +13,12 @@ import bab.com.build_a_bridge.utils.FirebaseRequestHandler
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.request_ist_item.view.*
+import kotlinx.android.synthetic.main.request_list_item.view.*
 
 class RequestAdapter(val requestList: ArrayList<Request>, val context: Context): RecyclerView.Adapter<RequestAdapter.RequestHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): RequestHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.request_ist_item, parent, false)
+        val view = inflater.inflate(R.layout.request_list_item, parent, false)
         return RequestHolder(view)
     }
 

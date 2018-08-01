@@ -81,7 +81,7 @@ class FeedFragment : Fragment() {
                 for (d: DataSnapshot in requests) {
                     val request = d.getValue(Request::class.java)
                     request?.let {
-                        if (it.requestId != viewModel.user?.userId)
+                        if (it.requester?.userId != viewModel.user?.userId)
                             viewModel.requestFeedList.add(it)
                     }
 
