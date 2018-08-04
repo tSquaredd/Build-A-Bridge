@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_request_details.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 
 class RequestDetailsFragment : Fragment(), AnkoLogger {
 
@@ -24,8 +23,8 @@ class RequestDetailsFragment : Fragment(), AnkoLogger {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        request_title_tv.text = viewModel.requestForDetails.requestTitle
-        request_details_tv.text = viewModel.requestForDetails.requestDetails
+        request_title_tv.text = viewModel.requestForDetails.title
+        request_details_tv.text = viewModel.requestForDetails.details
 
         accept_request_btn.setOnClickListener {  }
     }

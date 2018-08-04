@@ -15,7 +15,6 @@ import bab.com.build_a_bridge.utils.FirebaseRequestHandler
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.fragment_registration.*
 import kotlinx.android.synthetic.main.request_list_item.view.*
 
 class RequestAdapter(val requestList: ArrayList<Request>, val context: Context, val activity: MainActivity): RecyclerView.Adapter<RequestAdapter.RequestHolder>() {
@@ -30,12 +29,12 @@ class RequestAdapter(val requestList: ArrayList<Request>, val context: Context, 
     }
 
     override fun onBindViewHolder(holder: RequestHolder, position: Int) {
-        holder.requestTitle.text = requestList[position].requestTitle
-        holder.requestDetails.text = requestList[position].requestDetails
+        holder.requestTitle.text = requestList[position].title
+        holder.requestDetails.text = requestList[position].details
 
         val storageRef = FirebaseStorage.getInstance().reference
                 .child(FirebaseStorageNames.PROFILE_PICTURES.toString())
-                .child(requestList[position].requester?.userId!!)
+                .child(requestList[position].requesterId!!)
 
         storageRef.downloadUrl.addOnSuccessListener {
             val picassoInstance = Picasso.Builder(context)

@@ -5,8 +5,6 @@ import android.arch.lifecycle.AndroidViewModel
 import android.preference.PreferenceManager
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.PreferenceNames
-import bab.com.build_a_bridge.enums.RegionCodes
-import bab.com.build_a_bridge.enums.RequestStatusCodes
 import bab.com.build_a_bridge.objects.Request
 import bab.com.build_a_bridge.objects.Skill
 import bab.com.build_a_bridge.objects.User
@@ -20,6 +18,7 @@ import com.google.gson.Gson
 class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
     var user: User? = null
     var systemSkillsList: ArrayList<Skill> = arrayListOf()
+    var systemSkillMap: MutableMap<String, Skill> = mutableMapOf()
     var newRequest: Request? = null
     var requestFeedList: ArrayList<Request> = arrayListOf()
     var requestForDetails: Request = Request()
@@ -57,7 +56,10 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                 val skills = data.children
                 for (skill: DataSnapshot in skills) {
                     val skillInstance = skill.getValue(Skill::class.java)
-                    skillInstance?.let { systemSkillsList.add(skillInstance) }
+                    skillInstance?.let {
+                        systemSkillsList.add(skillInstance)
+                        systemSkillMap.put(it.id, it)
+                    }
                 }
             }
         })
@@ -69,7 +71,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     fun initRequest() {
         if (newRequest == null) {
             newRequest = Request()
-            newRequest?.requester = user
+            newRequest?.requesterId = user?.userId
         }
 
     }

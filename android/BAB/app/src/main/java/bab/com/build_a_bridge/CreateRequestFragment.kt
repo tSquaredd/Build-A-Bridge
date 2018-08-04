@@ -12,19 +12,14 @@ import android.view.ViewGroup
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.enums.RequestStatusCodes
-import bab.com.build_a_bridge.objects.Request
 import bab.com.build_a_bridge.objects.Skill
-import bab.com.build_a_bridge.objects.User
 import bab.com.build_a_bridge.utils.FirebaseRequestHandler
 import bab.com.build_a_bridge.utils.ValidationUtil
-import com.firebase.ui.auth.viewmodel.RequestCodes
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_create_request.*
 import kotlinx.android.synthetic.main.skill_list_item.view.*
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 
 
 class CreateRequestFragment :  Fragment() {
@@ -59,14 +54,14 @@ class CreateRequestFragment :  Fragment() {
                 val string = p0.toString().trim()
                 val titleValidation = ValidationUtil.isNameValid(string, ' ')
                 if(titleValidation == null && string.length <= 40)
-                    viewModel.newRequest?.requestTitle = string
+                    viewModel.newRequest?.title = string
 
                 else if(string.length > 40){
                     request_title.error = getString(R.string.request_title_length_error)
-                    viewModel.newRequest?.requestTitle = ""
+                    viewModel.newRequest?.title = ""
                 } else {
                     request_title.error = "${getString(R.string.invalid_character)} $titleValidation"
-                    viewModel.newRequest?.requestTitle = ""
+                    viewModel.newRequest?.title = ""
                 }
 
                 isRequestReady()
@@ -87,9 +82,9 @@ class CreateRequestFragment :  Fragment() {
                 val string = p0.toString().trim()
                 if(string.length > 240){
                     request_details.error = getString(R.string.request_details_length_error)
-                    viewModel.newRequest?.requestDetails = ""
+                    viewModel.newRequest?.details = ""
                 } else
-                    viewModel.newRequest?.requestDetails = string
+                    viewModel.newRequest?.details = string
 
                 isRequestReady()
             }
@@ -107,15 +102,15 @@ class CreateRequestFragment :  Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.newRequest?.skillRequested?.let {
+        viewModel.systemSkillMap.get(viewModel.newRequest?.skillId)?.let {
             updateSkillUi(it)
         }
         isRequestReady()
     }
 
     private fun isRequestReady(){
-        create_request_button.isEnabled = (viewModel.newRequest?.requestTitle != "" && viewModel.newRequest?.requestDetails != null
-                && viewModel.newRequest?.skillRequested != null)
+        create_request_button.isEnabled = (viewModel.newRequest?.title != "" && viewModel.newRequest?.details != null
+                && viewModel.newRequest?.skillId != null)
     }
 
 

@@ -16,7 +16,7 @@ class SkillSelectionAdapter(skillList: ArrayList<Skill>, context: Context, val a
         //val viewModel = ViewModelProviders.of(activity).get(MainActivityViewModel::class.java)
 
         // set skill for request in view model
-        activity.viewModel.newRequest?.skillRequested = skillList[position]
+        activity.viewModel.newRequest?.skillId = skillList[position].id
 
         // return to calling fragment
         activity.onBackPressed()

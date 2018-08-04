@@ -4,10 +4,10 @@ import bab.com.build_a_bridge.enums.RequestStatusCodes
 import java.util.*
 
 data class Request(var requestId: String = "",
-              var requester: User? = null,
-              var volunteer: User? = null,
-              var status: RequestStatusCodes = RequestStatusCodes.REQUESTED,
-              var skillRequested: Skill? = null,
-              var requestTitle: String = "",
-              var requestDetails: String = "",
-              val timeStamp: TimeStamp = TimeStamp.getInstance())
+                   var requesterId: String? = null,
+                   var volunteerId: String? = null,
+                   var status: RequestStatusCodes = RequestStatusCodes.REQUESTED,
+                   var skillId: String? = null,
+                   var title: String = "",
+                   var details: String = "",
+                   val timeStamp: TimeStamp = TimeStamp.getInstance())
