@@ -10,9 +10,9 @@ import android.widget.TextView
 import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.objects.Skill
-import bab.com.build_a_bridge.utils.FirebaseRequestHandler
+import com.bumptech.glide.Glide
+import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.storage.FirebaseStorage
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.skill_list_item.view.*
 
 
@@ -37,19 +37,14 @@ abstract class SkillAdapter( val context: Context) :
         holder.skillNameTextView.text = skillList[position].name
         holder.skillDescriptionTextView.text = skillList[position].description
 
-
-
         val storageRef = FirebaseStorage.getInstance().reference
                 .child(FirebaseStorageNames.SKILL_ICONS.toString())
                 .child(skillList[position].id)
 
-        storageRef.downloadUrl.addOnSuccessListener {
-            val picassoInstance = Picasso.Builder(context)
-                    .addRequestHandler(FirebaseRequestHandler()).build()
-
-            // TODO: Image loading is slow here.
-            picassoInstance.load(it).into(holder.skillIcon)
-        }
+        Glide.with(context)
+                .using(FirebaseImageLoader())
+                .load(storageRef)
+                .into(holder.skillIcon)
     }
 
     fun setSkills(skillList: List<Skill>){

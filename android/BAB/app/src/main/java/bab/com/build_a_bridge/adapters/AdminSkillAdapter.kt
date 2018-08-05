@@ -10,7 +10,7 @@ class AdminSkillAdapter( context: Context, val mainActivity: MainActivity) :
         SkillAdapter(context){
     override fun onItemClick(position: Int) {
         val bundle = Bundle()
-        val skillList = mainActivity.viewModel.skillLiveDataList.value
+        val skillList = mainActivity.viewModel.skillLiveDataList.value?.sortedBy { it.name.toUpperCase() }
         skillList?.let {
             bundle.putParcelable(BundleParamNames.SKILL.toString(), it[position])
         }

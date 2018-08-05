@@ -2,37 +2,28 @@ package bab.com.build_a_bridge.admin
 
 
 import android.app.Activity
-import android.app.AlertDialog
-import android.arch.lifecycle.ViewModelProviders
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import bab.com.build_a_bridge.MainActivity
-import bab.com.build_a_bridge.MainActivityViewModel
-
 import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.enums.BundleParamNames
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.objects.Skill
-import bab.com.build_a_bridge.utils.FirebaseRequestHandler
 import bab.com.build_a_bridge.utils.ValidationUtil
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_admin_edit_skills.*
 import bab.com.build_a_bridge.utils.FirebaseSkillIconUploadUtil
+import com.bumptech.glide.Glide
+import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.storage.FirebaseStorage
-import com.squareup.picasso.Picasso
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.design.snackbar
-import org.jetbrains.anko.yesButton
 import java.io.IOException
 
 /**
@@ -100,7 +91,7 @@ class AdminEditSkillsFragment : Fragment() {
         val skillNameEmpty = admin_skill_name_edit_text.text.isNullOrEmpty()
         val skillDescriptionEmpty = admin_skill_description_edit_text.text.isNullOrEmpty()
         val skillNameCheck = ValidationUtil.isNameValid(admin_skill_name_edit_text.text.toString(), ' ')
-        val skillDescriptionCheck = ValidationUtil.isNameValid(admin_skill_description_edit_text.text.toString(), ' ', '.')
+        val skillDescriptionCheck = ValidationUtil.isNameValid(admin_skill_description_edit_text.text.toString(), ' ', '.', '\'', ',')
 
 
         when {
@@ -132,8 +123,7 @@ class AdminEditSkillsFragment : Fragment() {
                 if (filePath != null) {
                     val photoUploader = FirebasePhotoUploader()
                     photoUploader.uploadPhoto(filePath!!, skill.id)
-                }
-                activity?.onBackPressed()
+                } else activity?.onBackPressed()
             }
         }
     }
@@ -183,12 +173,11 @@ class AdminEditSkillsFragment : Fragment() {
                     .child(FirebaseStorageNames.SKILL_ICONS.toString())
                     .child(skill.id)
 
-            storageRef.downloadUrl.addOnSuccessListener {
-                val picassoInstance = Picasso.Builder(context!!)
-                        .addRequestHandler(FirebaseRequestHandler()).build()
+            Glide.with(context)
+                    .using(FirebaseImageLoader())
+                    .load(storageRef)
+                    .into(skills_icon)
 
-                picassoInstance.load(it).placeholder(R.drawable.ic_default_skill).into(skills_icon)
-            }
             // set views from passed in data
             admin_skill_name_edit_text.setText(skill.name)
             admin_skill_description_edit_text.setText(skill.description)
@@ -209,6 +198,7 @@ class AdminEditSkillsFragment : Fragment() {
     inner class FirebasePhotoUploader : FirebaseSkillIconUploadUtil() {
         override fun onPhotUploadSuccess() {
             snackbar(skills_icon, getString(R.string.photo_upload_success))
+            activity?.onBackPressed()
 
         }
 

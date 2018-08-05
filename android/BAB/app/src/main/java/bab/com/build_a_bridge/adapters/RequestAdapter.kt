@@ -11,9 +11,9 @@ import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.AcceptRequestFragment
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.objects.Request
-import bab.com.build_a_bridge.utils.FirebaseRequestHandler
+import com.bumptech.glide.Glide
+import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.storage.FirebaseStorage
-import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.request_list_item.view.*
 
@@ -36,13 +36,11 @@ class RequestAdapter(val requestList: ArrayList<Request>, val context: Context, 
                 .child(FirebaseStorageNames.PROFILE_PICTURES.toString())
                 .child(requestList[position].requesterId!!)
 
-        storageRef.downloadUrl.addOnSuccessListener {
-            val picassoInstance = Picasso.Builder(context)
-                    .addRequestHandler(FirebaseRequestHandler()).build()
+            Glide.with(context)
+                    .using(FirebaseImageLoader())
+                    .load(storageRef)
+                    .into(holder.requesterImage)
 
-            // TODO: Image loading is slow here
-            picassoInstance.load(it).into(holder.requesterImage)
-        }
     }
 
 

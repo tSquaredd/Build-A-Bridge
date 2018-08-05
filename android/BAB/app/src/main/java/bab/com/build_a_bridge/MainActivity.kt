@@ -1,5 +1,6 @@
 package bab.com.build_a_bridge
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -10,9 +11,12 @@ import android.support.v4.view.GravityCompat
 import android.view.MenuItem
 import bab.com.build_a_bridge.admin.AdminEditSkillsFragment
 import bab.com.build_a_bridge.admin.AdminSkillsFragment
+import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.enums.PreferenceNames
+import bab.com.build_a_bridge.objects.Skill
 import bab.com.build_a_bridge.utils.ProfilePicUtil
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header.*
@@ -44,6 +48,9 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         }
 
 
+//        viewModel.skillLiveDataList.observe(this, Observer { skillList: List<Skill>? ->
+//            skillList?.let { for(skill in skillList) getIcon(skill) }
+//        })
         setupNavigationListener()
         setNavigationHeader()
 
@@ -65,35 +72,43 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         }
     }
 
-    private fun setupNavigationListener(){
+
+//    private fun getIcon(skill: Skill){
+//        val storageRef = FirebaseStorage.getInstance().reference
+//                .child(FirebaseStorageNames.SKILL_ICONS.toString())
+//                .child(skill.id)
+//
+//
+//    }
+    private fun setupNavigationListener() {
         nav_view.setNavigationItemSelectedListener {
             it.isChecked = true
             drawer_layout.closeDrawers()
 
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.nav_feed -> swapFragments(feedFragment)
                 R.id.nav_requests -> {
-                    if(requestsFragment == null) requestsFragment = RequestsFragment()
+                    if (requestsFragment == null) requestsFragment = RequestsFragment()
                     swapFragments(requestsFragment)
                 }
                 R.id.nav_skills -> {
-                    if(skillsFragment == null) skillsFragment = SkillsFragment()
+                    if (skillsFragment == null) skillsFragment = SkillsFragment()
                     swapFragments(skillsFragment)
                 }
                 R.id.nav_messages -> {
-                    if(messagesFragment == null) messagesFragment = MessagesFragment()
+                    if (messagesFragment == null) messagesFragment = MessagesFragment()
                     swapFragments(messagesFragment)
                 }
                 R.id.nav_friends -> {
-                    if(friendsFragment == null) friendsFragment = FriendsFragment()
+                    if (friendsFragment == null) friendsFragment = FriendsFragment()
                     swapFragments(friendsFragment)
                 }
                 R.id.nav_settings -> {
-                    if(settingsFragment == null) settingsFragment = SettingsFragment()
+                    if (settingsFragment == null) settingsFragment = SettingsFragment()
                     swapFragments(settingsFragment)
                 }
                 R.id.nav_admin_skills -> {
-                    if(adminSkillsFragment == null) adminSkillsFragment = AdminSkillsFragment()
+                    if (adminSkillsFragment == null) adminSkillsFragment = AdminSkillsFragment()
                     swapFragments(adminSkillsFragment)
                 }
                 R.id.nav_sign_out -> {
@@ -111,18 +126,18 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         }
     }
 
-    private fun setNavigationHeader(){
+    private fun setNavigationHeader() {
         val header = nav_view.getHeaderView(0)
         val profilePic = ProfilePicUtil.loadPhotoFromInternalStorage(applicationContext)
-        if(profilePic != null){
-           header.nav_profile_image_view.setImageBitmap(profilePic)
+        if (profilePic != null) {
+            header.nav_profile_image_view.setImageBitmap(profilePic)
         }
 
         header.nav_user_name_text_view.text = viewModel.user?.firstName
 
     }
 
-    fun swapFragments(fragment: Fragment?){
+    fun swapFragments(fragment: Fragment?) {
         fragment?.let {
             supportFragmentManager.beginTransaction()
                     .replace(R.id.content_frame, it)

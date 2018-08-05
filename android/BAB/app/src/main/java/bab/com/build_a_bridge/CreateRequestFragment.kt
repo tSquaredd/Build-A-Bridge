@@ -13,21 +13,20 @@ import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.enums.RequestStatusCodes
 import bab.com.build_a_bridge.objects.Skill
-import bab.com.build_a_bridge.utils.FirebaseRequestHandler
 import bab.com.build_a_bridge.utils.ValidationUtil
+import com.bumptech.glide.Glide
+import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_create_request.*
 import kotlinx.android.synthetic.main.skill_list_item.view.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 
 
 /**
  * Fragment to guide user through creation of a request
  */
-class CreateRequestFragment :  Fragment(), AnkoLogger {
+class CreateRequestFragment :  Fragment() {
 
     val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
 
@@ -130,14 +129,10 @@ class CreateRequestFragment :  Fragment(), AnkoLogger {
                 .child(FirebaseStorageNames.SKILL_ICONS.toString())
                 .child(skill.id)
 
-        storageRef.downloadUrl.addOnSuccessListener {
-            val picassoInstance = Picasso.Builder(context!!)
-                    .addRequestHandler(FirebaseRequestHandler()).build()
-
-            // TODO slow image loading
-            picassoInstance.load(it).into(skill_selection_item.skill_icon)
-        }
-
+        Glide.with(context)
+                .using(FirebaseImageLoader())
+                .load(storageRef)
+                .into(skill_selection_item.skill_icon)
 
     }
 
