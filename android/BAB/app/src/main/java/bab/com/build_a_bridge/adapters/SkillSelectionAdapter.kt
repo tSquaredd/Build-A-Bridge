@@ -1,24 +1,25 @@
 package bab.com.build_a_bridge.adapters
 
+
 import android.content.Context
 import bab.com.build_a_bridge.MainActivity
-import bab.com.build_a_bridge.objects.Skill
-
 
 /**
  * Adapter for skill items extended from the base skill adapter, SkillAdapter.
  * Implements on click functionality for skill items, and sets the view models
  * new request object with the skill selected.
  */
-class SkillSelectionAdapter(skillList: ArrayList<Skill>, context: Context, val activity: MainActivity) :
-        SkillAdapter(skillList, context) {
+class SkillSelectionAdapter(context: Context, val activity: MainActivity) :
+        SkillAdapter(context) {
     override fun onItemClick(position: Int) {
-        //val viewModel = ViewModelProviders.of(activity).get(MainActivityViewModel::class.java)
+        // get list of skills sorted by letter since adapter sorts its display list
+        val skillList = activity.viewModel.skillLiveDataList.value?.sortedBy { it.name.toUpperCase() }
+        skillList?.let {
+            // set skill for request in view model
+            activity.viewModel.newRequest?.skillId = it[position].id
 
-        // set skill for request in view model
-        activity.viewModel.newRequest?.skillId = skillList[position].id
-
-        // return to calling fragment
-        activity.onBackPressed()
+            // return to calling fragment
+            activity.onBackPressed()
+        }
     }
 }

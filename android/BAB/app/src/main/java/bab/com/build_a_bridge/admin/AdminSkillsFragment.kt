@@ -1,6 +1,7 @@
 package bab.com.build_a_bridge.admin
 
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -13,9 +14,14 @@ import bab.com.build_a_bridge.MainActivityViewModel
 
 import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.adapters.AdminSkillAdapter
-import bab.com.build_a_bridge.adapters.SkillAdapter
+import bab.com.build_a_bridge.objects.Skill
 import kotlinx.android.synthetic.main.fragment_admin_skills.*
 
+/**
+ * Fragment that is only viewable for admins of the system. This Fragment allows the admin
+ * to see the list of all skills. By clicking a Skill they launch AdminEditSkillsFragment
+ * where they can edit the Skill and / or icon  for the Skill.
+ */
 class AdminSkillsFragment : Fragment() {
 
     lateinit var skillAdapter: AdminSkillAdapter
@@ -36,7 +42,7 @@ class AdminSkillsFragment : Fragment() {
                 false)
         admin_skills_recycler_view.layoutManager = layoutManager
         admin_skills_recycler_view.setHasFixedSize(true)
-        skillAdapter = AdminSkillAdapter(viewModel.systemSkillsList, context!!, activity as MainActivity)
+        skillAdapter = AdminSkillAdapter( context!!, activity as MainActivity)
         admin_skills_recycler_view.adapter = skillAdapter
 
 
@@ -46,13 +52,19 @@ class AdminSkillsFragment : Fragment() {
             activity.swapFragments(AdminEditSkillsFragment())
         }
 
-        if(viewModel.systemSkillsList.isEmpty())
-            empty_admin_skills_list_text_view.visibility = View.VISIBLE
+        viewModel.skillLiveDataList.observe(this, object : Observer<List<Skill>>{
+            override fun onChanged(skillList: List<Skill>?) {
+                skillList?.let {
+                    if (it.isEmpty())  empty_admin_skills_list_text_view.visibility = View.VISIBLE
+                    else {
+                        skillAdapter.setSkills(skillList.sortedBy { it.name.toUpperCase()})
+                        empty_admin_skills_list_text_view.visibility = View.GONE
+                    }
+
+                }
+            }
+
+        })
     }
 
-    override fun onResume() {
-        super.onResume()
-        if(viewModel.systemSkillsList.isEmpty()) empty_admin_skills_list_text_view.visibility = View.VISIBLE
-        else empty_admin_skills_list_text_view.visibility = View.INVISIBLE
-    }
 }

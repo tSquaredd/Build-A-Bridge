@@ -8,61 +8,31 @@ import bab.com.build_a_bridge.enums.PreferenceNames
 import bab.com.build_a_bridge.objects.Request
 import bab.com.build_a_bridge.objects.Skill
 import bab.com.build_a_bridge.objects.User
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
+import bab.com.build_a_bridge.utils.FirebaseSkillLiveDataList
+import bab.com.build_a_bridge.utils.FirebaseSkillLiveDataMap
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
+import org.jetbrains.anko.AnkoLogger
 
-
-class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
+/**
+ * Holds all data for UI
+ */
+class MainActivityViewModel(application: Application) : AndroidViewModel(application), AnkoLogger {
     var user: User? = null
-    var systemSkillsList: ArrayList<Skill> = arrayListOf()
-    var systemSkillMap: MutableMap<String, Skill> = mutableMapOf()
     var newRequest: Request? = null
     var requestFeedList: ArrayList<Request> = arrayListOf()
     var requestForDetails: Request = Request()
+    val skillLiveDataList: FirebaseSkillLiveDataList
+    val skillsLiveDataMap: FirebaseSkillLiveDataMap
 
-    /**
-     * Initializes the ViewModel
-     */
-    fun init() {
+    init {
         val prefs = PreferenceManager.getDefaultSharedPreferences(getApplication())
         val json = prefs.getString(PreferenceNames.USER.toString(), "")
         user = Gson().fromJson(json, User::class.java)
-
-        getSystemSkillsList()
-
-    }
-
-
-    /**
-     * Gets list of skills from firebase DB
-     */
-    private fun getSystemSkillsList() {
-        // empty the list
-        systemSkillsList = arrayListOf()
-
-        val db = FirebaseDatabase.getInstance().reference
+        val skillDbRef = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.SKILLS.toString())
-
-        db.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                // Do nothing
-            }
-
-            // add skill instance to skills list
-            override fun onDataChange(data: DataSnapshot) {
-                val skills = data.children
-                for (skill: DataSnapshot in skills) {
-                    val skillInstance = skill.getValue(Skill::class.java)
-                    skillInstance?.let {
-                        systemSkillsList.add(skillInstance)
-                        systemSkillMap.put(it.id, it)
-                    }
-                }
-            }
-        })
+        skillLiveDataList = FirebaseSkillLiveDataList(skillDbRef)
+        skillsLiveDataMap = FirebaseSkillLiveDataMap(skillDbRef)
     }
 
     /**

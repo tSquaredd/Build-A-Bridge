@@ -5,6 +5,7 @@
     <!-- General string resources -->
     <string name="admin">Admin</string>
     <string name="app_name">Build-a-bridge</string>
+    <string name="cancel">Cancel</string>
     <string name="check_verification">Check Verification</string>
     <string name="create_request">Create Request</string>
     <string name="delete">Delete</string>
@@ -23,6 +24,7 @@
     <string name="invalid_character">Invalid character</string>
     <string name="last_name">Last Name</string>
     <string name="manage_skills">Manage Skills</string>
+    <string name="message">Message</string>
     <string name="messages">Messages</string>
     <string name="more_options">More Options</string>
     <string name="must_add_description">Must add description</string>

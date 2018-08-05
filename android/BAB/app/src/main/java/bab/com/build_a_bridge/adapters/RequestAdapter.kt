@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import bab.com.build_a_bridge.MainActivity
 import bab.com.build_a_bridge.R
-import bab.com.build_a_bridge.RequestDetailsFragment
+import bab.com.build_a_bridge.AcceptRequestFragment
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.objects.Request
 import bab.com.build_a_bridge.utils.FirebaseRequestHandler
@@ -54,7 +54,7 @@ class RequestAdapter(val requestList: ArrayList<Request>, val context: Context, 
         init {
             itemView.setOnClickListener {
                 activity.viewModel.requestForDetails = requestList[adapterPosition]
-                activity.swapFragments(RequestDetailsFragment())
+                activity.swapFragments(AcceptRequestFragment())
             }
         }
     }

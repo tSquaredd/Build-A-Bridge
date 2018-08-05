@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             setHomeAsUpIndicator(R.drawable.ic_menu)
         }
 
-        viewModel.init()
 
         setupNavigationListener()
         setNavigationHeader()

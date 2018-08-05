@@ -16,8 +16,10 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.skill_list_item.view.*
 
 
-abstract class SkillAdapter(var skillList: ArrayList<Skill>, val context: Context) :
+abstract class SkillAdapter( val context: Context) :
         RecyclerView.Adapter<SkillAdapter.SkillHolder>() {
+
+    private var skillList: List<Skill> = listOf()
 
    abstract fun onItemClick(position: Int)
 
@@ -48,6 +50,11 @@ abstract class SkillAdapter(var skillList: ArrayList<Skill>, val context: Contex
             // TODO: Image loading is slow here.
             picassoInstance.load(it).into(holder.skillIcon)
         }
+    }
+
+    fun setSkills(skillList: List<Skill>){
+        this.skillList = skillList
+        notifyDataSetChanged()
     }
 
 

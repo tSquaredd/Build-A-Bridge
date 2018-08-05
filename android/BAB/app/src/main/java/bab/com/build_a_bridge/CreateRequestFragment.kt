@@ -20,9 +20,14 @@ import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_create_request.*
 import kotlinx.android.synthetic.main.skill_list_item.view.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
 
-class CreateRequestFragment :  Fragment() {
+/**
+ * Fragment to guide user through creation of a request
+ */
+class CreateRequestFragment :  Fragment(), AnkoLogger {
 
     val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
 
@@ -38,11 +43,7 @@ class CreateRequestFragment :  Fragment() {
         // init new request object in view model
         viewModel.initRequest()
 
-
-
-        create_request_button.setOnClickListener {
-            requestCreation()
-        }
+        create_request_button.setOnClickListener { requestCreation() }
 
         skill_selection_item.setOnClickListener {
            val activity =  activity as MainActivity
@@ -102,19 +103,25 @@ class CreateRequestFragment :  Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.systemSkillMap.get(viewModel.newRequest?.skillId)?.let {
+        viewModel.skillsLiveDataMap.value?.get(viewModel.newRequest?.skillId)?.let {
             updateSkillUi(it)
         }
         isRequestReady()
     }
 
+    /**
+     * Used to check if request is valid, and ready to be submitted
+     */
     private fun isRequestReady(){
         create_request_button.isEnabled = (viewModel.newRequest?.title != "" && viewModel.newRequest?.details != null
                 && viewModel.newRequest?.skillId != null)
     }
 
 
-
+    /**
+     * Called on return from SkillSelectionFragment in order to update the skill item that
+     * was selected
+     */
     private fun updateSkillUi(skill: Skill){
         skill_selection_item.skill_name.text = skill.name
         skill_selection_item.skill_description.text = skill.description
@@ -134,7 +141,10 @@ class CreateRequestFragment :  Fragment() {
 
     }
 
-    fun requestCreation(){
+    /**
+     * Pushes the new request to the firebase DB
+     */
+    private fun requestCreation(){
 
         // add request to REQUESTS on firabse DB
         var db = FirebaseDatabase.getInstance().reference

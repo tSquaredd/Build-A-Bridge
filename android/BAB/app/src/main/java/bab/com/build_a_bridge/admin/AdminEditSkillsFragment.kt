@@ -35,14 +35,15 @@ import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.yesButton
 import java.io.IOException
 
-
+/**
+ * This Fragment allows the user to edit the values and icon for any Skill selected from the
+ * AdminSkillsFragment
+ */
 class AdminEditSkillsFragment : Fragment() {
 
-    val IMG_RESULT_CODE = 78
-    private val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
+    private val IMG_RESULT_CODE = 78
     lateinit var skill: Skill
     var editingSkill = false
-    var skillListIndex = 0
     var filePath: Uri? = null
 
 
@@ -70,6 +71,10 @@ class AdminEditSkillsFragment : Fragment() {
 
     }
 
+    /**
+     * If the result is of IMG_RESULT_CODE then the result is the image for the icon.
+     * Set the new image to the image view.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -99,12 +104,12 @@ class AdminEditSkillsFragment : Fragment() {
 
 
         when {
-        // error checks
+            // error checks
             (skillNameCheck != null) -> admin_skill_name_edit_text.error = "${getString(R.string.invalid_character)} '$skillNameCheck'"
             (skillDescriptionCheck != null) -> admin_skill_description_edit_text.error = "${getString(R.string.invalid_character)} '$skillDescriptionCheck'"
             (skillNameEmpty) -> admin_skill_name_edit_text.error = getString(R.string.must_specify_name)
             (skillDescriptionEmpty) -> admin_skill_description_edit_text.error = getString(R.string.must_add_description)
-        // If no errors
+            // If no errors
             else -> {
                 // Skill is valid add to skills list
                 var db = FirebaseDatabase.getInstance().reference
@@ -123,31 +128,18 @@ class AdminEditSkillsFragment : Fragment() {
                 db.setValue(skill)
 
 
-
-
                 // upload skill icon if there is one.
                 if (filePath != null) {
                     val photoUploader = FirebasePhotoUploader()
                     photoUploader.uploadPhoto(filePath!!, skill.id)
-                } else {
-                    if (editingSkill) viewModel.systemSkillsList.removeAt(skillListIndex)
-                    viewModel.systemSkillsList.add(skill)
-                    notifyAdapterDatasetChanged()
-                    activity?.onBackPressed()
                 }
-
+                activity?.onBackPressed()
             }
         }
     }
 
 
     private fun deleteSkill() {
-
-        /**
-         * TODO: A lot more will need to be done within database when a skill is removed
-         * such as removing all requests with that skill, etc.
-         */
-
         // Show dialog to get confirmation of deletion
         activity?.alert(getString(R.string.delete_skill_prompt), getString(R.string.delete_skill)) {
             positiveButton(getString(R.string.yes)) {
@@ -165,8 +157,7 @@ class AdminEditSkillsFragment : Fragment() {
 
                 imgDb.delete()
 
-                viewModel.systemSkillsList.removeAt(skillListIndex)
-                notifyAdapterDatasetChanged()
+
                 activity?.onBackPressed()
             }
             neutralPressed(getString(R.string.no)) {
@@ -186,7 +177,6 @@ class AdminEditSkillsFragment : Fragment() {
         val bundle = arguments
         bundle?.let {
             skill = it.getParcelable(BundleParamNames.SKILL.toString())
-            skillListIndex = it.getInt(BundleParamNames.SKILL_LIST_INDEX.toString())
 
             // Loading image from firebase storage if there is one
             val storageRef = FirebaseStorage.getInstance().reference
@@ -205,15 +195,6 @@ class AdminEditSkillsFragment : Fragment() {
         }
     }
 
-    /**
-     * Notifies AdminSkillsFragment's adapter of change
-     */
-    fun notifyAdapterDatasetChanged() {
-        val mainActivity = activity as MainActivity
-        val parentFragment = mainActivity.adminSkillsFragment
-        parentFragment?.skillAdapter?.notifyItemChanged(skillListIndex)
-    }
-
     private fun choosePhoto() {
         val intent = Intent()
         intent.type = "image/*"
@@ -228,10 +209,7 @@ class AdminEditSkillsFragment : Fragment() {
     inner class FirebasePhotoUploader : FirebaseSkillIconUploadUtil() {
         override fun onPhotUploadSuccess() {
             snackbar(skills_icon, getString(R.string.photo_upload_success))
-            if (editingSkill) viewModel.systemSkillsList.removeAt(skillListIndex)
-            viewModel.systemSkillsList.add(skill)
-            notifyAdapterDatasetChanged()
-            activity?.onBackPressed()
+
         }
 
         override fun onPhotoUploadFailure() {
