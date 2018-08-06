@@ -10,7 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import bab.com.build_a_bridge.adapters.RequestAdapter
+import bab.com.build_a_bridge.adapters.FeedFragmentAdapter
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.RequestStatusCodes
 import bab.com.build_a_bridge.objects.Request
@@ -42,8 +42,8 @@ class FeedFragment : Fragment() {
 
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         val divider = DividerItemDecoration(context, layoutManager.orientation)
-        request_feed_rv.addItemDecoration(divider)
-        request_feed_rv.layoutManager = layoutManager
+        feed_fragment_rv.addItemDecoration(divider)
+        feed_fragment_rv.layoutManager = layoutManager
 
         // Listener for pull down refresh
         feed_feagment_swipe_layout.setOnRefreshListener {
@@ -62,8 +62,8 @@ class FeedFragment : Fragment() {
      */
     private fun setAdapter() {
         feed_progress_bar.visibility = View.GONE
-        request_feed_rv.visibility = View.VISIBLE
-        request_feed_rv.adapter = RequestAdapter(viewModel.requestFeedList, context!!, activity as MainActivity)
+        feed_fragment_rv.visibility = View.VISIBLE
+        feed_fragment_rv.adapter = FeedFragmentAdapter(viewModel.feedFragmentList, context!!, activity as MainActivity)
     }
 
 
@@ -74,7 +74,7 @@ class FeedFragment : Fragment() {
     private fun getRequestFeedList() {
 
         // empty the list of requests
-        viewModel.requestFeedList = arrayListOf()
+        viewModel.feedFragmentList = arrayListOf()
         val db = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.REQUESTS.toString())
                 .child(FirebaseDbNames.STATE.toString())
@@ -94,12 +94,12 @@ class FeedFragment : Fragment() {
                     val request = d.getValue(Request::class.java)
                     request?.let {
                         if (it.requesterId != viewModel.user?.userId)
-                            viewModel.requestFeedList.add(it)
+                            viewModel.feedFragmentList.add(it)
                     }
 
                 }
 
-                if (!viewModel.requestFeedList.isEmpty())
+                if (!viewModel.feedFragmentList.isEmpty())
                     setAdapter()
                 else {
                     feed_progress_bar.visibility = View.GONE

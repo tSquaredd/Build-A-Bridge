@@ -20,7 +20,8 @@ import org.jetbrains.anko.AnkoLogger
 class MainActivityViewModel(application: Application) : AndroidViewModel(application), AnkoLogger {
     var user: User? = null
     var newRequest: Request? = null
-    var requestFeedList: ArrayList<Request> = arrayListOf()
+    var feedFragmentList: ArrayList<Request> = arrayListOf()
+    var requestsFragmentList: ArrayList<Request> = arrayListOf()
     var requestForAccept: Request = Request()
     var requestForDetails: Request = Request()
     val skillLiveDataList: FirebaseSkillLiveDataList

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".RequestDetailsFragment">
 
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/request_details_requester_iv"
-       style="@style/ProfilePictureLarge"
+        style="@style/ProfilePictureLarge"
         android:layout_marginEnd="40dp"
         android:layout_marginTop="32dp"
         android:src="@drawable/default_user_pic"
+        app:civ_border_color="#111111"
+        app:civ_border_width="1dp"
         app:layout_constraintEnd_toStartOf="@+id/request_details_volunteer_iv"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,6 +26,8 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="32dp"
         android:src="@drawable/default_user_pic"
+        app:civ_border_color="#111111"
+        app:civ_border_width="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/request_details_requester_iv"
@@ -34,20 +38,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        tools:text="John"
         app:layout_constraintEnd_toEndOf="@+id/request_details_requester_iv"
         app:layout_constraintStart_toStartOf="@+id/request_details_requester_iv"
-        app:layout_constraintTop_toBottomOf="@+id/request_details_requester_iv" />
+        app:layout_constraintTop_toBottomOf="@+id/request_details_requester_iv"
+        tools:text="John" />
 
     <TextView
         android:id="@+id/volunteer_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        tools:text="Jane"
         app:layout_constraintEnd_toEndOf="@+id/request_details_volunteer_iv"
         app:layout_constraintStart_toStartOf="@+id/request_details_volunteer_iv"
-        app:layout_constraintTop_toBottomOf="@+id/request_details_volunteer_iv" />
+        app:layout_constraintTop_toBottomOf="@+id/request_details_volunteer_iv"
+        tools:text="Jane" />
 
     <TextView
         android:id="@+id/request_title_tv"

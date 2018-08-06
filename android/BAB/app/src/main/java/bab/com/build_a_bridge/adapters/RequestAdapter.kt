@@ -23,7 +23,10 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.request_list_item.view.*
 
-class RequestAdapter(val requestList: ArrayList<Request>, val context: Context, val activity: MainActivity): RecyclerView.Adapter<RequestAdapter.RequestHolder>() {
+abstract class RequestAdapter(val requestList: ArrayList<Request>, val context: Context, val activity: MainActivity): RecyclerView.Adapter<RequestAdapter.RequestHolder>() {
+
+    abstract fun onItemClick(position: Int)
+
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): RequestHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.request_list_item, parent, false)
@@ -72,8 +75,7 @@ class RequestAdapter(val requestList: ArrayList<Request>, val context: Context, 
 
         init {
             itemView.setOnClickListener {
-                activity.viewModel.requestForAccept = requestList[adapterPosition]
-                activity.swapFragments(AcceptRequestFragment(), true)
+                onItemClick(adapterPosition)
             }
         }
     }
