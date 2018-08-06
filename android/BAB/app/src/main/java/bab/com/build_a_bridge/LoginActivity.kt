@@ -13,6 +13,7 @@ import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import bab.com.build_a_bridge.enums.*
 import bab.com.build_a_bridge.objects.User
 import bab.com.build_a_bridge.utils.ProfilePicUtil
@@ -26,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import java.io.File
@@ -178,6 +180,9 @@ class LoginActivity : AppCompatActivity(),
         db.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
+
+                    // turn on progress bar
+                    login_progress_bar.visibility = View.VISIBLE
                     // User already exists
 
                     // get user data for prefs
