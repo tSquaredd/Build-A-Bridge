@@ -4,6 +4,7 @@ package bab.com.build_a_bridge
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -40,6 +41,14 @@ class FeedFragment : Fragment() {
 
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         request_feed_rv.layoutManager = layoutManager
+
+        // Listener for pull down refresh
+        feed_feagment_swipe_layout.setOnRefreshListener {
+            getRequestFeedList()
+        }
+
+        // Sets color of the refresh wheel
+        feed_feagment_swipe_layout.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorAccent))
 
         getRequestFeedList()
 
@@ -95,5 +104,7 @@ class FeedFragment : Fragment() {
                 }
             }
         })
+
+        feed_feagment_swipe_layout.isRefreshing = false
     }
 }
