@@ -36,14 +36,6 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
     val viewModel by lazy { ViewModelProviders.of(this).get(MainActivityViewModel::class.java) }
 
-    private var feedFragment: FeedFragment? = FeedFragment()
-    private var requestsFragment: RequestsFragment? = null
-    private var skillsFragment: SkillsFragment? = null
-    private var messagesFragment: MessagesFragment? = null
-    private var friendsFragment: FriendsFragment? = null
-    private var settingsFragment: SettingsFragment? = null
-    private var adminSkillsFragment: AdminSkillsFragment? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -62,8 +54,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
 
         // Show feed fragment by default
-        feedFragment = FeedFragment()
-        swapFragments(feedFragment, true)
+        swapFragments(FeedFragment(), true)
         // show feed fragment selected in nav drawer
         nav_view.menu.getItem(0).isChecked = true
     }
@@ -84,31 +75,13 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             drawer_layout.closeDrawers()
 
             when (it.itemId) {
-                R.id.nav_feed -> swapFragments(feedFragment, true)
-                R.id.nav_requests -> {
-                    if (requestsFragment == null) requestsFragment = RequestsFragment()
-                    swapFragments(requestsFragment, true)
-                }
-                R.id.nav_skills -> {
-                    if (skillsFragment == null) skillsFragment = SkillsFragment()
-                    swapFragments(skillsFragment, true)
-                }
-                R.id.nav_messages -> {
-                    if (messagesFragment == null) messagesFragment = MessagesFragment()
-                    swapFragments(messagesFragment, true)
-                }
-                R.id.nav_friends -> {
-                    if (friendsFragment == null) friendsFragment = FriendsFragment()
-                    swapFragments(friendsFragment, true)
-                }
-                R.id.nav_settings -> {
-                    if (settingsFragment == null) settingsFragment = SettingsFragment()
-                    swapFragments(settingsFragment, true)
-                }
-                R.id.nav_admin_skills -> {
-                    if (adminSkillsFragment == null) adminSkillsFragment = AdminSkillsFragment()
-                    swapFragments(adminSkillsFragment, true)
-                }
+                R.id.nav_feed -> swapFragments(FeedFragment(), true)
+                R.id.nav_requests -> swapFragments(RequestsFragment(), true)
+                R.id.nav_skills -> swapFragments(SkillsFragment(), true)
+                R.id.nav_messages -> swapFragments(MessagesFragment(), true)
+                R.id.nav_friends -> swapFragments(FriendsFragment(), true)
+                R.id.nav_settings -> swapFragments(SettingsFragment(), true)
+                R.id.nav_admin_skills -> swapFragments(AdminSkillsFragment(), true)
                 R.id.nav_sign_out -> {
                     signOut()
                 }
