@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,8 @@ class SkillSelectionFragment : Fragment() {
         skillAdapter = SkillSelectionAdapter(context!!, activity as MainActivity)
 
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val divider = DividerItemDecoration(context, layoutManager.orientation)
+        skill_selection_rv.addItemDecoration(divider)
         skill_selection_rv.layoutManager = layoutManager
         skill_selection_rv.setHasFixedSize(true)
         skill_selection_rv.adapter = skillAdapter

@@ -9,10 +9,8 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/skill_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        style="@style/SkillIcon60dp"
         android:layout_marginStart="8dp"
-        android:src="@drawable/ic_default_skill"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

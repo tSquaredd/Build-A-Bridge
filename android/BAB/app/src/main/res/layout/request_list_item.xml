@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:background="@drawable/skill_item_background"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:paddingBottom="8dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/requester_profile_img"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/request_skill_category_iv"
+        style="@style/SkillIcon60dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/default_user_pic"
-        app:civ_border_color="#000000"
-        app:civ_border_width="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,25 +24,24 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/requester_name_tv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/requester_profile_img"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/request_skill_category_iv"
+        app:layout_constraintTop_toTopOf="@+id/request_skill_category_iv"
         tools:text="Enroll kid in school" />
 
     <TextView
-        android:id="@+id/request_item_details"
-        style="@style/TextAppearance.AppCompat.Small"
-        android:layout_width="0dp"
+        android:id="@+id/requester_name_tv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        style="@style/TextAppearance.AppCompat.Small"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/requester_profile_img"
-        app:layout_constraintTop_toBottomOf="@+id/request_item_title"
-        tools:text="I need help enrolling my child into elementary school. I do not know where to go or what needs to be filled out. Please help!!" />
+        tools:text="Tyler Turnbull"
+        app:layout_constraintBottom_toBottomOf="@+id/request_skill_category_iv"
+        app:layout_constraintStart_toEndOf="@+id/request_skill_category_iv"
+        app:layout_constraintTop_toBottomOf="@+id/request_item_title" />
 
 
 </android.support.constraint.ConstraintLayout>
