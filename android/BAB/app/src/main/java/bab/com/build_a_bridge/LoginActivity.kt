@@ -15,6 +15,7 @@ import android.view.MenuItem
 import bab.com.build_a_bridge.enums.*
 import bab.com.build_a_bridge.objects.User
 import bab.com.build_a_bridge.utils.ProfilePicUtil
+import com.facebook.login.Login
 import com.google.firebase.auth.FirebaseAuth
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -111,27 +112,6 @@ class LoginActivity : AppCompatActivity(),
         }
     }
 
-    /**
-     * Checks if user is already signed in
-     *
-     * If no, start up FirebaseAuthUi login flow
-     * If yes, check that if user account is of type username/password that
-     * they have verified there email
-     */
-    private fun checkFirebaseCredentials() {
-        if (FirebaseAuth.getInstance().currentUser == null) runFirebaseAuthUi()
-        else {
-            val userData = FirebaseAuth.getInstance().currentUser!!.providerData
-            for (i in 0 until userData.size)
-                if (userData[i].providerId.equals("password"))
-                    checkIfEmailVerified()
-
-            // user from different provider ( facebook or google )
-            checkIfNewUser()
-
-        }
-
-    }
 
     /**
      * Start up Firebase Auth UI Activity which allows users to sign in via
@@ -164,7 +144,9 @@ class LoginActivity : AppCompatActivity(),
      */
     override fun onBackPressed() {
         if (supportFragmentManager.findFragmentById(R.id.login_frame_container) is RegistrationUserInfoFragment) {
-            swapFragment(RegistrationFragment())
+            signOut()
+            startActivity(Intent(applicationContext, LoginActivity::class.java))
+            finish()
         } else {
             super.onBackPressed()
         }
@@ -227,7 +209,8 @@ class LoginActivity : AppCompatActivity(),
                     finish()
                 } else {
                     // User does not exist yet. Start RegistrationFragment
-                    swapFragment(RegistrationFragment())
+                    // TODO: If we need to track user type ( ref / vol ) change this to RegistrationFragment()
+                    swapFragment(RegistrationUserInfoFragment())
                 }
             }
 
@@ -254,6 +237,19 @@ class LoginActivity : AppCompatActivity(),
     }
 
     /**
+     * Sign the user out and start the LoginActivity over again
+     */
+    private fun signOut(){
+        ProfilePicUtil.removePhoto(applicationContext)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this).edit()
+        prefs.remove(PreferenceNames.USER.toString())
+        prefs.apply()
+        FirebaseAuth.getInstance().signOut()
+        startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
+        finish()
+    }
+
+    /**
      * Function called from EmailVerificationFragment when email has been verified
      */
     override fun emailVerified() {
@@ -261,6 +257,8 @@ class LoginActivity : AppCompatActivity(),
     }
 
     /**
+     *
+     * NOT BEING USED AT THE MOMENT
      * Called from RegistrationFragment.
      *
      * When called this user has selected either Refugee / Immigrant or

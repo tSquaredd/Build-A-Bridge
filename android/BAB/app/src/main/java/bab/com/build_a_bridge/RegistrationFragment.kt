@@ -10,6 +10,12 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_registration.*
 
 /**
+ *
+ * THIS FRAGMENT IS NOT BEING USED CURRENTLY
+ *
+ * IF WE NEED TO ADD THIS DATA TO USER ACCOUNT WE CAN STILL USE THIS
+ *
+ * JUST ALTER CODE AT THE TO DO IN LoginActivity
  * This fragment is the begining of registration and prompts the user to choose whether they are
  * of type Refugee/Immigrant or Volunteer
  */

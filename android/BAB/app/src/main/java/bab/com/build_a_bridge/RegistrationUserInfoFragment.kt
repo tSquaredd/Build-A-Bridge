@@ -34,7 +34,9 @@ import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
 import java.io.IOException
 
-
+/**
+ * Gather information on the user and add them to the Firebase database
+ */
 class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
 
     private val IMG_RESULT_CODE = 1
@@ -46,6 +48,8 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_registration_user_info, container, false)
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -251,6 +255,7 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), IMG_RESULT_CODE)
     }
+
 
     /**
      * Completed registration and pushes user information into the firebase database

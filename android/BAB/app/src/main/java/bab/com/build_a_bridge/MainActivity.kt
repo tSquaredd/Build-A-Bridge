@@ -12,11 +12,16 @@ import android.support.v4.view.GravityCompat
 import android.view.MenuItem
 import bab.com.build_a_bridge.admin.AdminEditSkillsFragment
 import bab.com.build_a_bridge.admin.AdminSkillsFragment
+import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.enums.PreferenceNames
 import bab.com.build_a_bridge.objects.Skill
 import bab.com.build_a_bridge.utils.ProfilePicUtil
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -50,10 +55,6 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             setHomeAsUpIndicator(R.drawable.ic_menu)
         }
 
-
-//        viewModel.skillLiveDataList.observe(this, Observer { skillList: List<Skill>? ->
-//            skillList?.let { for(skill in skillList) getIcon(skill) }
-//        })
         setupNavigationListener()
         setNavigationHeader()
 
@@ -75,14 +76,6 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         }
     }
 
-
-//    private fun getIcon(skill: Skill){
-//        val storageRef = FirebaseStorage.getInstance().reference
-//                .child(FirebaseStorageNames.SKILL_ICONS.toString())
-//                .child(skill.id)
-//
-//
-//    }
     private fun setupNavigationListener() {
         nav_view.setNavigationItemSelectedListener {
             it.isChecked = true
@@ -115,13 +108,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
                     swapFragments(adminSkillsFragment)
                 }
                 R.id.nav_sign_out -> {
-                    ProfilePicUtil.removePhoto(applicationContext)
-                    val prefs = PreferenceManager.getDefaultSharedPreferences(this).edit()
-                    prefs.remove(PreferenceNames.USER.toString())
-                    prefs.apply()
-                    FirebaseAuth.getInstance().signOut()
-                    startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
-                    finish()
+                   signOut()
                 }
             }
 
@@ -154,6 +141,22 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             startActivity(Intent(context, LoginActivity::class.java))
             finish()
         } else {
+            val userDbRef = FirebaseDatabase.getInstance().reference
+                    .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
+                    .child(FirebaseAuth.getInstance().currentUser?.uid!!)
+            userDbRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                    // Do nothing
+                }
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (!dataSnapshot.exists()) {
+                        startActivity(Intent(context, LoginActivity::class.java))
+                        finish()
+                    }
+                }
+
+            })
             val userData = FirebaseAuth.getInstance().currentUser!!.providerData
             for (i in 0 until userData.size)
                 if (userData[i].providerId.equals("password"))
@@ -169,6 +172,16 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
                 startActivity(Intent(context, LoginActivity::class.java))
             }
         }
+    }
+
+    private fun signOut(){
+        ProfilePicUtil.removePhoto(applicationContext)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this).edit()
+        prefs.remove(PreferenceNames.USER.toString())
+        prefs.apply()
+        FirebaseAuth.getInstance().signOut()
+        startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
+        finish()
     }
 
 }
