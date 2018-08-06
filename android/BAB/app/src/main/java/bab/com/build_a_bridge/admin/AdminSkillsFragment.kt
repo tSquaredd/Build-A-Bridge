@@ -52,7 +52,7 @@ class AdminSkillsFragment : Fragment() {
         // FAB
         admin_skills_fab.setOnClickListener {
             val activity = activity as MainActivity
-            activity.swapFragments(AdminEditSkillsFragment())
+            activity.swapFragments(AdminEditSkillsFragment(), true)
         }
 
         viewModel.skillLiveDataList.observe(this, object : Observer<List<Skill>>{

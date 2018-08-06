@@ -46,7 +46,7 @@ class CreateRequestFragment :  Fragment() {
 
         skill_selection_item.setOnClickListener {
            val activity =  activity as MainActivity
-            activity.swapFragments(SkillSelectionFragment())
+            activity.swapFragments(SkillSelectionFragment(), true)
         }
 
         request_title.addTextChangedListener(object : TextWatcher{

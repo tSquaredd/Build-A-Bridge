@@ -4,10 +4,23 @@ package bab.com.build_a_bridge
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.SpannableString
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import bab.com.build_a_bridge.enums.FirebaseDbNames
+import bab.com.build_a_bridge.enums.FirebaseStorageNames
+import bab.com.build_a_bridge.enums.RequestStatusCodes
+import bab.com.build_a_bridge.objects.Skill
+import bab.com.build_a_bridge.objects.User
+import com.bumptech.glide.Glide
+import com.firebase.ui.storage.images.FirebaseImageLoader
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_accept_request.*
 import org.jetbrains.anko.AnkoLogger
 
@@ -23,11 +36,135 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        request_title_tv.text = viewModel.requestForDetails.title
-        request_details_tv.text = viewModel.requestForDetails.details
+        val spanString = SpannableString(viewModel.requestForDetails.details)
+        spanString.setSpan(android.text.style.LeadingMarginSpan.Standard(30,0),0,1,0)
 
-        accept_request_btn.setOnClickListener {  }
+        request_title_tv.text = viewModel.requestForDetails.title
+        request_details_tv.text = spanString
+
+
+
+        val requesterImgRef = FirebaseStorage.getInstance().reference
+                .child(FirebaseStorageNames.PROFILE_PICTURES.toString())
+                .child(viewModel.requestForDetails.requesterId!!)
+
+        Glide.with(context)
+                .using(FirebaseImageLoader())
+                .load(requesterImgRef)
+                .into(accept_request_requester_iv)
+
+        val requesterDbRef = FirebaseDatabase.getInstance().reference
+                .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
+                .child(viewModel.requestForDetails.requesterId!!)
+
+        requesterDbRef.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                // Do nothing
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val user = dataSnapshot.getValue(User::class.java)
+                val displayName = "${user?.firstName} ${user?.lastName}"
+                requester_name_tv.text = displayName
+
+                val buttonText = "${getString(R.string.help)} ${user?.firstName}"
+                accept_request_btn.text = buttonText
+            }
+
+        })
+
+        val skillDbRef = FirebaseDatabase.getInstance().reference
+                .child(FirebaseDbNames.SKILLS.toString())
+                .child(viewModel.requestForDetails.skillId!!)
+
+        skillDbRef.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                // Do nothing
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val skill = dataSnapshot.getValue(Skill::class.java)
+                skill_name_tv.text = skill?.name
+
+                val skillIconRef = FirebaseStorage.getInstance().reference
+                        .child(FirebaseStorageNames.SKILL_ICONS.toString())
+                        .child(viewModel.requestForDetails.skillId!!)
+
+                Glide.with(context)
+                        .using(FirebaseImageLoader())
+                        .load(skillIconRef)
+                        .into(accept_request_skill_icon)
+            }
+
+        })
+
+
+        accept_request_btn.setOnClickListener { acceptRequest() }
     }
 
+    private fun acceptRequest(){
+
+        // update request
+        viewModel.requestForDetails.status = RequestStatusCodes.IN_PROGRESS
+        viewModel.requestForDetails.volunteerId = viewModel.user?.userId
+
+
+        // Get reference to requests for the region
+        val reqRegionDbRef = FirebaseDatabase.getInstance().reference
+                .child(FirebaseDbNames.REQUESTS.toString())
+                .child(FirebaseDbNames.STATE.toString())
+                .child(viewModel.user?.state.toString())
+                .child(FirebaseDbNames.REGION.toString())
+                .child(viewModel.user?.region.toString())
+
+        // Get reference to DB for IN_PROGRESS requests
+        val inProgDbRef = reqRegionDbRef
+                .child(RequestStatusCodes.IN_PROGRESS.toString())
+                .child(viewModel.requestForDetails.requestId)
+
+        // add request to IN_PROGRESS DB
+        inProgDbRef.setValue(viewModel.requestForDetails)
+
+        // Get reference to DB for REQUESTED requests
+        val requestedDbRef = reqRegionDbRef
+                .child(RequestStatusCodes.REQUESTED.toString())
+                .child(viewModel.requestForDetails.requestId)
+
+        // remove request
+        requestedDbRef.removeValue()
+
+
+        // update request in REQUESTS_BY_USER
+
+
+        val requesterRequestsDbRef = FirebaseDatabase.getInstance().reference
+                .child(FirebaseDbNames.REQUESTS_BY_USER.toString())
+                .child(viewModel.requestForDetails.requesterId!!)
+
+        val requesterInProgDbRef = requesterRequestsDbRef
+                .child(RequestStatusCodes.IN_PROGRESS_REQUESTER.toString())
+                .child(viewModel.requestForDetails.requestId)
+
+        requesterInProgDbRef.setValue(viewModel.requestForDetails)
+
+        val requesterRequestedDbRef = requesterRequestsDbRef
+                .child(RequestStatusCodes.REQUESTED.toString())
+                .child(viewModel.requestForDetails.requestId)
+
+        requesterRequestedDbRef.removeValue()
+
+
+        val volunteerInProgDbRef = FirebaseDatabase.getInstance().reference
+                .child(FirebaseDbNames.REQUESTS_BY_USER.toString())
+                .child(viewModel.user?.userId!!)
+                .child(RequestStatusCodes.IN_PROGRESS_VOLUNTEER.toString())
+                .child(viewModel.requestForDetails.requestId)
+
+        volunteerInProgDbRef.setValue(viewModel.requestForDetails)
+
+        val mainActivity = activity as MainActivity
+        mainActivity.swapFragments(RequestDetailsFragment(), false)
+
+    }
 
 }

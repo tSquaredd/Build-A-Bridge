@@ -7,16 +7,31 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    
-    <style name="ProfilePicture60dp">
-        <item name="android:layout_width">60dp</item>
-        <item name="android:layout_height">60dp</item>
+
+    <style name="ProfileImage">
         <item name="android:src">@drawable/default_user_pic</item>
     </style>
-
-    <style name="SkillIcon60dp">
+    <style name="ProfilePictureMedium" parent="ProfileImage">
         <item name="android:layout_width">60dp</item>
         <item name="android:layout_height">60dp</item>
+    </style>
+
+    <style name="ProfileImageLarge" parent="ProfileImage">
+        <item name="android:layout_width">90dp</item>
+        <item name="android:layout_height">90dp</item>
+    </style>
+
+    <style name="SkillIcon" >
         <item name="android:src">@drawable/ic_default_skill</item>
+    </style>
+
+    <style name="SkillIconMedium" parent="SkillIcon">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+    </style>
+
+    <style name="SkillIconSmall" parent="SkillIcon">
+        <item name="android:layout_width">45dp</item>
+        <item name="android:layout_height">45dp</item>
     </style>
 </resources>

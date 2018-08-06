@@ -21,6 +21,7 @@
     <string name="feed">Feed</string>
     <string name="first_name">First Name</string>
     <string name="friends">Friends</string>
+    <string name="help">Help</string>
     <string name="invalid_character">Invalid character</string>
     <string name="last_name">Last Name</string>
     <string name="manage_skills">Manage Skills</string>
@@ -31,7 +32,6 @@
     <string name="must_specify_name">Must specify a name</string>
     <string name="next">Next</string>
     <string name="no">No</string>
-    <string name="offer_help">Offer Help</string>
     <string name="please_select_region">Please select a region</string>
     <string name="please_select_state">Please select a state</string>
     <string name="phone_number_error">Numbers Only</string>

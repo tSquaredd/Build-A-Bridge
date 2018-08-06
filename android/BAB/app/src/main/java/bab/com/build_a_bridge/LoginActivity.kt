@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -187,11 +188,11 @@ class LoginActivity : AppCompatActivity(),
                     prefs.apply()
 
 
-
                     // Check for profile picture
                     val storageRef = FirebaseStorage.getInstance().reference
                             .child(FirebaseStorageNames.PROFILE_PICTURES.toString())
                             .child(FirebaseAuth.getInstance().uid!!)
+
 
                     val contextWrapper = ContextWrapper(applicationContext)
                     val fileDirectory = contextWrapper.getDir(ProfilePicUtil.PHOTO_DIRECTORY, Context.MODE_PRIVATE)
@@ -202,11 +203,14 @@ class LoginActivity : AppCompatActivity(),
                         val savedFilePath = ProfilePicUtil.savePhoto(applicationContext, bitmap)
                         val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext).edit()
                         prefs.putString(PreferenceNames.PROFILE_PICTURE.toString(), savedFilePath).apply()
-                    }
+                        startActivity(Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
+                        finish()
+                    }.addOnFailureListener {
+                        startActivity(Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
+                        finish() }
 
 
-                    startActivity(Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
-                    finish()
+
                 } else {
                     // User does not exist yet. Start RegistrationFragment
                     // TODO: If we need to track user type ( ref / vol ) change this to RegistrationFragment()
@@ -220,6 +224,7 @@ class LoginActivity : AppCompatActivity(),
 
         })
     }
+
 
     private fun checkIfEmailVerified() {
         val user = FirebaseAuth.getInstance().currentUser

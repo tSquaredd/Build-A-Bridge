@@ -4,6 +4,8 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -61,7 +63,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
         // Show feed fragment by default
         feedFragment = FeedFragment()
-        swapFragments(feedFragment)
+        swapFragments(feedFragment, true)
         // show feed fragment selected in nav drawer
         nav_view.menu.getItem(0).isChecked = true
     }
@@ -82,33 +84,33 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             drawer_layout.closeDrawers()
 
             when (it.itemId) {
-                R.id.nav_feed -> swapFragments(feedFragment)
+                R.id.nav_feed -> swapFragments(feedFragment, true)
                 R.id.nav_requests -> {
                     if (requestsFragment == null) requestsFragment = RequestsFragment()
-                    swapFragments(requestsFragment)
+                    swapFragments(requestsFragment, true)
                 }
                 R.id.nav_skills -> {
                     if (skillsFragment == null) skillsFragment = SkillsFragment()
-                    swapFragments(skillsFragment)
+                    swapFragments(skillsFragment, true)
                 }
                 R.id.nav_messages -> {
                     if (messagesFragment == null) messagesFragment = MessagesFragment()
-                    swapFragments(messagesFragment)
+                    swapFragments(messagesFragment, true)
                 }
                 R.id.nav_friends -> {
                     if (friendsFragment == null) friendsFragment = FriendsFragment()
-                    swapFragments(friendsFragment)
+                    swapFragments(friendsFragment, true)
                 }
                 R.id.nav_settings -> {
                     if (settingsFragment == null) settingsFragment = SettingsFragment()
-                    swapFragments(settingsFragment)
+                    swapFragments(settingsFragment, true)
                 }
                 R.id.nav_admin_skills -> {
                     if (adminSkillsFragment == null) adminSkillsFragment = AdminSkillsFragment()
-                    swapFragments(adminSkillsFragment)
+                    swapFragments(adminSkillsFragment, true)
                 }
                 R.id.nav_sign_out -> {
-                   signOut()
+                    signOut()
                 }
             }
 
@@ -127,61 +129,75 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
     }
 
-    fun swapFragments(fragment: Fragment?) {
-        fragment?.let {
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, it)
-                    .addToBackStack(null)
-                    .commit()
-        }
-    }
 
-    fun checkFirebaseCredentials(context: Context){
-        if(FirebaseAuth.getInstance().currentUser == null) {
-            startActivity(Intent(context, LoginActivity::class.java))
-            finish()
-        } else {
-            val userDbRef = FirebaseDatabase.getInstance().reference
-                    .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
-                    .child(FirebaseAuth.getInstance().currentUser?.uid!!)
-            userDbRef.addListenerForSingleValueEvent(object : ValueEventListener{
-                override fun onCancelled(p0: DatabaseError) {
-                    // Do nothing
+    fun swapFragments(fragment: Fragment?, addToBackStack: Boolean) {
+        when (addToBackStack) {
+            true -> {
+                fragment?.let {
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.content_frame, it)
+                            .addToBackStack(null)
+                            .commit()
                 }
+            }
+            false -> {
+                fragment?.let {
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.content_frame, it)
+                            .disallowAddToBackStack()
+                            .commit()
 
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (!dataSnapshot.exists()) {
-                        startActivity(Intent(context, LoginActivity::class.java))
-                        finish()
-                    }
                 }
-
-            })
-            val userData = FirebaseAuth.getInstance().currentUser!!.providerData
-            for (i in 0 until userData.size)
-                if (userData[i].providerId.equals("password"))
-                    checkIfEmailVerified(context)
-        }
-    }
-
-    private fun checkIfEmailVerified(context: Context) {
-        val user = FirebaseAuth.getInstance().currentUser
-        if (user != null) {
-            user.reload()
-            if (!user.isEmailVerified) {
-                startActivity(Intent(context, LoginActivity::class.java))
             }
         }
     }
 
-    private fun signOut(){
-        ProfilePicUtil.removePhoto(applicationContext)
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this).edit()
-        prefs.remove(PreferenceNames.USER.toString())
-        prefs.apply()
-        FirebaseAuth.getInstance().signOut()
-        startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
-        finish()
-    }
+        fun checkFirebaseCredentials(context: Context) {
+            if (FirebaseAuth.getInstance().currentUser == null) {
+                startActivity(Intent(context, LoginActivity::class.java))
+                finish()
+            } else {
+                val userDbRef = FirebaseDatabase.getInstance().reference
+                        .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
+                        .child(FirebaseAuth.getInstance().currentUser?.uid!!)
+                userDbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                        // Do nothing
+                    }
 
-}
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (!dataSnapshot.exists()) {
+                            startActivity(Intent(context, LoginActivity::class.java))
+                            finish()
+                        }
+                    }
+
+                })
+                val userData = FirebaseAuth.getInstance().currentUser!!.providerData
+                for (i in 0 until userData.size)
+                    if (userData[i].providerId.equals("password"))
+                        checkIfEmailVerified(context)
+            }
+        }
+
+        private fun checkIfEmailVerified(context: Context) {
+            val user = FirebaseAuth.getInstance().currentUser
+            if (user != null) {
+                user.reload()
+                if (!user.isEmailVerified) {
+                    startActivity(Intent(context, LoginActivity::class.java))
+                }
+            }
+        }
+
+        private fun signOut() {
+            ProfilePicUtil.removePhoto(applicationContext)
+            val prefs = PreferenceManager.getDefaultSharedPreferences(this).edit()
+            prefs.remove(PreferenceNames.USER.toString())
+            prefs.apply()
+            FirebaseAuth.getInstance().signOut()
+            startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
+            finish()
+        }
+
+    }

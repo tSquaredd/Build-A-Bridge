@@ -8,29 +8,34 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/accept_request_requester_iv"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginEnd="8dp"
+        style="@style/ProfileImageLarge"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:src="@drawable/default_user_pic"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:civ_border_color="#111111"
+        app:civ_border_width="1dp"
+        app:layout_constraintEnd_toStartOf="@+id/requester_name_tv"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
         android:id="@+id/requester_name_tv"
-        android:layout_width="0dp"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/accept_request_requester_iv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/accept_request_requester_iv"
-        tools:text="John" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/accept_request_requester_iv"
+        app:layout_constraintTop_toTopOf="@+id/accept_request_requester_iv"
+        tools:text="Johnny Appleseed" />
 
 
     <TextView
@@ -40,24 +45,25 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:textAlignment="center"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:layout_constraintTop_toBottomOf="@+id/accept_request_requester_iv"
         tools:text="Need help enrolling daughter in school" />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="395dp"
-        android:layout_height="1dp"
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/accept_request_skill_icon"
+        style="@style/SkillIconSmall"
+        android:layout_marginEnd="4dp"
         android:layout_marginTop="8dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/skill_name_tv"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/requester_name_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/request_title_tv" />
 
     <TextView
         android:id="@+id/request_details_tv"
@@ -66,24 +72,38 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        style="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/request_title_tv"
+        app:layout_constraintTop_toBottomOf="@+id/accept_request_skill_icon"
         tools:text="Need help enrolling daughter into local school system. She is 7 years old and I do not know where to go or what to do. Please Help!" />
 
 
     <android.support.design.button.MaterialButton
         android:id="@+id/accept_request_btn"
         style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/help"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/skill_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/offer_help"
+        android:layout_marginStart="4dp"
+        tools:text="General"
+        app:layout_constraintBottom_toBottomOf="@+id/accept_request_skill_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/request_details_tv" />
-
-
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/accept_request_skill_icon"
+        app:layout_constraintTop_toTopOf="@+id/accept_request_skill_icon" />
 
 
 </android.support.constraint.ConstraintLayout>

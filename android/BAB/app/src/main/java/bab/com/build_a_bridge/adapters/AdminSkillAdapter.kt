@@ -17,7 +17,7 @@ class AdminSkillAdapter( context: Context, val mainActivity: MainActivity) :
 
         val fragment = AdminEditSkillsFragment()
         fragment.arguments = bundle
-        mainActivity.swapFragments(fragment)
+        mainActivity.swapFragments(fragment, true)
     }
 
 

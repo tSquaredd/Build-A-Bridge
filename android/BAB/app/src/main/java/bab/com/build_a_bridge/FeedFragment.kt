@@ -37,7 +37,7 @@ class FeedFragment : Fragment() {
         activity?.title = getString(R.string.feed)
         feed_fab.setOnClickListener {
             val mainActivity = activity as MainActivity
-            mainActivity.swapFragments(CreateRequestFragment())
+            mainActivity.swapFragments(CreateRequestFragment(), true)
         }
 
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
