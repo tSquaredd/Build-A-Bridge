@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         setupNavigationListener()
         setNavigationHeader()
 
-
         // Show feed fragment by default
         swapFragments(FeedFragment(), true)
         // show feed fragment selected in nav drawer
