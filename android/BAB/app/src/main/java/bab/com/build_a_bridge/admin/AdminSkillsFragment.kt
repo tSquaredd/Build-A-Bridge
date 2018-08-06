@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -40,7 +41,9 @@ class AdminSkillsFragment : Fragment() {
         // Adapter setup
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,
                 false)
+        val divider = DividerItemDecoration(context, layoutManager.orientation)
         admin_skills_recycler_view.layoutManager = layoutManager
+        admin_skills_recycler_view.addItemDecoration(divider)
         admin_skills_recycler_view.setHasFixedSize(true)
         skillAdapter = AdminSkillAdapter( context!!, activity as MainActivity)
         admin_skills_recycler_view.adapter = skillAdapter

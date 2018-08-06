@@ -2,6 +2,7 @@ package bab.com.build_a_bridge
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -28,17 +29,19 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
     val viewModel by lazy { ViewModelProviders.of(this).get(MainActivityViewModel::class.java) }
 
-    var feedFragment: FeedFragment? = FeedFragment()
-    var requestsFragment: RequestsFragment? = null
-    var skillsFragment: SkillsFragment? = null
-    var messagesFragment: MessagesFragment? = null
-    var friendsFragment: FriendsFragment? = null
-    var settingsFragment: SettingsFragment? = null
-    var adminSkillsFragment: AdminSkillsFragment? = null
+    private var feedFragment: FeedFragment? = FeedFragment()
+    private var requestsFragment: RequestsFragment? = null
+    private var skillsFragment: SkillsFragment? = null
+    private var messagesFragment: MessagesFragment? = null
+    private var friendsFragment: FriendsFragment? = null
+    private var settingsFragment: SettingsFragment? = null
+    private var adminSkillsFragment: AdminSkillsFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        checkFirebaseCredentials(this)
 
         setSupportActionBar(toolbar)
         val actionBar = supportActionBar
@@ -143,6 +146,28 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
                     .replace(R.id.content_frame, it)
                     .addToBackStack(null)
                     .commit()
+        }
+    }
+
+    fun checkFirebaseCredentials(context: Context){
+        if(FirebaseAuth.getInstance().currentUser == null) {
+            startActivity(Intent(context, LoginActivity::class.java))
+            finish()
+        } else {
+            val userData = FirebaseAuth.getInstance().currentUser!!.providerData
+            for (i in 0 until userData.size)
+                if (userData[i].providerId.equals("password"))
+                    checkIfEmailVerified(context)
+        }
+    }
+
+    private fun checkIfEmailVerified(context: Context) {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            user.reload()
+            if (!user.isEmailVerified) {
+                startActivity(Intent(context, LoginActivity::class.java))
+            }
         }
     }
 

@@ -42,7 +42,10 @@ class LoginActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        checkFirebaseCredentials()
+        if(FirebaseAuth.getInstance().currentUser == null)
+            runFirebaseAuthUi()
+        else
+            checkIfEmailVerified()
 
     }
 
@@ -50,7 +53,6 @@ class LoginActivity : AppCompatActivity(),
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
