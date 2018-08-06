@@ -9,8 +9,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/request_details_requester_iv"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+       style="@style/ProfilePictureLarge"
         android:layout_marginEnd="40dp"
         android:layout_marginTop="32dp"
         android:src="@drawable/default_user_pic"
@@ -21,8 +20,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/request_details_volunteer_iv"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        style="@style/ProfilePictureLarge"
         android:layout_marginStart="40dp"
         android:layout_marginTop="32dp"
         android:src="@drawable/default_user_pic"

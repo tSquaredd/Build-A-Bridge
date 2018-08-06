@@ -16,7 +16,7 @@
         <item name="android:layout_height">60dp</item>
     </style>
 
-    <style name="ProfileImageLarge" parent="ProfileImage">
+    <style name="ProfilePictureLarge" parent="ProfileImage">
         <item name="android:layout_width">90dp</item>
         <item name="android:layout_height">90dp</item>
     </style>

@@ -21,6 +21,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     var user: User? = null
     var newRequest: Request? = null
     var requestFeedList: ArrayList<Request> = arrayListOf()
+    var requestForAccept: Request = Request()
     var requestForDetails: Request = Request()
     val skillLiveDataList: FirebaseSkillLiveDataList
     val skillsLiveDataMap: FirebaseSkillLiveDataMap

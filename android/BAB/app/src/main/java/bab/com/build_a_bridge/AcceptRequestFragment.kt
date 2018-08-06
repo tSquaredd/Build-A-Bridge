@@ -36,17 +36,17 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val spanString = SpannableString(viewModel.requestForDetails.details)
+        val spanString = SpannableString(viewModel.requestForAccept.details)
         spanString.setSpan(android.text.style.LeadingMarginSpan.Standard(30,0),0,1,0)
 
-        request_title_tv.text = viewModel.requestForDetails.title
+        request_title_tv.text = viewModel.requestForAccept.title
         request_details_tv.text = spanString
 
 
 
         val requesterImgRef = FirebaseStorage.getInstance().reference
                 .child(FirebaseStorageNames.PROFILE_PICTURES.toString())
-                .child(viewModel.requestForDetails.requesterId!!)
+                .child(viewModel.requestForAccept.requesterId!!)
 
         Glide.with(context)
                 .using(FirebaseImageLoader())
@@ -55,7 +55,7 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
 
         val requesterDbRef = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
-                .child(viewModel.requestForDetails.requesterId!!)
+                .child(viewModel.requestForAccept.requesterId!!)
 
         requesterDbRef.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
@@ -75,7 +75,7 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
 
         val skillDbRef = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.SKILLS.toString())
-                .child(viewModel.requestForDetails.skillId!!)
+                .child(viewModel.requestForAccept.skillId!!)
 
         skillDbRef.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
@@ -88,7 +88,7 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
 
                 val skillIconRef = FirebaseStorage.getInstance().reference
                         .child(FirebaseStorageNames.SKILL_ICONS.toString())
-                        .child(viewModel.requestForDetails.skillId!!)
+                        .child(viewModel.requestForAccept.skillId!!)
 
                 Glide.with(context)
                         .using(FirebaseImageLoader())
@@ -105,8 +105,8 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
     private fun acceptRequest(){
 
         // update request
-        viewModel.requestForDetails.status = RequestStatusCodes.IN_PROGRESS
-        viewModel.requestForDetails.volunteerId = viewModel.user?.userId
+        viewModel.requestForAccept.status = RequestStatusCodes.IN_PROGRESS
+        viewModel.requestForAccept.volunteerId = viewModel.user?.userId
 
 
         // Get reference to requests for the region
@@ -120,15 +120,15 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
         // Get reference to DB for IN_PROGRESS requests
         val inProgDbRef = reqRegionDbRef
                 .child(RequestStatusCodes.IN_PROGRESS.toString())
-                .child(viewModel.requestForDetails.requestId)
+                .child(viewModel.requestForAccept.requestId)
 
         // add request to IN_PROGRESS DB
-        inProgDbRef.setValue(viewModel.requestForDetails)
+        inProgDbRef.setValue(viewModel.requestForAccept)
 
         // Get reference to DB for REQUESTED requests
         val requestedDbRef = reqRegionDbRef
                 .child(RequestStatusCodes.REQUESTED.toString())
-                .child(viewModel.requestForDetails.requestId)
+                .child(viewModel.requestForAccept.requestId)
 
         // remove request
         requestedDbRef.removeValue()
@@ -139,17 +139,17 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
 
         val requesterRequestsDbRef = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.REQUESTS_BY_USER.toString())
-                .child(viewModel.requestForDetails.requesterId!!)
+                .child(viewModel.requestForAccept.requesterId!!)
 
         val requesterInProgDbRef = requesterRequestsDbRef
                 .child(RequestStatusCodes.IN_PROGRESS_REQUESTER.toString())
-                .child(viewModel.requestForDetails.requestId)
+                .child(viewModel.requestForAccept.requestId)
 
-        requesterInProgDbRef.setValue(viewModel.requestForDetails)
+        requesterInProgDbRef.setValue(viewModel.requestForAccept)
 
         val requesterRequestedDbRef = requesterRequestsDbRef
                 .child(RequestStatusCodes.REQUESTED.toString())
-                .child(viewModel.requestForDetails.requestId)
+                .child(viewModel.requestForAccept.requestId)
 
         requesterRequestedDbRef.removeValue()
 
@@ -158,10 +158,11 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
                 .child(FirebaseDbNames.REQUESTS_BY_USER.toString())
                 .child(viewModel.user?.userId!!)
                 .child(RequestStatusCodes.IN_PROGRESS_VOLUNTEER.toString())
-                .child(viewModel.requestForDetails.requestId)
+                .child(viewModel.requestForAccept.requestId)
 
-        volunteerInProgDbRef.setValue(viewModel.requestForDetails)
+        volunteerInProgDbRef.setValue(viewModel.requestForAccept)
 
+        viewModel.requestForDetails = viewModel.requestForAccept
         val mainActivity = activity as MainActivity
         mainActivity.swapFragments(RequestDetailsFragment(), false)
 

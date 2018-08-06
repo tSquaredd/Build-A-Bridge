@@ -72,7 +72,7 @@ class RequestAdapter(val requestList: ArrayList<Request>, val context: Context, 
 
         init {
             itemView.setOnClickListener {
-                activity.viewModel.requestForDetails = requestList[adapterPosition]
+                activity.viewModel.requestForAccept = requestList[adapterPosition]
                 activity.swapFragments(AcceptRequestFragment(), true)
             }
         }
