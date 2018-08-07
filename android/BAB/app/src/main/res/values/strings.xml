@@ -18,6 +18,7 @@
     <string name="email_not_verified_toast">Address has not been verified. Try again in a moment or re-verify</string>
     <string name="empty_admin_skills_list">No skills have been added yet.\n\nAdd one with the \'+\' button</string>
     <string name="empty_request_feed">No requests found in your area. Check back later</string>
+    <string name="empty_skills_fragment_list">No skills exist within the system. Check back soon</string>
     <string name="feed">Feed</string>
     <string name="first_name">First Name</string>
     <string name="friends">Friends</string>

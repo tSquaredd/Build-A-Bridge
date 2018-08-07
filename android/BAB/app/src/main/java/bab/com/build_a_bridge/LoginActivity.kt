@@ -39,7 +39,6 @@ class LoginActivity : AppCompatActivity(),
         RegistrationFragment.UserTypeChoice,
         AnkoLogger {
 
-
     val RC_SIGN_IN = 123
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -136,6 +135,7 @@ class LoginActivity : AppCompatActivity(),
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
                         .setLogo(R.drawable.bab_logo)
+                        .setTheme(R.style.BabBackground)
                         .build(),
                 RC_SIGN_IN)
     }

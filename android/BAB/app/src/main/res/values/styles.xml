@@ -34,4 +34,8 @@
         <item name="android:layout_width">45dp</item>
         <item name="android:layout_height">45dp</item>
     </style>
+
+    <style name="BabBackground">
+        <item name="android:windowBackground">@drawable/bab_background</item>
+    </style>
 </resources>

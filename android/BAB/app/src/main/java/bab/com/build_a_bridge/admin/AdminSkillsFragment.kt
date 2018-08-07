@@ -55,6 +55,8 @@ class AdminSkillsFragment : Fragment() {
             activity.swapFragments(AdminEditSkillsFragment(), true)
         }
 
+
+
         viewModel.skillLiveDataList.observe(this, object : Observer<List<Skill>>{
             override fun onChanged(skillList: List<Skill>?) {
                 skillList?.let {
@@ -69,5 +71,6 @@ class AdminSkillsFragment : Fragment() {
 
         })
     }
+
 
 }
