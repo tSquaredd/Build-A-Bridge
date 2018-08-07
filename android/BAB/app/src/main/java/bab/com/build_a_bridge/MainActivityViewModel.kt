@@ -6,7 +6,6 @@ import android.preference.PreferenceManager
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.PreferenceNames
 import bab.com.build_a_bridge.objects.Request
-import bab.com.build_a_bridge.objects.Skill
 import bab.com.build_a_bridge.objects.User
 import bab.com.build_a_bridge.utils.FirebaseSkillLiveDataList
 import bab.com.build_a_bridge.utils.FirebaseSkillLiveDataMap
@@ -16,13 +15,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 
 /**
  * Holds all data for UI
  */
-class MainActivityViewModel(application: Application) : AndroidViewModel(application), AnkoLogger {
+class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
     var user: User? = null
     var newRequest: Request? = null
     var feedFragmentList: ArrayList<Request> = arrayListOf()
@@ -56,8 +53,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                 val children = dataSnapshot.children
                 for(child in children){
                     userSkillsList.add(child.key.toString())
-                    info { child.key.toString() }
-                    // TODO
+
                 }
 
             }

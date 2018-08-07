@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_skills.*
  */
 class SkillsFragment : Fragment() {
 
-    val viewModel by lazy { ViewModelProviders.of(this).get(MainActivityViewModel::class.java) }
+    val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
     lateinit var skillToggleAdapter: SkillToggleAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +52,4 @@ class SkillsFragment : Fragment() {
         })
 
     }
-
-
 }

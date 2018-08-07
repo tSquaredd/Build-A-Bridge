@@ -19,8 +19,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.skill_toggle_item.view.*
 
+
 class SkillToggleAdapter(private val userSkills: ArrayList<String>):
-        RecyclerView.Adapter<SkillToggleAdapter.SkillTogglerHolder>() {
+        RecyclerView.Adapter<SkillToggleAdapter.SkillTogglerHolder>(){
 
     var skillList: List<Skill> = listOf()
     lateinit var context: Context
@@ -37,6 +38,7 @@ class SkillToggleAdapter(private val userSkills: ArrayList<String>):
     }
 
     override fun onBindViewHolder(holder: SkillTogglerHolder, position: Int) {
+
         holder.skillNameTextView.text = skillList[position].name
         holder.skillDescriptionTextView.text = skillList[position].description
 
