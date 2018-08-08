@@ -57,18 +57,15 @@ class AdminSkillsFragment : Fragment() {
 
 
 
-        viewModel.skillLiveDataList.observe(this, object : Observer<List<Skill>>{
-            override fun onChanged(skillList: List<Skill>?) {
-                skillList?.let {
-                    if (it.isEmpty())  empty_admin_skills_list_text_view.visibility = View.VISIBLE
-                    else {
-                        skillAdapter.setSkills(skillList.sortedBy { it.name.toUpperCase()})
-                        empty_admin_skills_list_text_view.visibility = View.GONE
-                    }
-
+        viewModel.skillLiveDataList.observe(this, Observer {
+            it?.let {
+                if (it.isEmpty())  empty_admin_skills_list_text_view.visibility = View.VISIBLE
+                else {
+                    skillAdapter.setSkills(it)
+                    empty_admin_skills_list_text_view.visibility = View.GONE
                 }
-            }
 
+            }
         })
     }
 

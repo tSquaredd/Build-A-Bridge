@@ -17,8 +17,11 @@
     <string name="email_verification">A verification email has been sent to your address. It is required that you verify the address provided before continuing\n\n\n\n\nNot receiving the email?\n\nClick the button below to resend</string>
     <string name="email_not_verified_toast">Address has not been verified. Try again in a moment or re-verify</string>
     <string name="empty_admin_skills_list">No skills have been added yet.\n\nAdd one with the \'+\' button</string>
+    <string name="empty_conversations_list">No messages found</string>
     <string name="empty_request_feed">No requests found in your area. Check back later</string>
     <string name="empty_skills_fragment_list">No skills exist within the system. Check back soon</string>
+    <string name="enter_message">Enter message</string>
+    <string name="failed_creating_conversation">Could not create new conversation. Try again</string>
     <string name="feed">Feed</string>
     <string name="first_name">First Name</string>
     <string name="friends">Friends</string>
@@ -52,6 +55,7 @@
     <string name="select_region">Select Region</string>
     <string name="select_state">Select State</string>
     <string name="select_skill">Select a Skill</string>
+    <string name="send">Send</string>
     <string name="send_email">Send Email</string>
     <string name="settings">Settings</string>
     <string name="sign_out">Sign Out</string>
@@ -138,5 +142,8 @@
         <item>Syracuse</item>
         <item>Yonkers</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

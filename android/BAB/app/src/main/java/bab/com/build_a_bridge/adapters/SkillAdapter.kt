@@ -48,7 +48,9 @@ abstract class SkillAdapter( val context: Context) :
     }
 
     fun setSkills(skillList: List<Skill>){
-        this.skillList = skillList
+        this.skillList = skillList.sortedBy {
+            it.name.toUpperCase()
+        }
         notifyDataSetChanged()
     }
 

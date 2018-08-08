@@ -39,6 +39,5 @@ class FirebaseSkillLiveDataList(val databaseReference: DatabaseReference) : Live
 
             value = skillList
         }
-
     }
 }

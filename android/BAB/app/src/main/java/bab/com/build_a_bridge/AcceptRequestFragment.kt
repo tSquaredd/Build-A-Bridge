@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_accept_request.*
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.toast
 
 class AcceptRequestFragment : Fragment(), AnkoLogger {
 
@@ -37,11 +38,10 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val spanString = SpannableString(viewModel.requestForAccept.details)
-        spanString.setSpan(android.text.style.LeadingMarginSpan.Standard(30,0),0,1,0)
+        spanString.setSpan(android.text.style.LeadingMarginSpan.Standard(30, 0), 0, 1, 0)
 
         request_title_tv.text = viewModel.requestForAccept.title
         request_details_tv.text = spanString
-
 
 
         val requesterImgRef = FirebaseStorage.getInstance().reference
@@ -53,31 +53,41 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
                 .load(requesterImgRef)
                 .into(accept_request_requester_iv)
 
-        val requesterDbRef = FirebaseDatabase.getInstance().reference
-                .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
-                .child(viewModel.requestForAccept.requesterId!!)
+        if (viewModel.requestForAccept.requesterId == viewModel.user.userId) {
+            // This is the user viewing their request which has no volunteer.
+            val user = viewModel.user
+            updateUi(user)
+            accept_request_btn.text = getString(R.string.cancel)
 
-        requesterDbRef.addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
-                // Do nothing
-            }
+        } else {
+            val requesterDbRef = FirebaseDatabase.getInstance().reference
+                    .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
+                    .child(viewModel.requestForAccept.requesterId!!)
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val user = dataSnapshot.getValue(User::class.java)
-                val displayName = "${user?.firstName} ${user?.lastName}"
-                requester_name_tv.text = displayName
+            requesterDbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    // Do nothing
+                }
 
-                val buttonText = "${getString(R.string.help)} ${user?.firstName}"
-                accept_request_btn.text = buttonText
-            }
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val user = dataSnapshot.getValue(User::class.java)
+                    user?.let { updateUi(it) }
 
-        })
+                    val buttonText = "${getString(R.string.help)} ${user?.firstName}"
+                    accept_request_btn.text = buttonText
+                }
+
+            })
+        }
+
+
+
 
         val skillDbRef = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.SKILLS.toString())
                 .child(viewModel.requestForAccept.skillId!!)
 
-        skillDbRef.addListenerForSingleValueEvent(object: ValueEventListener{
+        skillDbRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 // Do nothing
             }
@@ -99,10 +109,13 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
         })
 
 
-        accept_request_btn.setOnClickListener { acceptRequest() }
+        accept_request_btn.setOnClickListener {
+            if (viewModel.requestForAccept.requesterId == viewModel.user.userId) cancelRequest()
+            else acceptRequest()
+        }
     }
 
-    private fun acceptRequest(){
+    private fun acceptRequest() {
 
         // update request
         viewModel.requestForAccept.status = RequestStatusCodes.IN_PROGRESS
@@ -166,6 +179,15 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
         val mainActivity = activity as MainActivity
         mainActivity.swapFragments(RequestDetailsFragment(), false)
 
+    }
+
+    private fun cancelRequest() {
+        activity?.toast("COMING SOON :)")
+    }
+
+    fun updateUi(user: User) {
+        val displayName = "${user?.firstName} ${user?.lastName}"
+        requester_name_tv.text = displayName
     }
 
 }

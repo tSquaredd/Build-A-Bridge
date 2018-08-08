@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
+import bab.com.build_a_bridge.objects.Conversation
 import bab.com.build_a_bridge.objects.User
 import com.bumptech.glide.Glide
 
@@ -20,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_request_details.*
+import org.jetbrains.anko.toast
 
 
 class RequestDetailsFragment : Fragment() {
@@ -61,7 +63,7 @@ class RequestDetailsFragment : Fragment() {
                 .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
                 .child(viewModel.requestForDetails.requesterId!!)
 
-        requesterUserDbRef.addListenerForSingleValueEvent(object : ValueEventListener{
+        requesterUserDbRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 // Do nothing
             }
@@ -78,7 +80,7 @@ class RequestDetailsFragment : Fragment() {
                 .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
                 .child(viewModel.requestForDetails.volunteerId!!)
 
-        volunteerUserDbRef.addListenerForSingleValueEvent(object : ValueEventListener{
+        volunteerUserDbRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 // Do nothing
             }
@@ -94,7 +96,64 @@ class RequestDetailsFragment : Fragment() {
         request_title_tv.text = viewModel.requestForDetails.title
         request_details_tv.text = viewModel.requestForDetails.details
 
+
+        request_details_msg_btn.setOnClickListener {
+            val isRequester = (requester?.userId == viewModel.user.userId)
+            val targetForMessage = if (isRequester) volunteer else requester
+            targetForMessage?.let {
+                viewModel.userToMessage = it
+
+                // Check if conversation already exists
+                val msgByUserDbRef = FirebaseDatabase.getInstance().reference
+                        .child(FirebaseDbNames.MESSAGES_BY_USER.toString())
+                        .child(viewModel.user.userId)
+                        .child(it.userId)
+
+                msgByUserDbRef.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                        // Do nothing
+                    }
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            val msgId: String? = dataSnapshot.getValue(String::class.java)
+                            msgId?.let {
+                                viewModel.messageId = it
+                                (activity as MainActivity).swapFragments(MessagingFragment(), true)
+                            }
+                        } else {
+                            // no message ID so this is new message
+                            val msgId = msgByUserDbRef.push().key
+
+                            // puts msgId into this users MESSAGE_BY_USER_DB
+                            msgByUserDbRef.setValue(msgId)
+
+                            // now set on other users
+                            FirebaseDatabase.getInstance().reference
+                                    .child(FirebaseDbNames.MESSAGES_BY_USER.toString())
+                                    .child(it.userId)
+                                    .child(viewModel.user.userId)
+                                    .setValue(msgId)
+
+                            // now create a conversation and push that to MESSAGES
+                            val newConversation = Conversation(uid1 = viewModel.user.userId,
+                                    uid2 = it.userId, msgId = msgId!!)
+
+                            FirebaseDatabase.getInstance().reference
+                                    .child(FirebaseDbNames.MESSAGES.toString())
+                                    .child(msgId!!)
+                                    .setValue(newConversation)
+                                    .addOnCompleteListener {
+                                        (activity as MainActivity).swapFragments(MessagingFragment(), true)
+                                    }
+                                    .addOnFailureListener {
+                                        activity?.toast(getString(R.string.failed_creating_conversation))
+                                    }
+                        }
+                    }
+
+                })
+            }
+        }
     }
-
-
 }

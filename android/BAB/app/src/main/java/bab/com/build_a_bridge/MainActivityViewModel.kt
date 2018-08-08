@@ -7,20 +7,18 @@ import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.PreferenceNames
 import bab.com.build_a_bridge.objects.Request
 import bab.com.build_a_bridge.objects.User
+import bab.com.build_a_bridge.utils.FirebaseConverstaionsLiveDataList
 import bab.com.build_a_bridge.utils.FirebaseSkillLiveDataList
 import bab.com.build_a_bridge.utils.FirebaseSkillLiveDataMap
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.gson.Gson
 
 /**
  * Holds all data for UI
  */
 class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
-    var user: User? = null
+    var user: User = User()
     var newRequest: Request? = null
     var feedFragmentList: ArrayList<Request> = arrayListOf()
     var requestsFragmentList: ArrayList<Request> = arrayListOf()
@@ -28,22 +26,33 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     var requestForDetails: Request = Request()
     val skillLiveDataList: FirebaseSkillLiveDataList
     val skillsLiveDataMap: FirebaseSkillLiveDataMap
+    val conversationsLiveData: FirebaseConverstaionsLiveDataList
     var userSkillsList: ArrayList<String> = arrayListOf()
+    val userSkillListener: ValueEventListener
+    val userSkillDbRef: DatabaseReference
+    var userToMessage: User = User()
+    var messageId: String = ""
 
     init {
         val prefs = PreferenceManager.getDefaultSharedPreferences(getApplication())
         val json = prefs.getString(PreferenceNames.USER.toString(), "")
         user = Gson().fromJson(json, User::class.java)
+
+        // Set live data
         val skillDbRef = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.SKILLS.toString())
+
+        // TODO see if possible to move skillDbRef into these classes
         skillLiveDataList = FirebaseSkillLiveDataList(skillDbRef)
         skillsLiveDataMap = FirebaseSkillLiveDataMap(skillDbRef)
 
-        val userSkillDbRef = FirebaseDatabase.getInstance().reference
+        conversationsLiveData = FirebaseConverstaionsLiveDataList()
+
+        userSkillDbRef = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.SKILLS_BY_USER.toString())
                 .child(FirebaseAuth.getInstance().uid!!)
 
-        userSkillDbRef.addValueEventListener(object: ValueEventListener{
+        userSkillListener = userSkillDbRef.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
                 //Do nothing
             }
@@ -55,11 +64,14 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                     userSkillsList.add(child.key.toString())
 
                 }
-
             }
-
         })
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        userSkillDbRef.removeEventListener(userSkillListener)
+}
 
     /**
      * Instantiates a request object in newRequest
@@ -71,4 +83,5 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         }
 
     }
+
 }

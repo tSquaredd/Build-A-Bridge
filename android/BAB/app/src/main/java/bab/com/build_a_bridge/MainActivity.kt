@@ -1,36 +1,27 @@
 package bab.com.build_a_bridge
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.view.MenuItem
-import bab.com.build_a_bridge.admin.AdminEditSkillsFragment
 import bab.com.build_a_bridge.admin.AdminSkillsFragment
 import bab.com.build_a_bridge.enums.FirebaseDbNames
-import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.enums.PreferenceNames
-import bab.com.build_a_bridge.objects.Skill
 import bab.com.build_a_bridge.utils.ProfilePicUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.nav_header.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 
 class MainActivity : AppCompatActivity(), AnkoLogger {
 
@@ -77,7 +68,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
                 R.id.nav_feed -> swapFragments(FeedFragment(), true)
                 R.id.nav_requests -> swapFragments(RequestsFragment(), true)
                 R.id.nav_skills -> swapFragments(SkillsFragment(), true)
-                R.id.nav_messages -> swapFragments(MessagesFragment(), true)
+                R.id.nav_messages -> swapFragments(ConversationsFragment(), true)
                 R.id.nav_friends -> swapFragments(FriendsFragment(), true)
                 R.id.nav_settings -> swapFragments(SettingsFragment(), true)
                 R.id.nav_admin_skills -> swapFragments(AdminSkillsFragment(), true)
