@@ -17,21 +17,30 @@ import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.message_received_item.view.*
 import kotlinx.android.synthetic.main.message_sent_item.view.*
 
+/**
+ * Adapter used to view a Conversation's Message's.
+ *
+ * Determines if a message is of type sent or receieved and inflates and binds the
+ * view appropriately.
+ */
+class MessageListAdapter(val context: Context, val thisUser: User, val otherUser: User) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-class MessageListAdapter(val context: Context, val thisUser: User, val otherUser: User) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+    // values for determining view type
+    companion object {
+        const val VIEW_TYPE_SENT = 1
+        const val VIEW_TYPE_RECEIVED = 2
+    }
 
-    val VIEW_TYPE_SENT = 1
-    val VIEW_TYPE_RECEIVED = 2
     private var messageList = listOf<Message>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View
-        if (viewType == VIEW_TYPE_SENT) {
+        return if (viewType == VIEW_TYPE_SENT) {
             view = LayoutInflater.from(parent.context).inflate(R.layout.message_sent_item, parent, false)
-            return SentMessageHolder(view)
+            SentMessageHolder(view)
         } else {
             view = LayoutInflater.from(parent.context).inflate(R.layout.message_received_item, parent, false)
-            return ReceivedMessageHolder(view)
+            ReceivedMessageHolder(view)
         }
     }
 
@@ -42,10 +51,9 @@ class MessageListAdapter(val context: Context, val thisUser: User, val otherUser
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == VIEW_TYPE_SENT) {
             (holder as SentMessageHolder).bind(messageList[position])
-        }
-        else
+        } else {
             (holder as ReceivedMessageHolder).bind(messageList[position])
-
+        }
 
     }
 
@@ -55,10 +63,10 @@ class MessageListAdapter(val context: Context, val thisUser: User, val otherUser
 
 
     inner class ReceivedMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val profileImage: CircleImageView = itemView.message_sender_civ
-        val name: TextView = itemView.message_sender_name_tv
-        val messageBody: TextView = itemView.message_body_tv
-        val messageTimestamp: TextView = itemView.message_timestamp_tv
+        private val profileImage: CircleImageView = itemView.message_sender_civ
+        private val name: TextView = itemView.message_sender_name_tv
+        private val messageBody: TextView = itemView.message_body_tv
+        private val messageTimestamp: TextView = itemView.message_timestamp_tv
 
         fun bind(message: Message) {
             name.text = otherUser.firstName
@@ -78,16 +86,16 @@ class MessageListAdapter(val context: Context, val thisUser: User, val otherUser
     }
 
     inner class SentMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val messabeBody = itemView.sent_message_body_tv
-        val messageTimestamp: TextView = itemView.sent_message_timestamp_tv
+        private val messageBody = itemView.sent_message_body_tv
+        private val messageTimestamp: TextView = itemView.sent_message_timestamp_tv
 
         fun bind(message: Message) {
-            messabeBody.text = message.content
+            messageBody.text = message.content
             messageTimestamp.text = message.timeStamp.getTimeDisplay()
         }
     }
 
-    fun setMessages(messageList: List<Message>){
+    fun setMessages(messageList: List<Message>) {
         this.messageList = messageList
         notifyDataSetChanged()
     }

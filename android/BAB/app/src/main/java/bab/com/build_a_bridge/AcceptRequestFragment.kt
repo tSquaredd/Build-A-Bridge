@@ -14,6 +14,7 @@ import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.enums.RequestStatusCodes
 import bab.com.build_a_bridge.objects.Skill
 import bab.com.build_a_bridge.objects.User
+import bab.com.build_a_bridge.utils.ProfilePicUtil
 import com.bumptech.glide.Glide
 import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.database.DataSnapshot
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_accept_request.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.toast
 
-class AcceptRequestFragment : Fragment(), AnkoLogger {
+class AcceptRequestFragment : Fragment() {
 
     val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
 
@@ -37,21 +38,13 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // indent first paragraph of Request details
         val spanString = SpannableString(viewModel.requestForAccept.details)
         spanString.setSpan(android.text.style.LeadingMarginSpan.Standard(30, 0), 0, 1, 0)
 
         request_title_tv.text = viewModel.requestForAccept.title
         request_details_tv.text = spanString
-
-
-        val requesterImgRef = FirebaseStorage.getInstance().reference
-                .child(FirebaseStorageNames.PROFILE_PICTURES.toString())
-                .child(viewModel.requestForAccept.requesterId!!)
-
-        Glide.with(context)
-                .using(FirebaseImageLoader())
-                .load(requesterImgRef)
-                .into(accept_request_requester_iv)
 
         if (viewModel.requestForAccept.requesterId == viewModel.user.userId) {
             // This is the user viewing their request which has no volunteer.
@@ -59,7 +52,23 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
             updateUi(user)
             accept_request_btn.text = getString(R.string.cancel)
 
+            // load profile picture from internal storage
+            val picBitmap = ProfilePicUtil.loadPhotoFromInternalStorage(context!!)
+            accept_request_requester_iv.setImageBitmap(picBitmap)
+
         } else {
+            // This is the user viewing the Request of another User
+
+            // Get profile image of requester
+            val requesterImgRef = FirebaseStorage.getInstance().reference
+                    .child(FirebaseStorageNames.PROFILE_PICTURES.toString())
+                    .child(viewModel.requestForAccept.requesterId!!)
+
+            Glide.with(context)
+                    .using(FirebaseImageLoader())
+                    .load(requesterImgRef)
+                    .into(accept_request_requester_iv)
+
             val requesterDbRef = FirebaseDatabase.getInstance().reference
                     .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
                     .child(viewModel.requestForAccept.requesterId!!)
@@ -76,12 +85,8 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
                     val buttonText = "${getString(R.string.help)} ${user?.firstName}"
                     accept_request_btn.text = buttonText
                 }
-
             })
         }
-
-
-
 
         val skillDbRef = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.SKILLS.toString())
@@ -108,19 +113,28 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
 
         })
 
-
         accept_request_btn.setOnClickListener {
+            // if user is viewing own request enable cancelling, otherwise enable accepting.
             if (viewModel.requestForAccept.requesterId == viewModel.user.userId) cancelRequest()
             else acceptRequest()
         }
     }
 
+    /**
+     * User accepts the request and updates database accordingly.
+     *
+     * Request is removed from that regions REQUESTED status code section and
+     * moved into that regions IN_PROGRESS.
+     *
+     * Within the REQUESTS_BY_USER section of the DB, the Request is removed from the requesters
+     * REQUESTED section and added to the requester and volunteer in IN_PROGRESS_REQUESTER
+     * and IN_PROGRESS_VOLUNTEER respectively.
+     */
     private fun acceptRequest() {
 
         // update request
         viewModel.requestForAccept.status = RequestStatusCodes.IN_PROGRESS
         viewModel.requestForAccept.volunteerId = viewModel.user?.userId
-
 
         // Get reference to requests for the region
         val reqRegionDbRef = FirebaseDatabase.getInstance().reference
@@ -146,35 +160,38 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
         // remove request
         requestedDbRef.removeValue()
 
-
-        // update request in REQUESTS_BY_USER
-
-
+        // Get DB ref for requesters REQUESTS_BY_USER section
         val requesterRequestsDbRef = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.REQUESTS_BY_USER.toString())
                 .child(viewModel.requestForAccept.requesterId!!)
 
+        // DB ref for requesters IN_PROGRESS_REQUESTER section
         val requesterInProgDbRef = requesterRequestsDbRef
                 .child(RequestStatusCodes.IN_PROGRESS_REQUESTER.toString())
                 .child(viewModel.requestForAccept.requestId)
 
+        // set request to this section of DB
         requesterInProgDbRef.setValue(viewModel.requestForAccept)
 
+        // DB ref to requesters REQUESTED section
         val requesterRequestedDbRef = requesterRequestsDbRef
                 .child(RequestStatusCodes.REQUESTED.toString())
                 .child(viewModel.requestForAccept.requestId)
 
+        // remove the request
         requesterRequestedDbRef.removeValue()
 
-
+        // DB ref to volunteers IN_PROGRESS_VOLUNTEER section
         val volunteerInProgDbRef = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.REQUESTS_BY_USER.toString())
                 .child(viewModel.user?.userId!!)
                 .child(RequestStatusCodes.IN_PROGRESS_VOLUNTEER.toString())
                 .child(viewModel.requestForAccept.requestId)
 
+        // add the request
         volunteerInProgDbRef.setValue(viewModel.requestForAccept)
 
+        // Set Request object in view model for use in RequestDetailsFragment
         viewModel.requestForDetails = viewModel.requestForAccept
         val mainActivity = activity as MainActivity
         mainActivity.swapFragments(RequestDetailsFragment(), false)
@@ -186,8 +203,7 @@ class AcceptRequestFragment : Fragment(), AnkoLogger {
     }
 
     fun updateUi(user: User) {
-        val displayName = "${user?.firstName} ${user?.lastName}"
+        val displayName = "${user.firstName} ${user.lastName}"
         requester_name_tv.text = displayName
     }
-
 }

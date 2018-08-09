@@ -41,15 +41,14 @@ class SkillsFragment : Fragment() {
         skills_recycler_view.adapter = skillToggleAdapter
 
         viewModel.skillLiveDataList.observe(this, Observer {
-            it?.let {
-                if(it.isEmpty()) skills_empty_list_tv.visibility = View.VISIBLE
+            it?.let {skillList ->
+                if(skillList.isEmpty()) skills_empty_list_tv.visibility = View.VISIBLE
                 else {
                     skills_empty_list_tv.visibility = View.GONE
-                    skillToggleAdapter.setSkills(it.sortedBy {
-                        it.name.toUpperCase() })
+                    skillToggleAdapter.setSkills(skillList.sortedBy {skill ->
+                        skill.name.toUpperCase() })
                 }
             }
         })
-
     }
 }

@@ -19,28 +19,31 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.skill_toggle_item.view.*
 
-
-class SkillToggleAdapter(private val userSkills: ArrayList<String>):
-        RecyclerView.Adapter<SkillToggleAdapter.SkillTogglerHolder>(){
+/**
+ * Adapter for Skill objects with a toggleSwitch for enabling or disabling a certain Skill
+ * from a User skill set within the DB
+ */
+class SkillToggleAdapter(private val userSkills: ArrayList<String>) :
+        RecyclerView.Adapter<SkillToggleAdapter.SkillToggleHolder>() {
 
     var skillList: List<Skill> = listOf()
     lateinit var context: Context
 
-    override fun onCreateViewHolder(parent: ViewGroup, p1: Int): SkillTogglerHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, p1: Int): SkillToggleHolder {
         context = parent.context
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.skill_toggle_item, parent, false)
-        return SkillTogglerHolder(view)
+        return SkillToggleHolder(view)
     }
 
     override fun getItemCount(): Int {
         return skillList.size
     }
 
-    override fun onBindViewHolder(holder: SkillTogglerHolder, position: Int) {
+    override fun onBindViewHolder(holder: SkillToggleHolder, position: Int) {
 
-        holder.skillNameTextView.text = skillList[position].name
-        holder.skillDescriptionTextView.text = skillList[position].description
+        holder.nameTextView.text = skillList[position].name
+        holder.descriptionTextView.text = skillList[position].description
 
         val skillIconStorageRef = FirebaseStorage.getInstance().reference
                 .child(FirebaseStorageNames.SKILL_ICONS.toString())
@@ -49,18 +52,17 @@ class SkillToggleAdapter(private val userSkills: ArrayList<String>):
         Glide.with(context)
                 .using(FirebaseImageLoader())
                 .load(skillIconStorageRef)
-                .into(holder.skillIcon)
+                .into(holder.iconImageView)
 
-        holder.toggle.isChecked = userSkills.contains(skillList[position].id)
+        holder.toggleSwitch.isChecked = userSkills.contains(skillList[position].id)
 
-        holder.toggle.setOnCheckedChangeListener { _, isChecked ->
+        holder.toggleSwitch.setOnCheckedChangeListener { _, isChecked ->
             val skillDbRef = FirebaseDatabase.getInstance().reference
                     .child(FirebaseDbNames.SKILLS_BY_USER.toString())
                     .child(FirebaseAuth.getInstance().uid!!)
                     .child(skillList[position].id)
 
-            when{
-
+            when {
                 isChecked -> {
                     // User just stated they have skill
                     skillDbRef.setValue(true)
@@ -73,15 +75,14 @@ class SkillToggleAdapter(private val userSkills: ArrayList<String>):
         }
     }
 
-    inner class SkillTogglerHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val skillNameTextView: TextView = itemView.skill_name
-        val skillDescriptionTextView: TextView = itemView.skill_description
-        val skillIcon: AppCompatImageView = itemView.skill_icon
-        val toggle: Switch = itemView.skill_switch
-
+    inner class SkillToggleHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val nameTextView: TextView = itemView.skill_name
+        val descriptionTextView: TextView = itemView.skill_description
+        val iconImageView: AppCompatImageView = itemView.skill_icon
+        val toggleSwitch: Switch = itemView.skill_switch
     }
 
-    fun setSkills(skillList: List<Skill>){
+    fun setSkills(skillList: List<Skill>) {
         this.skillList = skillList
         notifyDataSetChanged()
     }

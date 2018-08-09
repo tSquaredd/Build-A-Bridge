@@ -45,7 +45,7 @@ class AdminSkillsFragment : Fragment() {
         admin_skills_recycler_view.layoutManager = layoutManager
         admin_skills_recycler_view.addItemDecoration(divider)
         admin_skills_recycler_view.setHasFixedSize(true)
-        skillAdapter = AdminSkillAdapter( context!!, activity as MainActivity)
+        skillAdapter = AdminSkillAdapter(context!!, activity as MainActivity)
         admin_skills_recycler_view.adapter = skillAdapter
 
 
@@ -58,10 +58,11 @@ class AdminSkillsFragment : Fragment() {
 
 
         viewModel.skillLiveDataList.observe(this, Observer {
-            it?.let {
-                if (it.isEmpty())  empty_admin_skills_list_text_view.visibility = View.VISIBLE
-                else {
-                    skillAdapter.setSkills(it)
+            it?.let { skillList ->
+                if (skillList.isEmpty()) {
+                    empty_admin_skills_list_text_view.visibility = View.VISIBLE
+                } else {
+                    skillAdapter.setSkills(skillList)
                     empty_admin_skills_list_text_view.visibility = View.GONE
                 }
 

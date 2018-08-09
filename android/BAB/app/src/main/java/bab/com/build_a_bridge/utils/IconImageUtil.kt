@@ -11,6 +11,11 @@ import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 
+/**
+ * Util for saving / loading / removing images for Skill icons from internal storage.
+ *
+ * TODO: this is not being used. If we decide to save skill icons internally this would be useful
+ */
 class IconImageUtil {
     companion object {
         const val PHOTO_DIRECTORY = "build_a_bridge_skill_icons"

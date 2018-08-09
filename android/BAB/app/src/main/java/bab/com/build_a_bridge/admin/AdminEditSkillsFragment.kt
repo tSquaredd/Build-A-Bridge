@@ -32,11 +32,13 @@ import java.io.IOException
  */
 class AdminEditSkillsFragment : Fragment() {
 
-    private val IMG_RESULT_CODE = 78
-    lateinit var skill: Skill
-    var editingSkill = false
-    var filePath: Uri? = null
+    companion object {
+        private const val IMG_RESULT_CODE = 78
+    }
 
+    lateinit var skill: Skill
+    private var editingSkill = false
+    var filePath: Uri? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

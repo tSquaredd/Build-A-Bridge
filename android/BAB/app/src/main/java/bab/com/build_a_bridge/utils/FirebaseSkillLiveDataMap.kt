@@ -1,11 +1,9 @@
 package bab.com.build_a_bridge.utils
 
 import android.arch.lifecycle.LiveData
+import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.objects.Skill
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
@@ -14,9 +12,11 @@ import org.jetbrains.anko.info
  * Extension of live data class to observe changes to skills in DB and put those skills
  * into a map
  */
-class FirebaseSkillLiveDataMap(val databaseReference: DatabaseReference) : LiveData<MutableMap<String, Skill>>(), AnkoLogger {
+class FirebaseSkillLiveDataMap : LiveData<MutableMap<String, Skill>>(), AnkoLogger {
 
     private val listener: SkillValueEventListener
+    private val databaseReference = FirebaseDatabase.getInstance().reference
+            .child(FirebaseDbNames.SKILLS.toString())
 
     init {
         listener = SkillValueEventListener()
@@ -44,11 +44,7 @@ class FirebaseSkillLiveDataMap(val databaseReference: DatabaseReference) : LiveD
                 val skill = skillChild.getValue(Skill::class.java)
                 skill?.let { skillMap.put(it.id, it) }
             }
-
             value = skillMap
-
-
         }
-
     }
 }

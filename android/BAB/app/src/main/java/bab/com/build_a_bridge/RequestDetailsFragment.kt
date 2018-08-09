@@ -23,7 +23,10 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_request_details.*
 import org.jetbrains.anko.toast
 
-
+/**
+ * Shows the two Users that are part of the request and allows actions such as messaging and
+ * canceling of the request.
+ */
 class RequestDetailsFragment : Fragment() {
     val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
     var requester: User? = null
@@ -89,25 +92,23 @@ class RequestDetailsFragment : Fragment() {
                 volunteer = dataSnapshot.getValue(User::class.java)
                 volunteer_name_tv.text = volunteer?.firstName
             }
-
         })
-
 
         request_title_tv.text = viewModel.requestForDetails.title
         request_details_tv.text = viewModel.requestForDetails.details
 
 
-        request_details_msg_btn.setOnClickListener {
+        request_details_msg_btn.setOnClickListener { _ ->
             val isRequester = (requester?.userId == viewModel.user.userId)
             val targetForMessage = if (isRequester) volunteer else requester
-            targetForMessage?.let {
-                viewModel.userToMessage = it
+            targetForMessage?.let { targetUser ->
+                viewModel.userToMessage = targetUser
 
                 // Check if conversation already exists
                 val msgByUserDbRef = FirebaseDatabase.getInstance().reference
                         .child(FirebaseDbNames.MESSAGES_BY_USER.toString())
                         .child(viewModel.user.userId)
-                        .child(it.userId)
+                        .child(targetUser.userId)
 
                 msgByUserDbRef.addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
@@ -131,17 +132,17 @@ class RequestDetailsFragment : Fragment() {
                             // now set on other users
                             FirebaseDatabase.getInstance().reference
                                     .child(FirebaseDbNames.MESSAGES_BY_USER.toString())
-                                    .child(it.userId)
+                                    .child(targetUser.userId)
                                     .child(viewModel.user.userId)
                                     .setValue(msgId)
 
                             // now create a conversation and push that to MESSAGES
                             val newConversation = Conversation(uid1 = viewModel.user.userId,
-                                    uid2 = it.userId, msgId = msgId!!)
+                                    uid2 = targetUser.userId, msgId = msgId!!)
 
                             FirebaseDatabase.getInstance().reference
                                     .child(FirebaseDbNames.MESSAGES.toString())
-                                    .child(msgId!!)
+                                    .child(msgId)
                                     .setValue(newConversation)
                                     .addOnCompleteListener {
                                         (activity as MainActivity).swapFragments(MessagingFragment(), true)
@@ -151,7 +152,6 @@ class RequestDetailsFragment : Fragment() {
                                     }
                         }
                     }
-
                 })
             }
         }

@@ -23,7 +23,11 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.request_list_item.view.*
 
-abstract class RequestAdapter(val requestList: ArrayList<Request>, val context: Context, val activity: MainActivity): RecyclerView.Adapter<RequestAdapter.RequestHolder>() {
+/**
+ * Adapter for Request objects. Extension must contain implementation of onItemClick
+ * function to determine the action of a Request selection
+ */
+abstract class RequestAdapter(val requestList: ArrayList<Request>, val context: Context, val activity: MainActivity) : RecyclerView.Adapter<RequestAdapter.RequestHolder>() {
 
     abstract fun onItemClick(position: Int)
 
@@ -43,7 +47,7 @@ abstract class RequestAdapter(val requestList: ArrayList<Request>, val context: 
                 .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
                 .child(requestList[position].requesterId!!)
 
-        userDb.addListenerForSingleValueEvent(object : ValueEventListener{
+        userDb.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 // Do nothing
             }
@@ -60,15 +64,15 @@ abstract class RequestAdapter(val requestList: ArrayList<Request>, val context: 
                 .child(FirebaseStorageNames.SKILL_ICONS.toString())
                 .child(requestList[position].skillId!!)
 
-            Glide.with(context)
-                    .using(FirebaseImageLoader())
-                    .load(storageRef)
-                    .into(holder.requestSkillIcon)
+        Glide.with(context)
+                .using(FirebaseImageLoader())
+                .load(storageRef)
+                .into(holder.requestSkillIcon)
 
     }
 
 
-    inner class RequestHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class RequestHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val requestTitle: TextView = itemView.request_item_title
         val requesterName: TextView = itemView.requester_name_tv
         val requestSkillIcon: AppCompatImageView = itemView.request_skill_category_iv

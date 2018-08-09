@@ -21,7 +21,9 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_feed.*
 
 
-
+/**
+ * Shows a list of available requests that a User can sign up for.
+ */
 class FeedFragment : Fragment() {
 
     val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
@@ -78,9 +80,9 @@ class FeedFragment : Fragment() {
         val db = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.REQUESTS.toString())
                 .child(FirebaseDbNames.STATE.toString())
-                .child(viewModel.user?.state.toString())
+                .child(viewModel.user.state.toString())
                 .child(FirebaseDbNames.REGION.toString())
-                .child(viewModel.user?.region.toString())
+                .child(viewModel.user.region.toString())
                 .child(RequestStatusCodes.REQUESTED.toString())
 
         db.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -88,20 +90,19 @@ class FeedFragment : Fragment() {
                 // Do nothing
             }
 
-            override fun onDataChange(p0: DataSnapshot) {
-                val requests = p0.children
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val requests = dataSnapshot.children
                 for (d: DataSnapshot in requests) {
                     val request = d.getValue(Request::class.java)
                     request?.let {
-                        if (it.requesterId != viewModel.user?.userId)
+                        if (it.requesterId != viewModel.user.userId)
                             viewModel.feedFragmentList.add(it)
                     }
-
                 }
 
-                if (!viewModel.feedFragmentList.isEmpty())
+                if (!viewModel.feedFragmentList.isEmpty()) {
                     setAdapter()
-                else {
+                } else {
                     feed_progress_bar.visibility = View.GONE
                     feed_no_items_tv.visibility = View.VISIBLE
                 }

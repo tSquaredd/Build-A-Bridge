@@ -15,8 +15,10 @@ import kotlinx.android.synthetic.main.fragment_conversations.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
-
-class ConversationsFragment : Fragment(), AnkoLogger {
+/**
+ * Displays list of Conversations for the User
+ */
+class ConversationsFragment : Fragment() {
 
     lateinit var conversationAdapter: ConversationListAdapter
     val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
@@ -40,20 +42,17 @@ class ConversationsFragment : Fragment(), AnkoLogger {
         conversationAdapter = ConversationListAdapter(context!!, activity as MainActivity)
         conversations_rv.adapter = conversationAdapter
 
-
-
+        // Observe conversation data
         viewModel.conversationsLiveData.observe(this, Observer {
-            info { "IN OBSERVE ON CHANGE" }
-            it?.let {
-                if (it.isEmpty())
+
+            it?.let { conversationList ->
+                if (conversationList.isEmpty())
                     empty_conversations_list_tv.visibility = View.VISIBLE
                 else {
-                    conversationAdapter.setConversations(it)
+                    conversationAdapter.setConversations(conversationList)
                     empty_conversations_list_tv.visibility = View.GONE
                 }
             }
         })
     }
-
-
 }

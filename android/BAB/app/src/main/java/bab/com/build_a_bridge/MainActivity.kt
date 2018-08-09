@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import org.jetbrains.anko.AnkoLogger
 
-class MainActivity : AppCompatActivity(), AnkoLogger {
+class MainActivity : AppCompatActivity() {
 
     val viewModel by lazy { ViewModelProviders.of(this).get(MainActivityViewModel::class.java) }
 
@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Check if user signed in
         checkFirebaseCredentials(this)
 
         setSupportActionBar(toolbar)
@@ -82,85 +83,89 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
     }
 
     private fun setNavigationHeader() {
+        // load profile picture into header
         val header = nav_view.getHeaderView(0)
         val profilePic = ProfilePicUtil.loadPhotoFromInternalStorage(applicationContext)
         if (profilePic != null) {
             header.nav_profile_image_view.setImageBitmap(profilePic)
         }
 
-        header.nav_user_name_text_view.text = viewModel.user?.firstName
-
+        header.nav_user_name_text_view.text = viewModel.user.firstName
     }
 
 
-    fun swapFragments(fragment: Fragment?, addToBackStack: Boolean) {
+    fun swapFragments(fragment: Fragment, addToBackStack: Boolean) {
         when (addToBackStack) {
             true -> {
-                fragment?.let {
-                    supportFragmentManager.beginTransaction()
-                            .replace(R.id.content_frame, it)
-                            .addToBackStack(null)
-                            .commit()
-                }
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .addToBackStack(null)
+                        .commit()
             }
             false -> {
-                fragment?.let {
-                    supportFragmentManager.beginTransaction()
-                            .replace(R.id.content_frame, it)
-                            .disallowAddToBackStack()
-                            .commit()
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .disallowAddToBackStack()
+                        .commit()
 
-                }
             }
         }
     }
 
-        fun checkFirebaseCredentials(context: Context) {
-            if (FirebaseAuth.getInstance().currentUser == null) {
-                startActivity(Intent(context, LoginActivity::class.java))
-                finish()
-            } else {
-                val userDbRef = FirebaseDatabase.getInstance().reference
-                        .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
-                        .child(FirebaseAuth.getInstance().currentUser?.uid!!)
-                userDbRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onCancelled(p0: DatabaseError) {
-                        // Do nothing
-                    }
-
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if (!dataSnapshot.exists()) {
-                            startActivity(Intent(context, LoginActivity::class.java))
-                            finish()
-                        }
-                    }
-
-                })
-                val userData = FirebaseAuth.getInstance().currentUser!!.providerData
-                for (i in 0 until userData.size)
-                    if (userData[i].providerId.equals("password"))
-                        checkIfEmailVerified(context)
-            }
-        }
-
-        private fun checkIfEmailVerified(context: Context) {
-            val user = FirebaseAuth.getInstance().currentUser
-            if (user != null) {
-                user.reload()
-                if (!user.isEmailVerified) {
-                    startActivity(Intent(context, LoginActivity::class.java))
-                }
-            }
-        }
-
-        private fun signOut() {
-            ProfilePicUtil.removePhoto(applicationContext)
-            val prefs = PreferenceManager.getDefaultSharedPreferences(this).edit()
-            prefs.remove(PreferenceNames.USER.toString())
-            prefs.apply()
-            FirebaseAuth.getInstance().signOut()
-            startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
+    /**
+     * Check if user is signed in through FIrebaseAuth
+     *
+     * If not start up LoginActivity, if they are check that they are
+     * a verified user existing in the DB
+     */
+    private fun checkFirebaseCredentials(context: Context) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            startActivity(Intent(context, LoginActivity::class.java))
             finish()
-        }
+        } else {
+            val userDbRef = FirebaseDatabase.getInstance().reference
+                    .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
+                    .child(FirebaseAuth.getInstance().currentUser?.uid!!)
+            userDbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    // Do nothing
+                }
 
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (!dataSnapshot.exists()) {
+                        startActivity(Intent(context, LoginActivity::class.java))
+                        finish()
+                    }
+                }
+
+            })
+            val userData = FirebaseAuth.getInstance().currentUser!!.providerData
+            for (i in 0 until userData.size)
+                if (userData[i].providerId.equals("password"))
+                    checkIfEmailVerified(context)
+        }
     }
+
+    private fun checkIfEmailVerified(context: Context) {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            user.reload()
+            if (!user.isEmailVerified) {
+                startActivity(Intent(context, LoginActivity::class.java))
+            }
+        }
+    }
+
+    /**
+     * Signs the user out of FirebaseAuth, removes profile picture and User from shared prefs
+     */
+    private fun signOut() {
+        ProfilePicUtil.removePhoto(applicationContext)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this).edit()
+        prefs.remove(PreferenceNames.USER.toString())
+        prefs.apply()
+        FirebaseAuth.getInstance().signOut()
+        startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
+        finish()
+    }
+}

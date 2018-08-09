@@ -36,16 +36,18 @@ import java.util.*
 
 class LoginActivity : AppCompatActivity(),
         EmailVerificationFragment.EmailVerification,
-        RegistrationFragment.UserTypeChoice,
-        AnkoLogger {
+        RegistrationFragment.UserTypeChoice {
 
-    val RC_SIGN_IN = 123
+    companion object {
+        const val RC_SIGN_IN = 123
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        if(FirebaseAuth.getInstance().currentUser == null)
+        if (FirebaseAuth.getInstance().currentUser == null)
             runFirebaseAuthUi()
         else
             checkIfEmailVerified()
@@ -187,17 +189,13 @@ class LoginActivity : AppCompatActivity(),
 
                     // get user data for prefs
                     val user = dataSnapshot.getValue(User::class.java)
-                    info("USER IS " + user.toString())
                     val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext).edit()
-                    prefs.putString(PreferenceNames.USER.toString(), Gson().toJson(user))
-                    prefs.apply()
-
+                    prefs.putString(PreferenceNames.USER.toString(), Gson().toJson(user)).apply()
 
                     // Check for profile picture
                     val storageRef = FirebaseStorage.getInstance().reference
                             .child(FirebaseStorageNames.PROFILE_PICTURES.toString())
                             .child(FirebaseAuth.getInstance().uid!!)
-
 
                     val contextWrapper = ContextWrapper(applicationContext)
                     val fileDirectory = contextWrapper.getDir(ProfilePicUtil.PHOTO_DIRECTORY, Context.MODE_PRIVATE)
@@ -206,18 +204,17 @@ class LoginActivity : AppCompatActivity(),
                     storageRef.getFile(filePath).addOnSuccessListener {
                         val bitmap = BitmapFactory.decodeFile(filePath.toString())
                         val savedFilePath = ProfilePicUtil.savePhoto(applicationContext, bitmap)
-                        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext).edit()
                         prefs.putString(PreferenceNames.PROFILE_PICTURE.toString(), savedFilePath).apply()
                         startActivity(Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
                         finish()
                     }.addOnFailureListener {
                         startActivity(Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
-                        finish() }
-
+                        finish()
+                    }
 
 
                 } else {
-                    // User does not exist yet. Start RegistrationFragment
+                    // User does not exist yet. Start RegistrationUserInfoFragment
                     // TODO: If we need to track user type ( ref / vol ) change this to RegistrationFragment()
                     swapFragment(RegistrationUserInfoFragment())
                 }
@@ -230,7 +227,10 @@ class LoginActivity : AppCompatActivity(),
         })
     }
 
-
+    /**
+     * If user email is not verified starts the EmailVerificationFragment
+     * Otherwise sends execution to checkIfNewUser
+     */
     private fun checkIfEmailVerified() {
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
@@ -249,7 +249,7 @@ class LoginActivity : AppCompatActivity(),
     /**
      * Sign the user out and start the LoginActivity over again
      */
-    private fun signOut(){
+    private fun signOut() {
         ProfilePicUtil.removePhoto(applicationContext)
         val prefs = PreferenceManager.getDefaultSharedPreferences(this).edit()
         prefs.remove(PreferenceNames.USER.toString())
@@ -280,8 +280,8 @@ class LoginActivity : AppCompatActivity(),
         val fragment = RegistrationUserInfoFragment()
         val bundle = Bundle()
         when {
-            wasChosen -> bundle.putSerializable(ExtraNames.USER_TYPE.toString(), UserType.REFUGEE)
-            else -> bundle.putSerializable(ExtraNames.USER_TYPE.toString(), UserType.VOLUNTEER)
+            wasChosen -> bundle.putSerializable(BundleParamNames.USER_TYPE.toString(), UserType.REFUGEE)
+            else -> bundle.putSerializable(BundleParamNames.USER_TYPE.toString(), UserType.VOLUNTEER)
         }
 
         fragment.arguments = bundle

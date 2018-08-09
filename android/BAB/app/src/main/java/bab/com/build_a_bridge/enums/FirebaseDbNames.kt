@@ -1,5 +1,8 @@
 package bab.com.build_a_bridge.enums
 
+/**
+ * Defined names for Firebase Database child paths
+ */
 enum class FirebaseDbNames {
     MESSAGES,
     MESSAGES_BY_USER,

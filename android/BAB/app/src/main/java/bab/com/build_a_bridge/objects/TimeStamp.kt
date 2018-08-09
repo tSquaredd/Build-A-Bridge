@@ -3,6 +3,11 @@ package bab.com.build_a_bridge.objects
 import java.util.*
 import kotlin.math.min
 
+/**
+ * Models a value of time.
+ * Primarily used for attaching a time
+ * to a message or conversation.
+ */
 data class TimeStamp(val day: Int = 0,
                      val month: Int = 0,
                      val year: Int = 2018,
@@ -49,6 +54,11 @@ data class TimeStamp(val day: Int = 0,
             (this.hour == 0) -> 12
             (this.hour < 13) -> this.hour
             else -> this.hour - 12
+        }
+
+        val minute = when {
+            (this.minute < 10) -> "0${this.minute}"
+            else -> "${this.minute}"
         }
 
         return "$hour:$minute"

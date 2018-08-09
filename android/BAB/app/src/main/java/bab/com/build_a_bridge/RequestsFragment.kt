@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import bab.com.build_a_bridge.adapters.RequestAdapter
 import bab.com.build_a_bridge.adapters.RequestsFragmentAdapter
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.objects.Request
@@ -18,13 +17,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.android.synthetic.main.fragment_requests.*
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 
-
-class RequestsFragment : Fragment() , AnkoLogger{
+/**
+ * Displays User's current accepted and requested requests
+ */
+class RequestsFragment : Fragment() {
 
     val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
 
@@ -61,12 +59,12 @@ class RequestsFragment : Fragment() , AnkoLogger{
     }
 
 
-    private fun getRequestsList(){
+    private fun getRequestsList() {
         // empty the list of requests
         viewModel.requestsFragmentList = arrayListOf()
         val db = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.REQUESTS_BY_USER.toString())
-                .child(viewModel.user?.userId!!)
+                .child(viewModel.user.userId)
 
 
         db.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -76,12 +74,10 @@ class RequestsFragment : Fragment() , AnkoLogger{
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                val requestCodeChildern = dataSnapshot.children
-                for(snapshot in requestCodeChildern){
-                    info { "ON CHILD " + snapshot.key }
+                val requestCodeChildren = dataSnapshot.children
+                for (snapshot in requestCodeChildren) {
                     val requestChildren = snapshot.children
-                    for(requestChild in requestChildren){
-                        info { "NOW ON " + requestChild.key }
+                    for (requestChild in requestChildren) {
                         val request = requestChild.getValue(Request::class.java)
                         viewModel.requestsFragmentList.add(request!!)
                     }
@@ -104,5 +100,4 @@ class RequestsFragment : Fragment() , AnkoLogger{
         requests_fragment_rv.visibility = View.VISIBLE
         requests_fragment_rv.adapter = RequestsFragmentAdapter(viewModel.requestsFragmentList, context!!, activity as MainActivity)
     }
-
 }

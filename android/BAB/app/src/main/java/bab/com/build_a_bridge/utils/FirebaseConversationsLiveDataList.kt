@@ -6,9 +6,12 @@ import bab.com.build_a_bridge.objects.Conversation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
-
-
-class FirebaseConverstaionsLiveDataList :
+/**
+ * Wraps a List<Conversation> in LiveData to observe changes to the databaseReference.
+ * When a change occurs the data is parsed into a list of Conversations, and sent
+ * to the observer.
+ */
+class FirebaseConversationsLiveDataList :
         LiveData<List<Conversation>>() {
     private val listener: ConversationValueEventListener
     private val databaseReference: DatabaseReference

@@ -1,6 +1,7 @@
 package bab.com.build_a_bridge.utils
 
 import android.arch.lifecycle.LiveData
+import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.objects.Skill
 import com.google.firebase.database.*
 
@@ -8,9 +9,11 @@ import com.google.firebase.database.*
 /**
  * Extension of the LiveData class for observing the Skill's on the FirebaseDb
  */
-class FirebaseSkillLiveDataList(val databaseReference: DatabaseReference) : LiveData<List<Skill>>() {
+class FirebaseSkillLiveDataList : LiveData<List<Skill>>() {
 
     private val listener: SkillValueEventListener
+    private val databaseReference = FirebaseDatabase.getInstance().reference
+            .child(FirebaseDbNames.SKILLS.toString())
 
     init {
         listener = SkillValueEventListener()

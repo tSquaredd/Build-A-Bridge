@@ -41,10 +41,9 @@ class SkillSelectionFragment : Fragment() {
         skill_selection_rv.adapter = skillAdapter
 
         viewModel.skillLiveDataList.observe(this, Observer { skillList: List<Skill>? ->
-            skillList?.let {
-                skillAdapter.setSkills(it.sortedBy { it.name.toUpperCase() })
+            skillList?.let { nonNullSkillList ->
+                skillAdapter.setSkills(nonNullSkillList.sortedBy { it.name.toUpperCase() })
             }
         })
     }
-
 }

@@ -37,9 +37,12 @@ import java.io.IOException
 /**
  * Gather information on the user and add them to the Firebase database
  */
-class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
+class RegistrationUserInfoFragment : Fragment() {
 
-    private val IMG_RESULT_CODE = 1
+    companion object {
+        const val IMG_RESULT_CODE = 1
+    }
+
     lateinit var filePath: Uri
     val viewModel by lazy { ViewModelProviders.of(activity!!).get(RegistrationViewModel::class.java) }
 
@@ -48,7 +51,6 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_registration_user_info, container, false)
     }
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,7 +62,7 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
         spinnerSetup()
         setTextInputListeners()
         // Set click listener for next button
-        // TODO: if not single user type may need to add skills page for Volunteer type
+
         next_button.setOnClickListener { finishRegistration() }
 
         // Setup image view click listener
@@ -87,9 +89,9 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
     /**
      * Check for names already obtained from firebase auth so user does not have to enter name twice
      */
-    fun checkForNames(){
+    fun checkForNames() {
         val user = FirebaseAuth.getInstance().currentUser
-        if(user != null){
+        if (user != null) {
             val fullName = user.displayName
             val firstName = fullName?.split(" ")?.get(0)
             val lastName = fullName?.split(" ")?.get(1)
@@ -175,7 +177,6 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 // Do nothing
             }
-
         })
     }
 
@@ -233,7 +234,6 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
                 }
                 checkIfShouldEnableButton()
             }
-
         }
     }
 
@@ -302,8 +302,6 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
 
             }
         }
-
-
     }
 
     inner class FirebasePhotoUploader : FirebaseProfilePicUploadUtil() {
@@ -328,7 +326,5 @@ class RegistrationUserInfoFragment : Fragment(), AnkoLogger {
         override fun photoUploadProgress(progress: Double) {
             // Do nothing, can use progress arg to update a progress bar if needed
         }
-
     }
-
 }

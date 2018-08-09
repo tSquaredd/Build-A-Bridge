@@ -7,7 +7,7 @@ import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.PreferenceNames
 import bab.com.build_a_bridge.objects.Request
 import bab.com.build_a_bridge.objects.User
-import bab.com.build_a_bridge.utils.FirebaseConverstaionsLiveDataList
+import bab.com.build_a_bridge.utils.FirebaseConversationsLiveDataList
 import bab.com.build_a_bridge.utils.FirebaseSkillLiveDataList
 import bab.com.build_a_bridge.utils.FirebaseSkillLiveDataMap
 import com.google.firebase.auth.FirebaseAuth
@@ -26,10 +26,10 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     var requestForDetails: Request = Request()
     val skillLiveDataList: FirebaseSkillLiveDataList
     val skillsLiveDataMap: FirebaseSkillLiveDataMap
-    val conversationsLiveData: FirebaseConverstaionsLiveDataList
+    val conversationsLiveData: FirebaseConversationsLiveDataList
     var userSkillsList: ArrayList<String> = arrayListOf()
-    val userSkillListener: ValueEventListener
-    val userSkillDbRef: DatabaseReference
+    private val userSkillListener: ValueEventListener
+    private val userSkillDbRef: DatabaseReference
     var userToMessage: User = User()
     var messageId: String = ""
 
@@ -38,21 +38,16 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         val json = prefs.getString(PreferenceNames.USER.toString(), "")
         user = Gson().fromJson(json, User::class.java)
 
-        // Set live data
-        val skillDbRef = FirebaseDatabase.getInstance().reference
-                .child(FirebaseDbNames.SKILLS.toString())
+        skillLiveDataList = FirebaseSkillLiveDataList()
+        skillsLiveDataMap = FirebaseSkillLiveDataMap()
 
-        // TODO see if possible to move skillDbRef into these classes
-        skillLiveDataList = FirebaseSkillLiveDataList(skillDbRef)
-        skillsLiveDataMap = FirebaseSkillLiveDataMap(skillDbRef)
-
-        conversationsLiveData = FirebaseConverstaionsLiveDataList()
+        conversationsLiveData = FirebaseConversationsLiveDataList()
 
         userSkillDbRef = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.SKILLS_BY_USER.toString())
                 .child(FirebaseAuth.getInstance().uid!!)
 
-        userSkillListener = userSkillDbRef.addValueEventListener(object: ValueEventListener{
+        userSkillListener = userSkillDbRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 //Do nothing
             }
@@ -60,7 +55,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 userSkillsList = arrayListOf()
                 val children = dataSnapshot.children
-                for(child in children){
+                for (child in children) {
                     userSkillsList.add(child.key.toString())
 
                 }
@@ -71,7 +66,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     override fun onCleared() {
         super.onCleared()
         userSkillDbRef.removeEventListener(userSkillListener)
-}
+    }
 
     /**
      * Instantiates a request object in newRequest
@@ -79,7 +74,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     fun initRequest() {
         if (newRequest == null) {
             newRequest = Request()
-            newRequest?.requesterId = user?.userId
+            newRequest?.requesterId = user.userId
         }
 
     }

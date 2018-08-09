@@ -10,8 +10,13 @@ import com.google.firebase.database.ValueEventListener
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
-class FirebaseMessagingLiveDataList(val databaseReference: DatabaseReference) :
-        LiveData<List<Message>>(), AnkoLogger {
+/**
+ * Wraps a List<Message> in LiveData to observe changes to the databaseReference.
+ * When a change occurs the data is parsed into a list of Messages, and sent
+ * to the observer.
+ */
+class FirebaseMessagingLiveDataList(private val databaseReference: DatabaseReference) :
+        LiveData<List<Message>>() {
     private val listener: MessagingValueEventLisener
 
     override fun onActive() {
@@ -25,14 +30,13 @@ class FirebaseMessagingLiveDataList(val databaseReference: DatabaseReference) :
     init {
         listener = MessagingValueEventLisener()
     }
+
     private inner class MessagingValueEventLisener : ValueEventListener {
         override fun onCancelled(p0: DatabaseError) {
             // Do nothing
         }
 
         override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-            info { "INCOMING DATA" }
 
             var messageList = listOf<Message>()
             val conversation = dataSnapshot.getValue(Conversation::class.java)
@@ -43,6 +47,5 @@ class FirebaseMessagingLiveDataList(val databaseReference: DatabaseReference) :
 
             value = messageList
         }
-
     }
 }

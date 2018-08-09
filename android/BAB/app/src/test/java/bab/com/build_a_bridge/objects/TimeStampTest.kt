@@ -4,20 +4,30 @@ import org.junit.Assert.*
 import org.junit.Test
 
 
-class TimeStampTest{
+class TimeStampTest {
     @Test
-    fun returnTimeString1(){
-        val expected = "8:30" // AM
-        val timestamp = TimeStamp(hour = 8, minute = 30)
-        val actual = timestamp.getTimeDisplay()
-        assertEquals(expected, actual)
+    fun returnTimeString1() {
+       runTest("8:30", 8, 30)
     }
 
     @Test
-    fun returnTimeString2(){
-        val expected = "1:30" // PM
-        val timestamp = TimeStamp(hour = 13, minute = 30)
-        val actual = timestamp.getTimeDisplay()
+    fun returnTimeString2() {
+       runTest("1:30", 13, 30)
+    }
+
+    @Test
+    fun returnTimeStamp3() {
+        runTest("3:05", 3, 5)
+    }
+
+    @Test
+    fun returnTimeStamp4(){
+        runTest("12:35", 0, 35)
+    }
+
+    private fun runTest(expected: String, hour: Int, minute: Int){
+        val timeStamp = TimeStamp(hour = hour, minute = minute)
+        val actual = timeStamp.getTimeDisplay()
         assertEquals(expected, actual)
     }
 }

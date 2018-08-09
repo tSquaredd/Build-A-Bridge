@@ -24,13 +24,15 @@ import kotlinx.android.synthetic.main.fragment_messaging.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
+/**
+ * Handles messaging between two users
+ */
+class MessagingFragment : Fragment() {
 
-class MessagingFragment : Fragment(), AnkoLogger{
+    val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
 
     lateinit var messagingLiveData: FirebaseMessagingLiveDataList
-
     lateinit var messageListAdapter: MessageListAdapter
-    val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -53,15 +55,11 @@ class MessagingFragment : Fragment(), AnkoLogger{
                 .child(FirebaseDbNames.MESSAGES.toString())
                 .child(viewModel.messageId)
 
-        info { "HERE" }
-        info { viewModel.userToMessage.toString() }
-        info { viewModel.messageId }
-
         messagingLiveData = FirebaseMessagingLiveDataList(messageDbRef)
 
         messagingLiveData.observe(this, Observer {
-            it?.let {
-                messageListAdapter.setMessages(it)
+            it?.let { messageList ->
+                messageListAdapter.setMessages(messageList)
             }
         })
 
@@ -78,7 +76,7 @@ class MessagingFragment : Fragment(), AnkoLogger{
                     .child(FirebaseDbNames.MESSAGES.toString())
                     .child(viewModel.messageId)
 
-            conversationDbRef.addListenerForSingleValueEvent(object: ValueEventListener{
+            conversationDbRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                     // Do nothing
                 }
@@ -92,13 +90,8 @@ class MessagingFragment : Fragment(), AnkoLogger{
 
                         conversationDbRef.setValue(conversation)
                     }
-
                 }
-
             })
         }
-
     }
-
-
 }

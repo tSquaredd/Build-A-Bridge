@@ -26,7 +26,7 @@ import org.jetbrains.anko.AnkoLogger
 /**
  * Fragment to guide user through creation of a request
  */
-class CreateRequestFragment :  Fragment() {
+class CreateRequestFragment : Fragment() {
 
     val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
 
@@ -45,18 +45,17 @@ class CreateRequestFragment :  Fragment() {
         create_request_button.setOnClickListener { requestCreation() }
 
         skill_selection_item.setOnClickListener {
-           val activity =  activity as MainActivity
+            val activity = activity as MainActivity
             activity.swapFragments(SkillSelectionFragment(), true)
         }
 
-        request_title.addTextChangedListener(object : TextWatcher{
+        request_title.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 val string = p0.toString().trim()
                 val titleValidation = ValidationUtil.isNameValid(string, ' ')
-                if(titleValidation == null && string.length <= 40)
+                if (titleValidation == null && string.length <= 40)
                     viewModel.newRequest?.title = string
-
-                else if(string.length > 40){
+                else if (string.length > 40) {
                     request_title.error = getString(R.string.request_title_length_error)
                     viewModel.newRequest?.title = ""
                 } else {
@@ -72,15 +71,15 @@ class CreateRequestFragment :  Fragment() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-               // Do nothing
+                // Do nothing
             }
 
         })
 
-        request_details.addTextChangedListener(object: TextWatcher{
+        request_details.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 val string = p0.toString().trim()
-                if(string.length > 240){
+                if (string.length > 240) {
                     request_details.error = getString(R.string.request_details_length_error)
                     viewModel.newRequest?.details = ""
                 } else
@@ -96,7 +95,6 @@ class CreateRequestFragment :  Fragment() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 // Do nothing
             }
-
         })
     }
 
@@ -111,7 +109,7 @@ class CreateRequestFragment :  Fragment() {
     /**
      * Used to check if request is valid, and ready to be submitted
      */
-    private fun isRequestReady(){
+    private fun isRequestReady() {
         create_request_button.isEnabled = (viewModel.newRequest?.title != "" && viewModel.newRequest?.details != null
                 && viewModel.newRequest?.skillId != null)
     }
@@ -121,7 +119,7 @@ class CreateRequestFragment :  Fragment() {
      * Called on return from SkillSelectionFragment in order to update the skill item that
      * was selected
      */
-    private fun updateSkillUi(skill: Skill){
+    private fun updateSkillUi(skill: Skill) {
         skill_selection_item.skill_name.text = skill.name
         skill_selection_item.skill_description.text = skill.description
 
@@ -139,7 +137,7 @@ class CreateRequestFragment :  Fragment() {
     /**
      * Pushes the new request to the firebase DB
      */
-    private fun requestCreation(){
+    private fun requestCreation() {
 
         // add request to REQUESTS on firabse DB
         var db = FirebaseDatabase.getInstance().reference
@@ -152,7 +150,7 @@ class CreateRequestFragment :  Fragment() {
 
         // get unique id
         val reqId = db.push().key
-        reqId?.let {  viewModel.newRequest?.requestId = it }
+        reqId?.let { viewModel.newRequest?.requestId = it }
 
         db = db.child(reqId.toString())
 

@@ -20,6 +20,4 @@ class FriendsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = getString(R.string.friends)
     }
-
-
 }

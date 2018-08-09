@@ -20,6 +20,4 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = getString(R.string.settings)
     }
-
-
 }

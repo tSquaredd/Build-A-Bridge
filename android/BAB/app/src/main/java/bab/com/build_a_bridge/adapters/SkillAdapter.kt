@@ -15,13 +15,16 @@ import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.skill_list_item.view.*
 
-
-abstract class SkillAdapter( val context: Context) :
+/**
+ * Adapter for Skill objects. Contains abstract function onItemClick
+ * for handling the click of an item within the list.
+ */
+abstract class SkillAdapter(val context: Context) :
         RecyclerView.Adapter<SkillAdapter.SkillHolder>() {
 
     private var skillList: List<Skill> = listOf()
 
-   abstract fun onItemClick(position: Int)
+    abstract fun onItemClick(position: Int)
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): SkillHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -47,7 +50,7 @@ abstract class SkillAdapter( val context: Context) :
                 .into(holder.skillIcon)
     }
 
-    fun setSkills(skillList: List<Skill>){
+    fun setSkills(skillList: List<Skill>) {
         this.skillList = skillList.sortedBy {
             it.name.toUpperCase()
         }
@@ -59,7 +62,6 @@ abstract class SkillAdapter( val context: Context) :
         val skillNameTextView: TextView = itemView.skill_name
         val skillDescriptionTextView: TextView = itemView.skill_description
         val skillIcon: AppCompatImageView = itemView.skill_icon
-
 
         init {
             itemView.setOnClickListener {
