@@ -49,6 +49,7 @@ class RequestDetailsFragment : Fragment() {
         Glide.with(context)
                 .using(FirebaseImageLoader())
                 .load(requesterImageRef)
+                .error(R.drawable.default_user_pic)
                 .into(request_details_requester_iv)
 
         // get image for volunteer
@@ -59,6 +60,7 @@ class RequestDetailsFragment : Fragment() {
         Glide.with(context)
                 .using(FirebaseImageLoader())
                 .load(volunteerImageRef)
+                .error(R.drawable.default_user_pic)
                 .into(request_details_volunteer_iv)
 
         // Get requester details

@@ -28,6 +28,7 @@
     <string name="help">Help</string>
     <string name="invalid_character">Invalid character</string>
     <string name="last_name">Last Name</string>
+    <string name="login_progress_label">Getting your account ready</string>
     <string name="manage_skills">Manage Skills</string>
     <string name="message">Message</string>
     <string name="messages">Messages</string>

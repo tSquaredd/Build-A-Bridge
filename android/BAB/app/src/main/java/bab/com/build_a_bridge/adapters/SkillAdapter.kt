@@ -47,6 +47,7 @@ abstract class SkillAdapter(val context: Context) :
         Glide.with(context)
                 .using(FirebaseImageLoader())
                 .load(storageRef)
+                .error(R.drawable.ic_default_skill)
                 .into(holder.skillIcon)
     }
 

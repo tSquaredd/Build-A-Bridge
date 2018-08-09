@@ -4,6 +4,7 @@ package bab.com.build_a_bridge
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.res.ResourcesCompat
 import android.text.SpannableString
 
 import android.view.LayoutInflater
@@ -67,7 +68,9 @@ class AcceptRequestFragment : Fragment() {
             Glide.with(context)
                     .using(FirebaseImageLoader())
                     .load(requesterImgRef)
+                    .error(R.drawable.default_user_pic)
                     .into(accept_request_requester_iv)
+
 
             val requesterDbRef = FirebaseDatabase.getInstance().reference
                     .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
@@ -108,6 +111,7 @@ class AcceptRequestFragment : Fragment() {
                 Glide.with(context)
                         .using(FirebaseImageLoader())
                         .load(skillIconRef)
+                        .error(R.drawable.ic_default_skill)
                         .into(accept_request_skill_icon)
             }
 
@@ -140,9 +144,9 @@ class AcceptRequestFragment : Fragment() {
         val reqRegionDbRef = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.REQUESTS.toString())
                 .child(FirebaseDbNames.STATE.toString())
-                .child(viewModel.user?.state.toString())
+                .child(viewModel.user.state.toString())
                 .child(FirebaseDbNames.REGION.toString())
-                .child(viewModel.user?.region.toString())
+                .child(viewModel.user.region.toString())
 
         // Get reference to DB for IN_PROGRESS requests
         val inProgDbRef = reqRegionDbRef
@@ -184,7 +188,7 @@ class AcceptRequestFragment : Fragment() {
         // DB ref to volunteers IN_PROGRESS_VOLUNTEER section
         val volunteerInProgDbRef = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.REQUESTS_BY_USER.toString())
-                .child(viewModel.user?.userId!!)
+                .child(viewModel.user.userId)
                 .child(RequestStatusCodes.IN_PROGRESS_VOLUNTEER.toString())
                 .child(viewModel.requestForAccept.requestId)
 
@@ -200,6 +204,7 @@ class AcceptRequestFragment : Fragment() {
 
     private fun cancelRequest() {
         activity?.toast("COMING SOON :)")
+        // TODO: Add cancelling functionality
     }
 
     fun updateUi(user: User) {

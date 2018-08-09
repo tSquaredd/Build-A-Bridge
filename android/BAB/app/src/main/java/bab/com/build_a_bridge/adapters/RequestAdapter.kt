@@ -67,6 +67,7 @@ abstract class RequestAdapter(val requestList: ArrayList<Request>, val context: 
         Glide.with(context)
                 .using(FirebaseImageLoader())
                 .load(storageRef)
+                .error(R.drawable.ic_default_skill)
                 .into(holder.requestSkillIcon)
 
     }

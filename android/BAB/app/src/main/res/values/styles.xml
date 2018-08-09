@@ -11,6 +11,7 @@
     <style name="ProfileImage">
         <item name="android:src">@drawable/default_user_pic</item>
     </style>
+
     <style name="ProfilePictureMedium" parent="ProfileImage">
         <item name="android:layout_width">60dp</item>
         <item name="android:layout_height">60dp</item>
@@ -21,7 +22,7 @@
         <item name="android:layout_height">90dp</item>
     </style>
 
-    <style name="SkillIcon" >
+    <style name="SkillIcon">
         <item name="android:src">@drawable/ic_default_skill</item>
     </style>
 
@@ -35,7 +36,15 @@
         <item name="android:layout_height">45dp</item>
     </style>
 
-    <style name="BabBackground">
-        <item name="android:windowBackground">@drawable/bab_background</item>
+    <style name="LoginBackground" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/LoginActionBar</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
+
+    <style name="LoginActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
 </resources>

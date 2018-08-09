@@ -80,6 +80,7 @@ class MessageListAdapter(val context: Context, val thisUser: User, val otherUser
             Glide.with(context)
                     .using(FirebaseImageLoader())
                     .load(profileImageRef)
+                    .error(R.drawable.default_user_pic)
                     .into(profileImage)
 
         }

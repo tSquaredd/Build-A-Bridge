@@ -52,6 +52,7 @@ class SkillToggleAdapter(private val userSkills: ArrayList<String>) :
         Glide.with(context)
                 .using(FirebaseImageLoader())
                 .load(skillIconStorageRef)
+                .error(R.drawable.ic_default_skill)
                 .into(holder.iconImageView)
 
         holder.toggleSwitch.isChecked = userSkills.contains(skillList[position].id)

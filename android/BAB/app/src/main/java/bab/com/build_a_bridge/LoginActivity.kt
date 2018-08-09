@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -17,7 +16,6 @@ import android.view.View
 import bab.com.build_a_bridge.enums.*
 import bab.com.build_a_bridge.objects.User
 import bab.com.build_a_bridge.utils.ProfilePicUtil
-import com.facebook.login.Login
 import com.google.firebase.auth.FirebaseAuth
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -28,8 +26,6 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_login.*
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 import java.io.File
 import java.util.*
 
@@ -137,7 +133,7 @@ class LoginActivity : AppCompatActivity(),
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
                         .setLogo(R.drawable.bab_logo)
-                        .setTheme(R.style.BabBackground)
+                        .setTheme(R.style.LoginBackground)
                         .build(),
                 RC_SIGN_IN)
     }
@@ -185,6 +181,7 @@ class LoginActivity : AppCompatActivity(),
 
                     // turn on progress bar
                     login_progress_bar.visibility = View.VISIBLE
+                    login_progress_label_tv.visibility = View.VISIBLE
                     // User already exists
 
                     // get user data for prefs
@@ -210,6 +207,11 @@ class LoginActivity : AppCompatActivity(),
                     }.addOnFailureListener {
                         startActivity(Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
                         finish()
+                    } .addOnProgressListener {
+                        val transfered = it.bytesTransferred
+                        val totalBytes = it.totalByteCount
+                        val percentLoaded = (100 * transfered) / totalBytes
+                        login_progress_bar.progress = percentLoaded.toInt()
                     }
 
 

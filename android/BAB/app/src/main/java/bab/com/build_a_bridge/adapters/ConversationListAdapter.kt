@@ -78,6 +78,7 @@ class ConversationListAdapter(val context: Context, var activity: MainActivity) 
         Glide.with(context)
                 .using(FirebaseImageLoader())
                 .load(profilePicDbRef)
+                .error(R.drawable.default_user_pic)
                 .into(holder.userProfilePic)
     }
 

@@ -178,6 +178,7 @@ class AdminEditSkillsFragment : Fragment() {
             Glide.with(context)
                     .using(FirebaseImageLoader())
                     .load(storageRef)
+                    .error(R.drawable.ic_default_skill)
                     .into(skills_icon)
 
             // set views from passed in data

@@ -34,12 +34,17 @@ class MainActivity : AppCompatActivity() {
         // Check if user signed in
         checkFirebaseCredentials(this)
 
+
+    }
+
+    fun finishOnCreate(){
         setSupportActionBar(toolbar)
         val actionBar = supportActionBar
         actionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_menu)
         }
+        title = ""
 
         setupNavigationListener()
         setNavigationHeader()
@@ -135,6 +140,8 @@ class MainActivity : AppCompatActivity() {
                     if (!dataSnapshot.exists()) {
                         startActivity(Intent(context, LoginActivity::class.java))
                         finish()
+                    } else {
+                        finishOnCreate()
                     }
                 }
 
