@@ -12,4 +12,5 @@ class User(var firstName: String = "",
            var region: RegionCodes = RegionCodes.DEFAULT,
            var rating: Double? = null,
            var email: String = "",
-           val userId: String = "")
+           val userId: String = "",
+           var fcmToken: String = "")

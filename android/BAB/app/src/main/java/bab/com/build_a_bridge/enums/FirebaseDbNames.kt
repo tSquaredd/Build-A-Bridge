@@ -4,6 +4,7 @@ package bab.com.build_a_bridge.enums
  * Defined names for Firebase Database child paths
  */
 enum class FirebaseDbNames {
+    FCM_TOKENS,
     MESSAGES,
     MESSAGES_BY_USER,
     REGION,

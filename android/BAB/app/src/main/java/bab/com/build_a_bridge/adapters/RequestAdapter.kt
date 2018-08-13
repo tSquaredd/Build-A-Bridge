@@ -60,6 +60,7 @@ abstract class RequestAdapter(val requestList: ArrayList<Request>, val context: 
 
         })
 
+
         val storageRef = FirebaseStorage.getInstance().reference
                 .child(FirebaseStorageNames.SKILL_ICONS.toString())
                 .child(requestList[position].skillId!!)

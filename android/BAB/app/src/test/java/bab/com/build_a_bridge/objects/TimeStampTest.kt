@@ -27,7 +27,7 @@ class TimeStampTest {
 
     private fun runTest(expected: String, hour: Int, minute: Int){
         val timeStamp = TimeStamp(hour = hour, minute = minute)
-        val actual = timeStamp.getTimeDisplay()
+        val actual = TimeStamp.getTimeDisplay(timeStamp)
         assertEquals(expected, actual)
     }
 }

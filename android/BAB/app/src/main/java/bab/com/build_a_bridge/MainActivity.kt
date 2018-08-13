@@ -18,10 +18,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header.view.*
-import org.jetbrains.anko.AnkoLogger
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun finishOnCreate(){
+    fun finishOnCreate() {
         setSupportActionBar(toolbar)
         val actionBar = supportActionBar
         actionBar?.apply {
@@ -53,6 +54,8 @@ class MainActivity : AppCompatActivity() {
         swapFragments(FeedFragment(), true)
         // show feed fragment selected in nav drawer
         nav_view.menu.getItem(0).isChecked = true
+
+        fcmTokenCheckup()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -174,5 +177,41 @@ class MainActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signOut()
         startActivity(Intent(applicationContext, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
         finish()
+    }
+
+    /**
+     * Check to see if FCM token has changed, and update DB if so
+     */
+    private fun fcmTokenCheckup() {
+
+         FirebaseInstanceId.getInstance().instanceId
+                .addOnCompleteListener {
+                    val token = it.result.token
+
+                    if (token != viewModel.user.fcmToken) {
+                        // Overwrite user data
+                        viewModel.user.fcmToken = token
+
+                        val prefEdit = PreferenceManager.getDefaultSharedPreferences(applicationContext).edit()
+                        prefEdit.putString(PreferenceNames.USER.toString(), Gson().toJson(viewModel.user)).apply()
+
+                        // update user info on firebase
+                        FirebaseDatabase.getInstance().reference
+                                .child(FirebaseDbNames.USERS.toString())
+                                .child(FirebaseDbNames.STATE.toString())
+                                .child(viewModel.user.state.toString())
+                                .child(FirebaseDbNames.REGION.toString())
+                                .child(viewModel.user.region.toString())
+                                .child(viewModel.user.userId)
+                                .setValue(viewModel.user)
+
+                        // Update user info in USER ID DIRECTORY
+                        FirebaseDatabase.getInstance().reference
+                                .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
+                                .child(viewModel.user.userId)
+                                .setValue(viewModel.user)
+                    }
+                }
+
     }
 }

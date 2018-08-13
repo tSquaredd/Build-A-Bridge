@@ -44,26 +44,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:textAlignment="center"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/accept_request_requester_iv"
+        app:layout_constraintStart_toEndOf="@+id/accept_request_skill_icon"
+        app:layout_constraintTop_toBottomOf="@+id/divider4"
         tools:text="Need help enrolling daughter in school" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/accept_request_skill_icon"
         style="@style/SkillIconSmall"
-        android:layout_marginEnd="4dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/skill_name_tv"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginStart="8dp"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/request_title_tv" />
+        app:layout_constraintTop_toTopOf="@+id/request_title_tv" />
 
     <TextView
         android:id="@+id/request_details_tv"
@@ -93,17 +89,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/skill_name_tv"
+    <RatingBar
+        android:id="@+id/ratingBar2"
+        style="@style/Base.Widget.AppCompat.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        tools:text="General"
-        app:layout_constraintBottom_toBottomOf="@+id/accept_request_skill_icon"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/requester_name_tv"
+        app:layout_constraintStart_toStartOf="@+id/requester_name_tv"
+        app:layout_constraintTop_toBottomOf="@+id/requester_name_tv" />
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="395dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="32dp"
+        android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/accept_request_skill_icon"
-        app:layout_constraintTop_toTopOf="@+id/accept_request_skill_icon" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accept_request_requester_iv" />
 
 
 </android.support.constraint.ConstraintLayout>

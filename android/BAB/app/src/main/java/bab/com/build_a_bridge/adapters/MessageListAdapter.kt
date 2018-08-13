@@ -9,6 +9,7 @@ import android.widget.TextView
 import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.objects.Message
+import bab.com.build_a_bridge.objects.TimeStamp
 import bab.com.build_a_bridge.objects.User
 import com.bumptech.glide.Glide
 import com.firebase.ui.storage.images.FirebaseImageLoader
@@ -71,7 +72,7 @@ class MessageListAdapter(val context: Context, val thisUser: User, val otherUser
         fun bind(message: Message) {
             name.text = otherUser.firstName
             messageBody.text = message.content
-            messageTimestamp.text = message.timeStamp.getTimeDisplay()
+            messageTimestamp.text = TimeStamp.getTimeDisplay(message.timeStamp)
 
             val profileImageRef = FirebaseStorage.getInstance().reference
                     .child(FirebaseStorageNames.PROFILE_PICTURES.toString())
@@ -92,12 +93,24 @@ class MessageListAdapter(val context: Context, val thisUser: User, val otherUser
 
         fun bind(message: Message) {
             messageBody.text = message.content
-            messageTimestamp.text = message.timeStamp.getTimeDisplay()
+            messageTimestamp.text = TimeStamp.getTimeDisplay(message.timeStamp)
         }
     }
 
-    fun setMessages(messageList: List<Message>) {
+    private fun setMessages(messageList: List<Message>) {
         this.messageList = messageList
-        notifyDataSetChanged()
+        notifyItemChanged(messageList.size - 1)
+    }
+
+    private fun addNewMessage(message: Message){
+        val list = messageList as ArrayList
+        list.add(message)
+        messageList = list
+        notifyItemChanged(list.size - 1)
+    }
+
+    fun handleObservation(messageList: List<Message>){
+        if(this.messageList.isEmpty()) setMessages(messageList)
+        else addNewMessage(messageList[messageList.size - 1])
     }
 }

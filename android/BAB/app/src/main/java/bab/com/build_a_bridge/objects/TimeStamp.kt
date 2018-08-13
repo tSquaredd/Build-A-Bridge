@@ -49,20 +49,6 @@ data class TimeStamp(val day: Int = 0,
         }
     }
 
-    fun getTimeDisplay(): String {
-        val hour = when {
-            (this.hour == 0) -> 12
-            (this.hour < 13) -> this.hour
-            else -> this.hour - 12
-        }
-
-        val minute = when {
-            (this.minute < 10) -> "0${this.minute}"
-            else -> "${this.minute}"
-        }
-
-        return "$hour:$minute"
-    }
 
     companion object {
         fun getInstance(): TimeStamp {
@@ -75,5 +61,20 @@ data class TimeStamp(val day: Int = 0,
                     second = cal.get(Calendar.SECOND))
         }
 
+        fun getTimeDisplay(timestamp: TimeStamp): String {
+            val hour = when {
+                (timestamp.hour == 0) -> 12
+                (timestamp.hour < 13) -> timestamp.hour
+                else -> timestamp.hour - 12
+            }
+
+            val minute = when {
+                (timestamp.minute < 10) -> "0${timestamp.minute}"
+                else -> "${timestamp.minute}"
+            }
+
+            return "$hour:$minute"
+
+        }
     }
 }

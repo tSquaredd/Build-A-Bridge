@@ -19,6 +19,7 @@
     <string name="empty_admin_skills_list">No skills have been added yet.\n\nAdd one with the \'+\' button</string>
     <string name="empty_conversations_list">No messages found</string>
     <string name="empty_request_feed">No requests found in your area. Check back later</string>
+    <string name="empty_requests_list">You have not accepted or made any requests yet.\n\nOnce you do they will appear here</string>
     <string name="empty_skills_fragment_list">No skills exist within the system. Check back soon</string>
     <string name="enter_message">Enter message</string>
     <string name="failed_creating_conversation">Could not create new conversation. Try again</string>

@@ -91,31 +91,15 @@ class AcceptRequestFragment : Fragment() {
             })
         }
 
-        val skillDbRef = FirebaseDatabase.getInstance().reference
-                .child(FirebaseDbNames.SKILLS.toString())
+        val skillIconRef = FirebaseStorage.getInstance().reference
+                .child(FirebaseStorageNames.SKILL_ICONS.toString())
                 .child(viewModel.requestForAccept.skillId!!)
 
-        skillDbRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                // Do nothing
-            }
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val skill = dataSnapshot.getValue(Skill::class.java)
-                skill_name_tv.text = skill?.name
-
-                val skillIconRef = FirebaseStorage.getInstance().reference
-                        .child(FirebaseStorageNames.SKILL_ICONS.toString())
-                        .child(viewModel.requestForAccept.skillId!!)
-
-                Glide.with(context)
-                        .using(FirebaseImageLoader())
-                        .load(skillIconRef)
-                        .error(R.drawable.ic_default_skill)
-                        .into(accept_request_skill_icon)
-            }
-
-        })
+        Glide.with(context)
+                .using(FirebaseImageLoader())
+                .load(skillIconRef)
+                .error(R.drawable.ic_default_skill)
+                .into(accept_request_skill_icon)
 
         accept_request_btn.setOnClickListener {
             // if user is viewing own request enable cancelling, otherwise enable accepting.
