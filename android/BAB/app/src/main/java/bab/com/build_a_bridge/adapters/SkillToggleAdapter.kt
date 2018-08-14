@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.skill_toggle_item.view.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
 /**
  * Adapter for Skill objects with a toggleSwitch for enabling or disabling a certain Skill
@@ -57,20 +59,22 @@ class SkillToggleAdapter(private val userSkills: ArrayList<String>) :
 
         holder.toggleSwitch.isChecked = userSkills.contains(skillList[position].id)
 
-        holder.toggleSwitch.setOnCheckedChangeListener { _, isChecked ->
-            val skillDbRef = FirebaseDatabase.getInstance().reference
-                    .child(FirebaseDbNames.SKILLS_BY_USER.toString())
-                    .child(FirebaseAuth.getInstance().uid!!)
-                    .child(skillList[position].id)
+        holder.toggleSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(buttonView.isPressed) {
+                val skillDbRef = FirebaseDatabase.getInstance().reference
+                        .child(FirebaseDbNames.SKILLS_BY_USER.toString())
+                        .child(FirebaseAuth.getInstance().uid!!)
+                        .child(skillList[position].id)
 
-            when {
-                isChecked -> {
-                    // User just stated they have skill
-                    skillDbRef.setValue(true)
-                }
-                else -> {
-                    // User just stated they do not have this skill
-                    skillDbRef.removeValue()
+                when {
+                    isChecked -> {
+                        // User just stated they have skill
+                        skillDbRef.setValue(true)
+                    }
+                    else -> {
+                        // User just stated they do not have this skill
+                        skillDbRef.removeValue()
+                    }
                 }
             }
         }

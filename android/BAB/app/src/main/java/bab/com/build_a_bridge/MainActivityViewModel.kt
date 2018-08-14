@@ -13,6 +13,8 @@ import bab.com.build_a_bridge.utils.FirebaseSkillLiveDataMap
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.gson.Gson
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
 /**
  * Holds all data for UI

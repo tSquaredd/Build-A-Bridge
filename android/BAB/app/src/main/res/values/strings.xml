@@ -24,6 +24,7 @@
     <string name="enter_message">Enter message</string>
     <string name="failed_creating_conversation">Could not create new conversation. Try again</string>
     <string name="feed">Feed</string>
+    <string name="filter">Filter</string>
     <string name="first_name">First Name</string>
     <string name="friends">Friends</string>
     <string name="help">Help</string>

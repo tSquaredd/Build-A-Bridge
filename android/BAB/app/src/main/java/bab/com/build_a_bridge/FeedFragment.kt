@@ -7,9 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import bab.com.build_a_bridge.adapters.FeedFragmentAdapter
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.RequestStatusCodes
@@ -30,6 +28,7 @@ class FeedFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_feed, container, false)
     }
@@ -57,6 +56,11 @@ class FeedFragment : Fragment() {
 
         getRequestFeedList()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.feed, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     /**
