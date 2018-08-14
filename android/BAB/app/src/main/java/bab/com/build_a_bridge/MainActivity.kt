@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.view.MenuItem
 import bab.com.build_a_bridge.admin.AdminSkillsFragment
+import bab.com.build_a_bridge.enums.BundleParamNames
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.PreferenceNames
 import bab.com.build_a_bridge.utils.ProfilePicUtil
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         // Check if user signed in
         checkFirebaseCredentials(this)
 
@@ -50,10 +52,19 @@ class MainActivity : AppCompatActivity() {
         setupNavigationListener()
         setNavigationHeader()
 
-        // Show feed fragment by default
-        swapFragments(FeedFragment(), true)
-        // show feed fragment selected in nav drawer
-        nav_view.menu.getItem(0).isChecked = true
+        val messageBundle = intent.extras.getBundle(BundleParamNames.MESSAGE_BUNDLE.toString())
+        if(messageBundle != null){
+            swapFragments(ConversationsFragment(), false)
+        } else if(intent.hasExtra("isMessage")){
+            swapFragments(ConversationsFragment(), false)
+
+        }
+        else {
+            // Show feed fragment by default
+            swapFragments(FeedFragment(), true)
+            // show feed fragment selected in nav drawer
+            nav_view.menu.getItem(0).isChecked = true
+        }
 
         fcmTokenCheckup()
     }
@@ -184,7 +195,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun fcmTokenCheckup() {
 
-         FirebaseInstanceId.getInstance().instanceId
+        FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener {
                     val token = it.result.token
 

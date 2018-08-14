@@ -32,6 +32,8 @@
     <string name="login_progress_label">Getting your account ready</string>
     <string name="manage_skills">Manage Skills</string>
     <string name="message">Message</string>
+    <string name="message_channel_name">Messages</string>
+    <string name="message_notification_channel_id" translatable="false">fcm_message_channel</string>
     <string name="messages">Messages</string>
     <string name="more_options">More Options</string>
     <string name="must_add_description">Must add description</string>

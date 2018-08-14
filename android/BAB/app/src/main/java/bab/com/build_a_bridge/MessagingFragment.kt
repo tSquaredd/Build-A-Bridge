@@ -74,9 +74,12 @@ class MessagingFragment : Fragment() {
             (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
                     .hideSoftInputFromWindow(it.windowToken, 0 )
 
+            val senderDisplayName = "${viewModel.user.firstName} ${viewModel.user.lastName}"
+
             val messageContent = message_content_et.text.toString()
             val message = Message(content = messageContent,
                     senderUid = viewModel.user.userId,
+                    senderName = senderDisplayName,
                     receiverUid = viewModel.userToMessage.userId,
                     receiverFcmToken = viewModel.userToMessage.fcmToken,
                     timeStamp = TimeStamp.getInstance())
