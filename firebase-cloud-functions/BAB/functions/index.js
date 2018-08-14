@@ -10,7 +10,7 @@ exports.sendMessageNotifications = functions.database.ref('/MESSAGES/{messageId}
           body: `${messageData.content}`
       },
        data: {
-         title:"You have a new message from someone",
+         title:`${messageData.senderName} sent you a message`,
            body: `${messageData.content}`,
            isMessage: "true"
        }
