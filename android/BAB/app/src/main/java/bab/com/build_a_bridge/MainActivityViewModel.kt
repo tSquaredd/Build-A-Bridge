@@ -6,6 +6,7 @@ import android.preference.PreferenceManager
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.PreferenceNames
 import bab.com.build_a_bridge.objects.Request
+import bab.com.build_a_bridge.objects.Skill
 import bab.com.build_a_bridge.objects.User
 import bab.com.build_a_bridge.utils.FirebaseConversationsLiveDataList
 import bab.com.build_a_bridge.utils.FirebaseSkillLiveDataList
@@ -34,6 +35,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     private val userSkillDbRef: DatabaseReference
     var userToMessage: User = User()
     var messageId: String = ""
+    var feedSkillFilterList = arrayListOf<Skill>()
 
     init {
         val prefs = PreferenceManager.getDefaultSharedPreferences(getApplication())

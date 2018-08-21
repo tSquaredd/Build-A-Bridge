@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.request_list_item.view.*
  * Adapter for Request objects. Extension must contain implementation of onItemClick
  * function to determine the action of a Request selection
  */
-abstract class RequestAdapter(val requestList: ArrayList<Request>, val context: Context, val activity: MainActivity) : RecyclerView.Adapter<RequestAdapter.RequestHolder>() {
+abstract class RequestAdapter(var requestList: ArrayList<Request>, val context: Context, val activity: MainActivity) : RecyclerView.Adapter<RequestAdapter.RequestHolder>() {
 
     abstract fun onItemClick(position: Int)
 
@@ -71,6 +71,11 @@ abstract class RequestAdapter(val requestList: ArrayList<Request>, val context: 
                 .error(R.drawable.ic_default_skill)
                 .into(holder.requestSkillIcon)
 
+    }
+
+    fun updateRequestList(requestList: ArrayList<Request>){
+        this.requestList = requestList
+        notifyDataSetChanged()
     }
 
 

@@ -1,17 +1,22 @@
 package bab.com.build_a_bridge
 
 
+import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
+import bab.com.build_a_bridge.R.id.action_filter_feed
+
 import bab.com.build_a_bridge.adapters.FeedFragmentAdapter
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.RequestStatusCodes
 import bab.com.build_a_bridge.objects.Request
+import bab.com.build_a_bridge.objects.Skill
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -25,6 +30,10 @@ import kotlinx.android.synthetic.main.fragment_feed.*
 class FeedFragment : Fragment() {
 
     val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
+
+    companion object {
+        const val REQUEST_FILTER = 0
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -41,6 +50,7 @@ class FeedFragment : Fragment() {
             mainActivity.swapFragments(CreateRequestFragment(), true)
         }
 
+
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         val divider = DividerItemDecoration(context, layoutManager.orientation)
         feed_fragment_rv.addItemDecoration(divider)
@@ -50,6 +60,7 @@ class FeedFragment : Fragment() {
         feed_feagment_swipe_layout.setOnRefreshListener {
             getRequestFeedList()
         }
+
 
         // Sets color of the refresh wheel
         feed_feagment_swipe_layout.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorAccent))
@@ -61,6 +72,37 @@ class FeedFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.feed, menu)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val id = item?.itemId
+
+
+        when (id) {
+            action_filter_feed -> {
+                val fragment = FeedSkillFilterFragment.newInstance(viewModel.feedSkillFilterList)
+                fragment.setTargetFragment(this, REQUEST_FILTER)
+                (activity as MainActivity).swapFragments(fragment, true)
+            }
+            else -> {
+                // Do nothing
+            }
+        }
+
+        return true
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode != Activity.RESULT_OK) return
+
+        if (requestCode == REQUEST_FILTER) {
+            val list = data?.getParcelableArrayListExtra<Skill>(FeedSkillFilterFragment.EXTRA_SKILL_LIST)
+            list?.let {
+                viewModel.feedSkillFilterList = it
+                //getRequestFeedList()
+            }
+        }
     }
 
     /**
@@ -100,7 +142,16 @@ class FeedFragment : Fragment() {
                     val request = d.getValue(Request::class.java)
                     request?.let {
                         if (it.requesterId != viewModel.user.userId)
-                            viewModel.feedFragmentList.add(it)
+                        // Check for filter
+                            if (viewModel.feedSkillFilterList.size != viewModel.skillLiveDataList.value?.size && viewModel.feedSkillFilterList.isNotEmpty()) {
+                                for (i in 0 until viewModel.feedSkillFilterList.size) {
+                                    if (it.skillId == viewModel.feedSkillFilterList[i].id) {
+                                        viewModel.feedFragmentList.add(it)
+                                    }
+                                }
+                            } else {
+                                viewModel.feedFragmentList.add(it)
+                            }
                     }
                 }
 

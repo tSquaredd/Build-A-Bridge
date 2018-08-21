@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import bab.com.build_a_bridge.adapters.SkillSelectionToggleAdapter
 import bab.com.build_a_bridge.adapters.SkillToggleAdapter
 import kotlinx.android.synthetic.main.fragment_skills.*
 
@@ -37,7 +38,7 @@ class SkillsFragment : Fragment() {
         skills_recycler_view.layoutManager = layoutManager
         skills_recycler_view.addItemDecoration(divider)
         skills_recycler_view.setHasFixedSize(true)
-        skillToggleAdapter = SkillToggleAdapter(viewModel.userSkillsList)
+        skillToggleAdapter = SkillSelectionToggleAdapter(viewModel.userSkillsList)
         skills_recycler_view.adapter = skillToggleAdapter
 
         viewModel.skillLiveDataList.observe(this, Observer {

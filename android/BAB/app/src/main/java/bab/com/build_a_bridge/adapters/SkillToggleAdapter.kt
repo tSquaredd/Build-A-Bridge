@@ -25,8 +25,10 @@ import org.jetbrains.anko.info
  * Adapter for Skill objects with a toggleSwitch for enabling or disabling a certain Skill
  * from a User skill set within the DB
  */
-class SkillToggleAdapter(private val userSkills: ArrayList<String>) :
+abstract class SkillToggleAdapter :
         RecyclerView.Adapter<SkillToggleAdapter.SkillToggleHolder>() {
+
+    abstract fun skillToggled(isSelected: Boolean, position: Int)
 
     var skillList: List<Skill> = listOf()
     lateinit var context: Context
@@ -57,25 +59,9 @@ class SkillToggleAdapter(private val userSkills: ArrayList<String>) :
                 .error(R.drawable.ic_default_skill)
                 .into(holder.iconImageView)
 
-        holder.toggleSwitch.isChecked = userSkills.contains(skillList[position].id)
-
         holder.toggleSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             if(buttonView.isPressed) {
-                val skillDbRef = FirebaseDatabase.getInstance().reference
-                        .child(FirebaseDbNames.SKILLS_BY_USER.toString())
-                        .child(FirebaseAuth.getInstance().uid!!)
-                        .child(skillList[position].id)
-
-                when {
-                    isChecked -> {
-                        // User just stated they have skill
-                        skillDbRef.setValue(true)
-                    }
-                    else -> {
-                        // User just stated they do not have this skill
-                        skillDbRef.removeValue()
-                    }
-                }
+                skillToggled(isChecked, position)
             }
         }
     }

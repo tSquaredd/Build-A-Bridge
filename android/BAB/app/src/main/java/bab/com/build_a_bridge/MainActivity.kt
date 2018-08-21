@@ -101,6 +101,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+
     private fun setNavigationHeader() {
         // load profile picture into header
         val header = nav_view.getHeaderView(0)
