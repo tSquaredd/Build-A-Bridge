@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AcceptRequestFragment">
+    tools:context=".presentation.AcceptRequestFragment">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/accept_request_requester_iv"

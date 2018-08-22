@@ -2,15 +2,19 @@ package bab.com.build_a_bridge
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import android.preference.PreferenceManager
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.PreferenceNames
 import bab.com.build_a_bridge.objects.Request
 import bab.com.build_a_bridge.objects.Skill
 import bab.com.build_a_bridge.objects.User
+import bab.com.build_a_bridge.repositories.RequestRepository
 import bab.com.build_a_bridge.utils.FirebaseConversationsLiveDataList
 import bab.com.build_a_bridge.utils.FirebaseSkillLiveDataList
 import bab.com.build_a_bridge.utils.FirebaseSkillLiveDataMap
+import bab.com.build_a_bridge.utils.RequestListUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.gson.Gson
@@ -35,7 +39,10 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     private val userSkillDbRef: DatabaseReference
     var userToMessage: User = User()
     var messageId: String = ""
-    var feedSkillFilterList = arrayListOf<Skill>()
+    var feedSkillFilterList = arrayListOf<String>()
+
+    // Repos
+    private val requestRepository: RequestRepository
 
     init {
         val prefs = PreferenceManager.getDefaultSharedPreferences(getApplication())
@@ -63,8 +70,14 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                     userSkillsList.add(child.key.toString())
 
                 }
+
+                if(feedSkillFilterList.isEmpty()) feedSkillFilterList.addAll(userSkillsList)
             }
         })
+
+        requestRepository = RequestRepository()
+
+
     }
 
     override fun onCleared() {
@@ -82,5 +95,21 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         }
 
     }
+
+
+    fun refreshRequestList(){
+        requestRepository.loadAllRequestsFor(user.state.toString(), user.region.toString())
+    }
+
+    fun getRequests(): MutableLiveData<List<Request>>{
+        refreshRequestList()
+        return requestRepository.getRequests()
+    }
+
+    fun filterRequests(allRequests: List<Request>){
+       feedFragmentList = RequestListUtil.filterRequests(allRequests, feedSkillFilterList,
+               user.userId)
+    }
+
 
 }

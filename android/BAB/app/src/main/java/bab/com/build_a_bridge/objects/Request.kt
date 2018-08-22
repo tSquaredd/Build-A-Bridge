@@ -15,4 +15,8 @@ data class Request(var requestId: String = "",
                    var skillId: String? = null,
                    var title: String = "",
                    var details: String = "",
-                   val timeStamp: TimeStamp = TimeStamp.getInstance())
+                   val timeStamp: TimeStamp = TimeStamp.getInstance()){
+    override fun toString(): String {
+        return "Request(requestId='$requestId', requesterId=$requesterId, volunteerId=$volunteerId, status=$status, skillId=$skillId, title='$title', details='$details', timeStamp=$timeStamp)"
+    }
+}

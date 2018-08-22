@@ -1,19 +1,19 @@
-package bab.com.build_a_bridge
+package bab.com.build_a_bridge.presentation
 
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.res.ResourcesCompat
 import android.text.SpannableString
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import bab.com.build_a_bridge.MainActivityViewModel
+import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.enums.RequestStatusCodes
-import bab.com.build_a_bridge.objects.Skill
 import bab.com.build_a_bridge.objects.User
 import bab.com.build_a_bridge.utils.ProfilePicUtil
 import com.bumptech.glide.Glide
@@ -24,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_accept_request.*
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.toast
 
 class AcceptRequestFragment : Fragment() {
@@ -179,7 +178,7 @@ class AcceptRequestFragment : Fragment() {
         // add the request
         volunteerInProgDbRef.setValue(viewModel.requestForAccept)
 
-        // Set Request object in view model for use in RequestDetailsFragment
+        // Set Request object in View model for use in RequestDetailsFragment
         viewModel.requestForDetails = viewModel.requestForAccept
         val mainActivity = activity as MainActivity
         mainActivity.swapFragments(RequestDetailsFragment(), false)

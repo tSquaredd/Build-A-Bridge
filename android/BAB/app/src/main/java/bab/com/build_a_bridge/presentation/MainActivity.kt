@@ -1,4 +1,4 @@
-package bab.com.build_a_bridge
+package bab.com.build_a_bridge.presentation
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -9,6 +9,7 @@ import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.view.MenuItem
+import bab.com.build_a_bridge.*
 import bab.com.build_a_bridge.admin.AdminSkillsFragment
 import bab.com.build_a_bridge.enums.BundleParamNames
 import bab.com.build_a_bridge.enums.FirebaseDbNames
@@ -36,10 +37,11 @@ class MainActivity : AppCompatActivity() {
 
         // Check if user signed in
         checkFirebaseCredentials(this)
-
-
     }
 
+    /**
+     * Called when Firebase Auth credentials have been verified
+     */
     fun finishOnCreate() {
         setSupportActionBar(toolbar)
         val actionBar = supportActionBar
@@ -114,7 +116,9 @@ class MainActivity : AppCompatActivity() {
         header.nav_user_name_text_view.text = viewModel.user.firstName
     }
 
-
+    /**
+     * puts a new fragment into View and has option of adding the fragment to the back stack
+     */
     fun swapFragments(fragment: Fragment, addToBackStack: Boolean) {
         when (addToBackStack) {
             true -> {
@@ -128,8 +132,6 @@ class MainActivity : AppCompatActivity() {
                         .replace(R.id.content_frame, fragment)
                         .disallowAddToBackStack()
                         .commit()
-
-
             }
         }
     }

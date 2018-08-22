@@ -1,4 +1,4 @@
-package bab.com.build_a_bridge
+package bab.com.build_a_bridge.presentation
 
 
 import android.arch.lifecycle.Observer
@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import bab.com.build_a_bridge.MainActivityViewModel
+import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.adapters.SkillSelectionAdapter
 import bab.com.build_a_bridge.objects.Skill
 import kotlinx.android.synthetic.main.fragment_skill_selection.*

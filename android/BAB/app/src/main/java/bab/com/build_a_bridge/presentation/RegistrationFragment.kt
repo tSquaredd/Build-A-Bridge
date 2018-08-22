@@ -1,4 +1,4 @@
-package bab.com.build_a_bridge
+package bab.com.build_a_bridge.presentation
 
 
 import android.content.Context
@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import bab.com.build_a_bridge.R
 import kotlinx.android.synthetic.main.fragment_registration.*
 
 /**

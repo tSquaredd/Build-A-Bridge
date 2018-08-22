@@ -66,7 +66,7 @@ class AdminEditSkillsFragment : Fragment() {
 
     /**
      * If the result is of IMG_RESULT_CODE then the result is the image for the icon.
-     * Set the new image to the image view.
+     * Set the new image to the image View.
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

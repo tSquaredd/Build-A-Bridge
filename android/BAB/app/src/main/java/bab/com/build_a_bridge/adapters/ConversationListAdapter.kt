@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import bab.com.build_a_bridge.MainActivity
-import bab.com.build_a_bridge.MessagingFragment
+import bab.com.build_a_bridge.presentation.MainActivity
+import bab.com.build_a_bridge.presentation.MessagingFragment
 import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
@@ -128,7 +128,7 @@ class ConversationListAdapter(val context: Context, var activity: MainActivity) 
 
     /**
      * When the LiveData object that watches the dataset from Firebase observes a change,
-     * it uses this method to set the new data and refresh the list view.
+     * it uses this method to set the new data and refresh the list View.
      */
     fun setConversations(conversationList: List<Conversation>) {
         this.conversationList = conversationList.sortedBy {

@@ -1,4 +1,4 @@
-package bab.com.build_a_bridge
+package bab.com.build_a_bridge.presentation
 
 
 import android.arch.lifecycle.ViewModelProviders
@@ -9,6 +9,8 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import bab.com.build_a_bridge.MainActivityViewModel
+import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.enums.RequestStatusCodes
@@ -20,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_create_request.*
 import kotlinx.android.synthetic.main.skill_list_item.view.*
-import org.jetbrains.anko.AnkoLogger
 
 
 /**
@@ -39,7 +40,7 @@ class CreateRequestFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // init new request object in view model
+        // init new request object in View model
         viewModel.initRequest()
 
         create_request_button.setOnClickListener { requestCreation() }

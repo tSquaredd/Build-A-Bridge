@@ -10,12 +10,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import bab.com.build_a_bridge.MainActivity
+import bab.com.build_a_bridge.presentation.MainActivity
 import bab.com.build_a_bridge.MainActivityViewModel
 
 import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.adapters.AdminSkillAdapter
-import bab.com.build_a_bridge.objects.Skill
 import kotlinx.android.synthetic.main.fragment_admin_skills.*
 
 /**

@@ -1,4 +1,4 @@
-package bab.com.build_a_bridge
+package bab.com.build_a_bridge.presentation
 
 
 import android.arch.lifecycle.ViewModelProviders
@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import bab.com.build_a_bridge.MainActivityViewModel
+import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.adapters.RequestsFragmentAdapter
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.objects.Request

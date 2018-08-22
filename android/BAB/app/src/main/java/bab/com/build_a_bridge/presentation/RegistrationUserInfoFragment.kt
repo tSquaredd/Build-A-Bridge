@@ -1,4 +1,4 @@
-package bab.com.build_a_bridge
+package bab.com.build_a_bridge.presentation
 
 
 import android.app.Activity
@@ -11,12 +11,13 @@ import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import bab.com.build_a_bridge.R
+import bab.com.build_a_bridge.RegistrationViewModel
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.PreferenceNames
 import bab.com.build_a_bridge.enums.RegionCodes
@@ -26,12 +27,9 @@ import bab.com.build_a_bridge.utils.ProfilePicUtil
 import bab.com.build_a_bridge.utils.ValidationUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_registration_user_info.*
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.design.snackbar
-import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
 import java.io.IOException
 
@@ -62,11 +60,11 @@ class RegistrationUserInfoFragment : Fragment() {
         checkForNames()
         spinnerSetup()
         setTextInputListeners()
-        // Set click listener for next button
+        // Set click Listener for next button
 
         next_button.setOnClickListener { finishRegistration() }
 
-        // Setup image view click listener
+        // Setup image View click Listener
         profile_pic_circle_image_view.setOnClickListener { choosePhoto() }
     }
 

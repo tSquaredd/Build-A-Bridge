@@ -7,9 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import bab.com.build_a_bridge.MainActivity
+import bab.com.build_a_bridge.presentation.MainActivity
 import bab.com.build_a_bridge.R
-import bab.com.build_a_bridge.AcceptRequestFragment
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.objects.Request

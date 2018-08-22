@@ -6,9 +6,9 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.Bundle
-import android.os.IBinder
 import android.support.v4.app.NotificationCompat
 import bab.com.build_a_bridge.enums.BundleParamNames
+import bab.com.build_a_bridge.presentation.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import org.jetbrains.anko.AnkoLogger

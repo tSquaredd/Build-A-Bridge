@@ -19,14 +19,14 @@ import kotlinx.android.synthetic.main.message_received_item.view.*
 import kotlinx.android.synthetic.main.message_sent_item.view.*
 
 /**
- * Adapter used to view a Conversation's Message's.
+ * Adapter used to View a Conversation's Message's.
  *
  * Determines if a message is of type sent or receieved and inflates and binds the
- * view appropriately.
+ * View appropriately.
  */
 class MessageListAdapter(val context: Context, val thisUser: User, val otherUser: User) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    // values for determining view type
+    // values for determining View type
     companion object {
         const val VIEW_TYPE_SENT = 1
         const val VIEW_TYPE_RECEIVED = 2

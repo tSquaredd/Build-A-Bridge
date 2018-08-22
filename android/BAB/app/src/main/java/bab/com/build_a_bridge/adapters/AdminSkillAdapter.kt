@@ -2,7 +2,7 @@ package bab.com.build_a_bridge.adapters
 
 import android.content.Context
 import android.os.Bundle
-import bab.com.build_a_bridge.MainActivity
+import bab.com.build_a_bridge.presentation.MainActivity
 import bab.com.build_a_bridge.admin.AdminEditSkillsFragment
 import bab.com.build_a_bridge.enums.BundleParamNames
 

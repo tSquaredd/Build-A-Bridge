@@ -1,4 +1,4 @@
-package bab.com.build_a_bridge
+package bab.com.build_a_bridge.presentation
 
 
 import android.arch.lifecycle.Observer
@@ -10,10 +10,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import bab.com.build_a_bridge.MainActivityViewModel
+import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.adapters.ConversationListAdapter
 import kotlinx.android.synthetic.main.fragment_conversations.*
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 
 /**
  * Displays list of Conversations for the User
