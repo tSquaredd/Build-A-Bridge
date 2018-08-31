@@ -3,7 +3,11 @@ package bab.com.build_a_bridge.presentation
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.os.Handler
+import android.support.design.bottomappbar.BottomAppBar
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -20,6 +24,7 @@ import com.bumptech.glide.Glide
 import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_create_request.*
 import kotlinx.android.synthetic.main.skill_list_item.view.*
 
@@ -31,6 +36,10 @@ class CreateRequestFragment : Fragment() {
 
     val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
 
+    companion object {
+        const val BAR_STYLE = "create_request"
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -39,6 +48,9 @@ class CreateRequestFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        setupBottomAppBar()
 
         // init new request object in View model
         viewModel.initRequest()
@@ -98,6 +110,27 @@ class CreateRequestFragment : Fragment() {
             }
         })
     }
+
+    private fun setupBottomAppBar() {
+        activity?.fab?.hide(object : FloatingActionButton.OnVisibilityChangedListener(){
+            override fun onHidden(fab: FloatingActionButton?) {
+                super.onHidden(fab)
+                activity?.bottom_app_bar?.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+                activity?.fab?.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_send))
+
+                val handler = Handler()
+                handler.postDelayed(object: Runnable{
+                    override fun run() {
+                        activity?.fab?.show()
+                    }
+
+                }, 200)
+            }
+        })
+
+    }
+
+
 
     override fun onResume() {
         super.onResume()

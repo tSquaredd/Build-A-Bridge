@@ -5,6 +5,9 @@ package bab.com.build_a_bridge.presentation
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.os.Handler
+import android.support.design.bottomappbar.BottomAppBar
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
@@ -14,6 +17,7 @@ import bab.com.build_a_bridge.MainActivityViewModel
 import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.R.id.action_filter_feed
 import bab.com.build_a_bridge.adapters.FeedFragmentAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_feed.*
 
 
@@ -36,10 +40,8 @@ class FeedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = getString(R.string.feed)
 
-        feed_fab.setOnClickListener {
-            val mainActivity = activity as MainActivity
-            mainActivity.swapFragments(CreateRequestFragment(), true)
-        }
+        setupBottomAppBar()
+
 
         // Setup RV
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -55,6 +57,8 @@ class FeedFragment : Fragment() {
         // Sets color of the refresh wheel
         feed_feagment_swipe_layout.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorAccent))
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.feed, menu)
@@ -85,6 +89,27 @@ class FeedFragment : Fragment() {
 
             }
         })
+    }
+
+    private fun setupBottomAppBar() {
+        if(activity?.fab?.isOrWillBeHidden!!){
+            activity?.fab?.show()
+        } else {
+            activity?.fab?.hide(object : FloatingActionButton.OnVisibilityChangedListener() {
+                override fun onHidden(fab: FloatingActionButton?) {
+                    super.onHidden(fab)
+                    activity?.bottom_app_bar?.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+                    activity?.fab?.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_add))
+                    val handler = Handler()
+                    handler.postDelayed(object : Runnable {
+                        override fun run() {
+                            activity?.fab?.show()
+                        }
+
+                    }, 200)
+                }
+            })
+        }
     }
 
     /**

@@ -3,6 +3,9 @@ package bab.com.build_a_bridge.presentation
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.os.Handler
+import android.support.design.bottomappbar.BottomAppBar
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
@@ -19,6 +22,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_requests.*
 
 /**
@@ -37,10 +41,7 @@ class RequestsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = getString(R.string.requests)
-        requests_fab.setOnClickListener {
-            val mainActivity = activity as MainActivity
-            mainActivity.swapFragments(CreateRequestFragment(), true)
-        }
+
 
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,
                 false)
@@ -57,6 +58,8 @@ class RequestsFragment : Fragment() {
         request_fragment_swipe_layout.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorAccent))
 
         getRequestsList()
+
+        setupBottomAppBar()
 
     }
 
@@ -101,5 +104,26 @@ class RequestsFragment : Fragment() {
         requests_progress_bar.visibility = View.GONE
         requests_fragment_rv.visibility = View.VISIBLE
         requests_fragment_rv.adapter = RequestsFragmentAdapter(viewModel.requestsFragmentList, context!!, activity as MainActivity)
+    }
+
+    private fun setupBottomAppBar() {
+        if(activity?.fab?.isOrWillBeHidden!!){
+            activity?.fab?.show()
+        } else {
+            activity?.fab?.hide(object : FloatingActionButton.OnVisibilityChangedListener() {
+                override fun onHidden(fab: FloatingActionButton?) {
+                    super.onHidden(fab)
+                    activity?.bottom_app_bar?.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+                    activity?.fab?.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_add))
+                    val handler = Handler()
+                    handler.postDelayed(object : Runnable {
+                        override fun run() {
+                            activity?.fab?.show()
+                        }
+
+                    }, 200)
+                }
+            })
+        }
     }
 }

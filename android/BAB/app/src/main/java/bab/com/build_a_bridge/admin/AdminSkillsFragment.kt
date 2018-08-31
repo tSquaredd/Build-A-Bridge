@@ -4,7 +4,11 @@ package bab.com.build_a_bridge.admin
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.os.Handler
+import android.support.design.bottomappbar.BottomAppBar
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -15,6 +19,7 @@ import bab.com.build_a_bridge.MainActivityViewModel
 
 import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.adapters.AdminSkillAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_admin_skills.*
 
 /**
@@ -47,15 +52,6 @@ class AdminSkillsFragment : Fragment() {
         skillAdapter = AdminSkillAdapter(context!!, activity as MainActivity)
         admin_skills_recycler_view.adapter = skillAdapter
 
-
-        // FAB
-        admin_skills_fab.setOnClickListener {
-            val activity = activity as MainActivity
-            activity.swapFragments(AdminEditSkillsFragment(), true)
-        }
-
-
-
         viewModel.skillLiveDataList.observe(this, Observer {
             it?.let { skillList ->
                 if (skillList.isEmpty()) {
@@ -67,7 +63,28 @@ class AdminSkillsFragment : Fragment() {
 
             }
         })
+
+        setupBottomAppBar()
     }
 
+    private fun setupBottomAppBar() {
+        if(activity?.fab?.isOrWillBeHidden!!){
+            activity?.fab?.show()
+        } else {
+            activity?.fab?.hide(object : FloatingActionButton.OnVisibilityChangedListener() {
+                override fun onHidden(fab: FloatingActionButton?) {
+                    super.onHidden(fab)
+                    activity?.bottom_app_bar?.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+                    activity?.fab?.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_add))
+                    val handler = Handler()
+                    handler.postDelayed(object : Runnable {
+                        override fun run() {
+                            activity?.fab?.show()
+                        }
 
+                    }, 200)
+                }
+            })
+        }
+    }
 }

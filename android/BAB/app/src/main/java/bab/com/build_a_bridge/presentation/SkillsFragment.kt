@@ -14,6 +14,7 @@ import bab.com.build_a_bridge.MainActivityViewModel
 import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.adapters.SkillSelectionToggleAdapter
 import bab.com.build_a_bridge.adapters.SkillToggleAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_skills.*
 
 /**
@@ -53,5 +54,11 @@ class SkillsFragment : Fragment() {
                 }
             }
         })
+
+        setupBottomActionBar()
+    }
+
+    private fun setupBottomActionBar(){
+        activity?.fab?.hide()
     }
 }

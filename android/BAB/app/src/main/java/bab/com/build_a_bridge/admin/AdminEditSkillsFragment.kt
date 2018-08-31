@@ -22,8 +22,10 @@ import bab.com.build_a_bridge.utils.FirebaseSkillIconUploadUtil
 import com.bumptech.glide.Glide
 import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.design.snackbar
+import java.io.File
 import java.io.IOException
 
 /**
@@ -61,6 +63,8 @@ class AdminEditSkillsFragment : Fragment() {
         admin_skills_delete_button.setOnClickListener { deleteSkill() }
 
         skills_icon.setOnClickListener { choosePhoto() }
+
+        setupBottomActionBar()
 
     }
 
@@ -123,6 +127,8 @@ class AdminEditSkillsFragment : Fragment() {
 
                 // upload skill icon if there is one.
                 if (filePath != null) {
+
+
                     val photoUploader = FirebasePhotoUploader()
                     photoUploader.uploadPhoto(filePath!!, skill.id)
                 } else activity?.onBackPressed()
@@ -213,5 +219,9 @@ class AdminEditSkillsFragment : Fragment() {
             // Do nothing, could use progress to update a progress bar if needed
         }
 
+    }
+
+    private fun setupBottomActionBar(){
+        activity?.fab?.hide()
     }
 }

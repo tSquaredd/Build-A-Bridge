@@ -7,9 +7,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
-import android.support.v4.view.GravityCompat
+import android.view.Menu
 import android.view.MenuItem
 import bab.com.build_a_bridge.*
+import bab.com.build_a_bridge.admin.AdminEditSkillsFragment
 import bab.com.build_a_bridge.admin.AdminSkillsFragment
 import bab.com.build_a_bridge.enums.BundleParamNames
 import bab.com.build_a_bridge.enums.FirebaseDbNames
@@ -23,12 +24,12 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.nav_header.view.*
+import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity() {
 
     val viewModel by lazy { ViewModelProviders.of(this).get(MainActivityViewModel::class.java) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,77 +44,100 @@ class MainActivity : AppCompatActivity() {
      * Called when Firebase Auth credentials have been verified
      */
     fun finishOnCreate() {
-        setSupportActionBar(toolbar)
-        val actionBar = supportActionBar
-        actionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_menu)
-        }
+        setSupportActionBar(bottom_app_bar)
         title = ""
 
-        setupNavigationListener()
-        setNavigationHeader()
 
         val messageBundle = intent.extras.getBundle(BundleParamNames.MESSAGE_BUNDLE.toString())
-        if(messageBundle != null){
+        if (messageBundle != null) {
             swapFragments(ConversationsFragment(), false)
-        } else if(intent.hasExtra("isMessage")){
+        } else if (intent.hasExtra("isMessage")) {
             swapFragments(ConversationsFragment(), false)
 
-        }
-        else {
+        } else {
             // Show feed fragment by default
             swapFragments(FeedFragment(), true)
-            // show feed fragment selected in nav drawer
-            nav_view.menu.getItem(0).isChecked = true
         }
 
         fcmTokenCheckup()
+
+
+        fab.setOnClickListener {
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.content_frame)
+            when(currentFragment){
+                is FeedFragment -> {
+                    swapFragments(CreateRequestFragment(), true)
+                }
+                is FeedSkillFilterFragment -> {
+                    val filterFragment = currentFragment as FeedSkillFilterFragment
+                    if(filterFragment.skillAdapter.selectedSkillsList.isEmpty()){
+                        toast(getString(R.string.empty_skills_filter))
+                    } else {
+                        viewModel.feedSkillFilterList = filterFragment.skillAdapter.selectedSkillsList
+                        onBackPressed()
+                    }
+                }
+                is RequestsFragment -> {
+                    swapFragments(CreateRequestFragment(), true)
+                }
+                is AdminSkillsFragment -> {
+                    swapFragments(AdminEditSkillsFragment(), true)
+                }
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main_navigation, menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                drawer_layout.openDrawer(GravityCompat.START)
-                true
+                openNavMenu()
+
+                return true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun setupNavigationListener() {
-        nav_view.setNavigationItemSelectedListener {
-            it.isChecked = true
-            drawer_layout.closeDrawers()
+    fun openNavMenu() {
 
-            when (it.itemId) {
-                R.id.nav_feed -> swapFragments(FeedFragment(), true)
-                R.id.nav_requests -> swapFragments(RequestsFragment(), true)
-                R.id.nav_skills -> swapFragments(SkillsFragment(), true)
-                R.id.nav_messages -> swapFragments(ConversationsFragment(), true)
-                R.id.nav_friends -> swapFragments(FriendsFragment(), true)
-                R.id.nav_settings -> swapFragments(SettingsFragment(), true)
-                R.id.nav_admin_skills -> swapFragments(AdminSkillsFragment(), true)
-                R.id.nav_sign_out -> {
-                    signOut()
-                }
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.content_frame)
+        val bottomFragment = BottomNavDrawerFragment()
+        val bundle = Bundle()
+
+        when (currentFragment) {
+            is FeedFragment -> {
+                bundle.putString(BottomNavDrawerFragment.ARG_CURRENT_SELECTION, BottomNavDrawerFragment.FEED)
             }
-
-            true
+            is RequestsFragment -> {
+                bundle.putString(BottomNavDrawerFragment.ARG_CURRENT_SELECTION, BottomNavDrawerFragment.REQUESTS)
+            }
+            is SkillsFragment -> {
+                bundle.putString(BottomNavDrawerFragment.ARG_CURRENT_SELECTION, BottomNavDrawerFragment.SKILLS)
+            }
+            is ConversationsFragment, is MessagingFragment -> {
+                bundle.putString(BottomNavDrawerFragment.ARG_CURRENT_SELECTION, BottomNavDrawerFragment.MESSAGES)
+            }
+            is FriendsFragment -> {
+                bundle.putString(BottomNavDrawerFragment.ARG_CURRENT_SELECTION, BottomNavDrawerFragment.FRIENDS)
+            }
+            is SettingsFragment -> {
+                bundle.putString(BottomNavDrawerFragment.ARG_CURRENT_SELECTION, BottomNavDrawerFragment.SETTINGS)
+            }
+            is AdminSkillsFragment, is AdminEditSkillsFragment -> {
+                bundle.putString(BottomNavDrawerFragment.ARG_CURRENT_SELECTION, BottomNavDrawerFragment.ADMIN_SKILLS)
+            }
         }
-    }
+
+        bottomFragment.arguments = bundle
+        bottomFragment.show(supportFragmentManager, bottomFragment.tag)
 
 
-
-    private fun setNavigationHeader() {
-        // load profile picture into header
-        val header = nav_view.getHeaderView(0)
-        val profilePic = ProfilePicUtil.loadPhotoFromInternalStorage(applicationContext)
-        if (profilePic != null) {
-            header.nav_profile_image_view.setImageBitmap(profilePic)
-        }
-
-        header.nav_user_name_text_view.text = viewModel.user.firstName
     }
 
     /**
@@ -134,6 +158,8 @@ class MainActivity : AppCompatActivity() {
                         .commit()
             }
         }
+
+//        bottomAppBarSetup()
     }
 
     /**
@@ -185,7 +211,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Signs the user out of FirebaseAuth, removes profile picture and User from shared prefs
      */
-    private fun signOut() {
+    fun signOut() {
         ProfilePicUtil.removePhoto(applicationContext)
         val prefs = PreferenceManager.getDefaultSharedPreferences(this).edit()
         prefs.remove(PreferenceNames.USER.toString())

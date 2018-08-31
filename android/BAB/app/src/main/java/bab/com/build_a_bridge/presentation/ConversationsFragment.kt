@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import bab.com.build_a_bridge.MainActivityViewModel
 import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.adapters.ConversationListAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_conversations.*
 
 /**
@@ -54,5 +55,11 @@ class ConversationsFragment : Fragment() {
                 }
             }
         })
+
+        setupBottomActionBar()
+    }
+
+    private fun setupBottomActionBar(){
+        activity?.fab?.hide()
     }
 }

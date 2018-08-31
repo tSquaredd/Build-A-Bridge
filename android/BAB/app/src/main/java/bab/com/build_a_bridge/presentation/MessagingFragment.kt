@@ -21,6 +21,7 @@ import bab.com.build_a_bridge.objects.Message
 import bab.com.build_a_bridge.objects.TimeStamp
 import bab.com.build_a_bridge.utils.FirebaseMessagingLiveDataList
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_messaging.*
 
 /**
@@ -126,5 +127,11 @@ class MessagingFragment : Fragment() {
 
             })
         }
+
+        setupBottomActionBar()
+    }
+
+    private fun setupBottomActionBar(){
+        activity?.fab?.hide()
     }
 }
