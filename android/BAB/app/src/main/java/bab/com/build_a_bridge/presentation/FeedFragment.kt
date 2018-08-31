@@ -98,7 +98,7 @@ class FeedFragment : Fragment() {
             activity?.fab?.hide(object : FloatingActionButton.OnVisibilityChangedListener() {
                 override fun onHidden(fab: FloatingActionButton?) {
                     super.onHidden(fab)
-                    activity?.bottom_app_bar?.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+                    activity?.bottom_app_bar?.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
                     activity?.fab?.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_add))
                     val handler = Handler()
                     handler.postDelayed(object : Runnable {

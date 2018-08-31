@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_accept_request.*
 import org.jetbrains.anko.toast
 
@@ -105,6 +106,8 @@ class AcceptRequestFragment : Fragment() {
             if (viewModel.requestForAccept.requesterId == viewModel.user.userId) cancelRequest()
             else acceptRequest()
         }
+
+        setupBottomAppBar()
     }
 
     /**
@@ -193,5 +196,9 @@ class AcceptRequestFragment : Fragment() {
     fun updateUi(user: User) {
         val displayName = "${user.firstName} ${user.lastName}"
         requester_name_tv.text = displayName
+    }
+
+    private fun  setupBottomAppBar(){
+        activity?.fab?.hide()
     }
 }

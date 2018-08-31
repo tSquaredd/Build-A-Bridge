@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_request_details.*
 import org.jetbrains.anko.toast
 
@@ -159,5 +160,11 @@ class RequestDetailsFragment : Fragment() {
                 })
             }
         }
+
+        setupBottomAppBar()
+    }
+
+    private fun setupBottomAppBar(){
+        activity?.fab?.hide()
     }
 }

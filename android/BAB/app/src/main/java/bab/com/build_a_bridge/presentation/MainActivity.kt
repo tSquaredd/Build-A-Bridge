@@ -83,6 +83,11 @@ class MainActivity : AppCompatActivity() {
                 is AdminSkillsFragment -> {
                     swapFragments(AdminEditSkillsFragment(), true)
                 }
+                is CreateRequestFragment -> {
+                    val fragment = currentFragment as CreateRequestFragment
+                    fragment.requestCreation()
+
+                }
             }
         }
     }

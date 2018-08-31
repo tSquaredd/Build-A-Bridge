@@ -171,7 +171,7 @@ class CreateRequestFragment : Fragment() {
     /**
      * Pushes the new request to the firebase DB
      */
-    private fun requestCreation() {
+     fun requestCreation() {
 
         // add request to REQUESTS on firabse DB
         var db = FirebaseDatabase.getInstance().reference
