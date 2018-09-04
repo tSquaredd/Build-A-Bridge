@@ -65,6 +65,7 @@ class FeedFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val id = item?.itemId
 
@@ -92,6 +93,7 @@ class FeedFragment : Fragment() {
     }
 
     private fun setupBottomAppBar() {
+
         if(activity?.fab?.isOrWillBeHidden!!){
             activity?.fab?.show()
         } else {

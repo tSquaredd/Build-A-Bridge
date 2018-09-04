@@ -10,8 +10,8 @@ import bab.com.build_a_bridge.objects.Request
  * Extension of RequestAdapter to add appropriate implementation of onItemClick for
  * the RequestFragment Adapter.
  */
-class RequestsFragmentAdapter(requestList: ArrayList<Request>, context: Context, activity: MainActivity) :
-        RequestAdapter(requestList, context, activity) {
+class RequestsFragmentAdapter(requestList: ArrayList<Request>,  userId: String, context: Context, activity: MainActivity) :
+        ActiveRequestAdapter(requestList, userId,  context, activity) {
     override fun onItemClick(position: Int) {
         if (requestList[position].volunteerId == null) {
             // This is a request which has no volunteer attached

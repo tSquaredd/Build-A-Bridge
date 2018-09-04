@@ -11,6 +11,7 @@
     <string name="delete">Delete</string>
     <string name="delete_skill">Delete Skill</string>
     <string name="delete_skill_prompt">Are you sure you want to delete this skill?</string>
+    <string name="done">Done</string>
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">459412514480213</string>
     <string name="facebook_login_protocol_scheme" translatable="false">ffb459412514480213</string>
@@ -51,11 +52,14 @@
     <string name="refugee_immigrant_choice_label">I AM A REFUGEE / IMMIGRANT</string>
     <string name="refugee_immigrant_choice_hint">Are you new to the country? Let us help you settle in and build a new home</string>
     <string name="region">Region</string>
+    <string name="requested">Requested</string>
+    <string name="requester">Requester</string>
     <string name="request_description">Request Description</string>
     <string name="request_details_length_error">Details cannot exceed 240 characters</string>
     <string name="request_title">Request Title</string>
     <string name="request_title_length_error">Title cannot exceed 40 characters</string>
     <string name="requests">Requests</string>
+    <string name="role_label">Your Role: %1$s</string>
     <string name="save">Save</string>
     <string name="select_picture">Select Picture</string>
     <string name="select_region">Select Region</string>
@@ -70,10 +74,15 @@
     <string name="skills">Skills</string>
     <string name="skills_admin">Skills - Admin</string>
     <string name="state">State</string>
+    <string name="status_label">Status: %1$s</string>
     <string name="volunteer_choice_label">I AM A VOLUNTEER</string>
     <string name="volunteer_choice_hint">Are you willing to help? From sparing a few hours a week to sponsoring a family.\nEvery bit helps</string>
     <string name="who_are_you">Who are you?</string>
     <string name="yes">Yes</string>
+    <string name="in_progress">In Progress</string>
+    <string name="volunteer">Volunteer</string>
+    <string name="completed">Completed</string>
+    <string name="incomplete">Incomplete</string>
 
 
     <!-- string resources for admin pages -->
@@ -149,8 +158,8 @@
         <item>Yonkers</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="done">Done</string>
+
+
+
 
 </resources>

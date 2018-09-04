@@ -78,6 +78,8 @@ class FeedSkillFilterFragment : Fragment() {
                 super.onHidden(fab)
                 activity?.bottom_app_bar?.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
                 activity?.fab?.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_done))
+                
+
                 val handler = Handler()
                 handler.postDelayed(object : Runnable {
                     override fun run() {

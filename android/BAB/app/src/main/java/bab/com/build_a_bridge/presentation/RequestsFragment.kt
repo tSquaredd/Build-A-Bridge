@@ -45,8 +45,7 @@ class RequestsFragment : Fragment() {
 
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,
                 false)
-        val divider = DividerItemDecoration(context, layoutManager.orientation)
-        requests_fragment_rv.addItemDecoration(divider)
+
         requests_fragment_rv.layoutManager = layoutManager
 
         // Listener for pull down refresh
@@ -103,7 +102,8 @@ class RequestsFragment : Fragment() {
     private fun setAdapter() {
         requests_progress_bar.visibility = View.GONE
         requests_fragment_rv.visibility = View.VISIBLE
-        requests_fragment_rv.adapter = RequestsFragmentAdapter(viewModel.requestsFragmentList, context!!, activity as MainActivity)
+        requests_fragment_rv.adapter = RequestsFragmentAdapter(viewModel.requestsFragmentList,
+                viewModel.user.userId, context!!, activity as MainActivity)
     }
 
     private fun setupBottomAppBar() {

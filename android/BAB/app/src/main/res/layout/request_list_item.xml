@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/request_item_title"
+        android:id="@+id/request_item_title_tv"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         tools:text="Tyler Turnbull"
         app:layout_constraintBottom_toBottomOf="@+id/request_skill_category_iv"
         app:layout_constraintStart_toEndOf="@+id/request_skill_category_iv"
-        app:layout_constraintTop_toBottomOf="@+id/request_item_title" />
+        app:layout_constraintTop_toBottomOf="@+id/request_item_title_tv" />
 
 
 </android.support.constraint.ConstraintLayout>

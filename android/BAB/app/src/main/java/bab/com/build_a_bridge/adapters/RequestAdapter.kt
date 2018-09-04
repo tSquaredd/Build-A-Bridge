@@ -79,7 +79,7 @@ abstract class RequestAdapter(var requestList: ArrayList<Request>, val context: 
 
 
     inner class RequestHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val requestTitle: TextView = itemView.request_item_title
+        val requestTitle: TextView = itemView.request_item_title_tv
         val requesterName: TextView = itemView.requester_name_tv
         val requestSkillIcon: AppCompatImageView = itemView.request_skill_category_iv
 
