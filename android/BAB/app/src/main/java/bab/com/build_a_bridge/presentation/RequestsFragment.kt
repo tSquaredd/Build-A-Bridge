@@ -18,6 +18,7 @@ import bab.com.build_a_bridge.R
 import bab.com.build_a_bridge.adapters.RequestsFragmentAdapter
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.objects.Request
+import bab.com.build_a_bridge.utils.FirebaseDbRefUtil
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -66,9 +67,7 @@ class RequestsFragment : Fragment() {
     private fun getRequestsList() {
         // empty the list of requests
         viewModel.requestsFragmentList = arrayListOf()
-        val db = FirebaseDatabase.getInstance().reference
-                .child(FirebaseDbNames.REQUESTS_BY_USER.toString())
-                .child(viewModel.user.userId)
+        val db = FirebaseDbRefUtil.getAllRequestsByUserRef(viewModel.user.userId)
 
 
         db.addListenerForSingleValueEvent(object : ValueEventListener {

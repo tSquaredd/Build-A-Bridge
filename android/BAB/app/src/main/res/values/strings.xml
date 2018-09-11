@@ -12,9 +12,6 @@
     <string name="delete_skill">Delete Skill</string>
     <string name="delete_skill_prompt">Are you sure you want to delete this skill?</string>
     <string name="done">Done</string>
-    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
-    <string name="facebook_application_id" translatable="false">459412514480213</string>
-    <string name="facebook_login_protocol_scheme" translatable="false">ffb459412514480213</string>
     <string name="email_verification">A verification email has been sent to your address. It is required that you verify the address provided before continuing\n\n\n\n\nNot receiving the email?\n\nClick the button below to resend</string>
     <string name="email_not_verified_toast">Address has not been verified. Try again in a moment or re-verify</string>
     <string name="empty_admin_skills_list">No skills have been added yet.\n\nAdd one with the \'+\' button</string>
@@ -24,9 +21,13 @@
     <string name="empty_skills_filter">Must select at least one skill</string>
     <string name="empty_skills_fragment_list">No skills exist within the system. Check back soon</string>
     <string name="enter_message">Enter message</string>
+    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+    <string name="facebook_application_id" translatable="false">459412514480213</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">ffb459412514480213</string>
     <string name="failed_creating_conversation">Could not create new conversation. Try again</string>
     <string name="feed">Feed</string>
     <string name="filter">Filter</string>
+    <string name="finish_request">Finish Request</string>
     <string name="first_name">First Name</string>
     <string name="friends">Friends</string>
     <string name="help">Help</string>
@@ -49,6 +50,7 @@
     <string name="phone_number_optional">Phone Number (optional)</string>
     <string name="photo_upload_failure">Problem uploading photo, try again</string>
     <string name="photo_upload_success">Photo uploaded successfully</string>
+    <string name="rating_label">How would you rate %1$s\'s help?</string>
     <string name="refugee_immigrant_choice_label">I AM A REFUGEE / IMMIGRANT</string>
     <string name="refugee_immigrant_choice_hint">Are you new to the country? Let us help you settle in and build a new home</string>
     <string name="region">Region</string>
@@ -157,7 +159,6 @@
         <item>Syracuse</item>
         <item>Yonkers</item>
     </string-array>
-
 
 
 

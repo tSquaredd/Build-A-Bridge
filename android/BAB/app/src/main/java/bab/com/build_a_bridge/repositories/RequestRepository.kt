@@ -1,8 +1,6 @@
 package bab.com.build_a_bridge.repositories
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.preference.PreferenceManager
 import bab.com.build_a_bridge.objects.Request
 import bab.com.build_a_bridge.utils.FirebaseDbRefUtil
 import com.google.firebase.database.DataSnapshot
@@ -13,7 +11,7 @@ class RequestRepository {
     private val allRequests = MutableLiveData<List<Request>>()
 
     fun loadAllRequestsFor(state: String, region: String){
-        val dbRef = FirebaseDbRefUtil.requestsInRegion(state, region)
+        val dbRef = FirebaseDbRefUtil.getRequestsInRegion(state, region)
         dbRef.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
                 // Do nothing

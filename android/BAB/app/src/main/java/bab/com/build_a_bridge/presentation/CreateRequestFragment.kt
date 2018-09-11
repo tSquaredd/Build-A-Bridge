@@ -19,6 +19,7 @@ import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.enums.RequestStatusCodes
 import bab.com.build_a_bridge.objects.Skill
+import bab.com.build_a_bridge.utils.GlideUtil
 import bab.com.build_a_bridge.utils.ValidationUtil
 import com.bumptech.glide.Glide
 import com.firebase.ui.storage.images.FirebaseImageLoader
@@ -49,13 +50,10 @@ class CreateRequestFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         setupBottomAppBar()
 
         // init new request object in View model
         viewModel.initRequest()
-
-        create_request_button.setOnClickListener { requestCreation() }
 
         skill_selection_item.setOnClickListener {
             val activity = activity as MainActivity
@@ -143,8 +141,8 @@ class CreateRequestFragment : Fragment() {
     /**
      * Used to check if request is valid, and ready to be submitted
      */
-    private fun isRequestReady() {
-        create_request_button.isEnabled = (viewModel.newRequest?.title != "" && viewModel.newRequest?.details != null
+    fun isRequestReady(): Boolean {
+        return (viewModel.newRequest?.title != "" && viewModel.newRequest?.details != null
                 && viewModel.newRequest?.skillId != null)
     }
 
@@ -157,14 +155,7 @@ class CreateRequestFragment : Fragment() {
         skill_selection_item.skill_name.text = skill.name
         skill_selection_item.skill_description.text = skill.description
 
-        val storageRef = FirebaseStorage.getInstance().reference
-                .child(FirebaseStorageNames.SKILL_ICONS.toString())
-                .child(skill.id)
-
-        Glide.with(context)
-                .using(FirebaseImageLoader())
-                .load(storageRef)
-                .into(skill_selection_item.skill_icon)
+        GlideUtil.loadSkillIconIntoIv(skill_selection_item.skill_icon, skill.id, context!!)
 
     }
 
@@ -177,9 +168,9 @@ class CreateRequestFragment : Fragment() {
         var db = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.REQUESTS.toString())
                 .child(FirebaseDbNames.STATE.toString())
-                .child(viewModel.user?.state.toString())
+                .child(viewModel.user.state.toString())
                 .child(FirebaseDbNames.REGION.toString())
-                .child(viewModel.user?.region.toString())
+                .child(viewModel.user.region.toString())
                 .child(RequestStatusCodes.REQUESTED.toString())
 
         // get unique id
@@ -193,7 +184,7 @@ class CreateRequestFragment : Fragment() {
         // add request to REQUESTS_BY_USER on firebase DB
         val db2 = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.REQUESTS_BY_USER.toString())
-                .child(viewModel.user?.userId!!)
+                .child(viewModel.user.userId)
                 .child(RequestStatusCodes.REQUESTED.toString())
                 .child(reqId.toString())
 

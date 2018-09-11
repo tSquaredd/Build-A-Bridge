@@ -271,7 +271,7 @@ class RegistrationUserInfoFragment : Fragment() {
                 // And state and region are checked above.
                 val user = User(viewModel.firstName!!, viewModel.lastName!!,
                         viewModel.phoneNumber, viewModel.state!!, viewModel.region!!,
-                        null, FirebaseAuth.getInstance().currentUser?.email!!,
+                         FirebaseAuth.getInstance().currentUser?.email!!,
                         FirebaseAuth.getInstance().uid.toString())
 
                 val userDb = FirebaseDatabase.getInstance().reference

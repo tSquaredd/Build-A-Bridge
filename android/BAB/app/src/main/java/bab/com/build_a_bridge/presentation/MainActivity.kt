@@ -85,7 +85,11 @@ class MainActivity : AppCompatActivity() {
                 }
                 is CreateRequestFragment -> {
                     val fragment = currentFragment as CreateRequestFragment
-                    fragment.requestCreation()
+                    if(fragment.isRequestReady())
+                        fragment.requestCreation()
+                    else {
+                        // TODO: Give context as to why request is not ready
+                    }
 
                 }
             }
