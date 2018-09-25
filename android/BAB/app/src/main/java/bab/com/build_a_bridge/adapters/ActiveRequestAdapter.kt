@@ -14,6 +14,7 @@ import bab.com.build_a_bridge.enums.RequestStatusCodes
 import bab.com.build_a_bridge.objects.Request
 import bab.com.build_a_bridge.objects.User
 import bab.com.build_a_bridge.presentation.MainActivity
+import bab.com.build_a_bridge.utils.GlideUtil
 import com.bumptech.glide.Glide
 import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.firebase.database.DataSnapshot
@@ -75,19 +76,15 @@ abstract class ActiveRequestAdapter(var requestList: ArrayList<Request>, val use
         var userDb = FirebaseDatabase.getInstance().reference
                 .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
 
-        var userImageDb = FirebaseStorage.getInstance().reference
-                .child(FirebaseStorageNames.PROFILE_PICTURES.toString())
-
         if (currentRequest.requesterId == userId) {
             if (currentRequest.volunteerId != null) {
                 userDb = userDb.child(currentRequest.volunteerId!!)
-                userImageDb = userImageDb.child(currentRequest.volunteerId!!)
+
             } else {
                 return
             }
         } else {
             userDb = userDb.child(currentRequest.requesterId!!)
-            userImageDb = userImageDb.child(currentRequest.requesterId!!)
 
         }
         userDb.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -103,23 +100,13 @@ abstract class ActiveRequestAdapter(var requestList: ArrayList<Request>, val use
 
         })
 
+        currentRequest.skillId?.let { skillId ->
+            GlideUtil.loadSkillIconIntoIv(holder.requestSkillIcon, skillId, context)
+        }
 
-        val storageRef = FirebaseStorage.getInstance().reference
-                .child(FirebaseStorageNames.SKILL_ICONS.toString())
-                .child(currentRequest.skillId!!)
-
-        Glide.with(context)
-                .using(FirebaseImageLoader())
-                .load(storageRef)
-                .error(R.drawable.ic_default_skill)
-                .into(holder.requestSkillIcon)
-
-        Glide.with(context)
-                .using(FirebaseImageLoader())
-                .load(userImageDb)
-                .error(R.drawable.default_user_pic)
-                .into(holder.otherUserImage)
-
+        currentRequest.requesterId?.let { requesterId ->
+            GlideUtil.loadProfilePicIntoCiv(holder.otherUserImage, requesterId, context )
+        }
     }
 
     fun updateRequestList(requestList: ArrayList<Request>) {

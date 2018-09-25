@@ -15,6 +15,8 @@ import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.FirebaseStorageNames
 import bab.com.build_a_bridge.enums.RequestStatusCodes
 import bab.com.build_a_bridge.objects.User
+import bab.com.build_a_bridge.utils.FirebaseDbRefUtil
+import bab.com.build_a_bridge.utils.GlideUtil
 import bab.com.build_a_bridge.utils.ProfilePicUtil
 import com.bumptech.glide.Glide
 import com.firebase.ui.storage.images.FirebaseImageLoader
@@ -56,50 +58,37 @@ class AcceptRequestFragment : Fragment() {
             // load profile picture from internal storage
             val picBitmap = ProfilePicUtil.loadPhotoFromInternalStorage(context!!)
             accept_request_requester_iv.setImageBitmap(picBitmap)
+            toggleProgressBar()
 
         } else {
             // This is the user viewing the Request of another User
 
             // Get profile image of requester
-            val requesterImgRef = FirebaseStorage.getInstance().reference
-                    .child(FirebaseStorageNames.PROFILE_PICTURES.toString())
-                    .child(viewModel.requestForAccept.requesterId!!)
+            viewModel.requestForAccept.requesterId?.let { requesterId ->
+                GlideUtil.loadProfilePicIntoCiv(accept_request_requester_iv, requesterId, context!!)
 
-            Glide.with(context)
-                    .using(FirebaseImageLoader())
-                    .load(requesterImgRef)
-                    .error(R.drawable.default_user_pic)
-                    .into(accept_request_requester_iv)
+                val requesterDbRef = FirebaseDbRefUtil.getUserRef(requesterId)
 
+                requesterDbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                        // Do nothing
+                    }
 
-            val requesterDbRef = FirebaseDatabase.getInstance().reference
-                    .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
-                    .child(viewModel.requestForAccept.requesterId!!)
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val user = dataSnapshot.getValue(User::class.java)
+                        user?.let { updateUi(it) }
 
-            requesterDbRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-                    // Do nothing
-                }
-
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val user = dataSnapshot.getValue(User::class.java)
-                    user?.let { updateUi(it) }
-
-                    val buttonText = "${getString(R.string.help)} ${user?.firstName}"
-                    accept_request_btn.text = buttonText
-                }
-            })
+                        val buttonText = "${getString(R.string.help)} ${user?.firstName}"
+                        accept_request_btn.text = buttonText
+                        toggleProgressBar()
+                    }
+                })
+            }
         }
 
-        val skillIconRef = FirebaseStorage.getInstance().reference
-                .child(FirebaseStorageNames.SKILL_ICONS.toString())
-                .child(viewModel.requestForAccept.skillId!!)
-
-        Glide.with(context)
-                .using(FirebaseImageLoader())
-                .load(skillIconRef)
-                .error(R.drawable.ic_default_skill)
-                .into(accept_request_skill_icon)
+        viewModel.requestForAccept.skillId?.let {skillId ->
+            GlideUtil.loadSkillIconIntoIv(accept_request_skill_icon, skillId, context!!)
+        }
 
         accept_request_btn.setOnClickListener {
             // if user is viewing own request enable cancelling, otherwise enable accepting.
@@ -200,5 +189,10 @@ class AcceptRequestFragment : Fragment() {
 
     private fun  setupBottomAppBar(){
         activity?.fab?.hide()
+    }
+
+    private fun toggleProgressBar(){
+        accept_request_progress_bar.visibility = View.GONE
+        accept_request_content_constraint_layout.visibility = View.VISIBLE
     }
 }
