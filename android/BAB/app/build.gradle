@@ -8,7 +8,7 @@ apply plugin: 'kotlin-android-extensions'
 
 
 android {
-    compileSdkVersion 'android-P'
+    compileSdkVersion 28
     defaultConfig {
         applicationId "bab.com.build_a_bridge"
         minSdkVersion 21
