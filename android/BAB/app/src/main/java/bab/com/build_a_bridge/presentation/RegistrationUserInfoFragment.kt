@@ -274,16 +274,7 @@ class RegistrationUserInfoFragment : Fragment() {
                          FirebaseAuth.getInstance().currentUser?.email!!,
                         FirebaseAuth.getInstance().uid.toString())
 
-                //TODO REMOVE
-//                val userDb = FirebaseDatabase.getInstance().reference
-//                        .child(FirebaseDbNames.USERS.toString())
-//                        .child(FirebaseDbNames.STATE.toString())
-//                        .child(viewModel.state.toString())
-//                        .child(FirebaseDbNames.REGION.toString())
-//                        .child(viewModel.region.toString())
-//                        .child(FirebaseAuth.getInstance().uid!!)
-//
-//                userDb.setValue(user)
+
 
                 val userDirectoryDb = FirebaseDatabase.getInstance().reference
                         .child(FirebaseDbNames.USER_ID_DIRECTORY.toString())
