@@ -185,6 +185,7 @@ class AcceptRequestFragment : Fragment() {
     fun updateUi(user: User) {
         val displayName = "${user.firstName} ${user.lastName}"
         requester_name_tv.text = displayName
+        accept_request_rating_bar.rating = (user.ratingTotal / user.numRatings).toFloat()
     }
 
     private fun  setupBottomAppBar(){
