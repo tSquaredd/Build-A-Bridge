@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintSet
 import android.support.v4.app.Fragment
+import android.util.Log
 
 import android.view.LayoutInflater
 import android.view.View
@@ -87,7 +88,7 @@ class RequestDetailsFragment : Fragment() {
             // If a rating came through update the volunteer user
             volunteerUserDbRef.runTransaction(object : Transaction.Handler {
                 override fun onComplete(p0: DatabaseError?, p1: Boolean, p2: DataSnapshot?) {
-                    // Do nothing
+                    Log.i("RequestDetailsFragment", "onComplete: COMPLETE")
                 }
 
                 override fun doTransaction(data: MutableData): Transaction.Result {
@@ -96,7 +97,6 @@ class RequestDetailsFragment : Fragment() {
                         rating?.let {
                             nonNullVolunteer.ratingTotal += it
                             nonNullVolunteer.numRatings += 1
-
                             data.value = nonNullVolunteer
 
                         }

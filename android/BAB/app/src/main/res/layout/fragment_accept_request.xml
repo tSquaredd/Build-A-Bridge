@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="?attr/actionBarSize"
-    tools:context=".presentation.AcceptRequestFragment">
+    tools:context=".presentation.AcceptRequestFragment"
+    >
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/accept_request_content_constraint_layout"

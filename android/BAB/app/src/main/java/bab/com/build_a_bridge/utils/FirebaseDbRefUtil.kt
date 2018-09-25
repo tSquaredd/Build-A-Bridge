@@ -31,7 +31,6 @@ class FirebaseDbRefUtil {
                     .child(userId)
                     .child(statusCode.toString())
                     .child(requestId)
-
         }
 
         fun getAllRequestsByUserRef(userId: String): DatabaseReference {
@@ -65,7 +64,7 @@ class FirebaseDbRefUtil {
         }
 
         /**
-         * DB structure is
+        * DB structure is
          * MESSAGES_BY_USER -> userId -> targetUserId
          *
          * Where target user is the target for the message.

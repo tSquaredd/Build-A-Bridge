@@ -242,15 +242,17 @@ class MainActivity : AppCompatActivity() {
                         val prefEdit = PreferenceManager.getDefaultSharedPreferences(applicationContext).edit()
                         prefEdit.putString(PreferenceNames.USER.toString(), Gson().toJson(viewModel.user)).apply()
 
-                        // update user info on firebase
-                        FirebaseDatabase.getInstance().reference
-                                .child(FirebaseDbNames.USERS.toString())
-                                .child(FirebaseDbNames.STATE.toString())
-                                .child(viewModel.user.state.toString())
-                                .child(FirebaseDbNames.REGION.toString())
-                                .child(viewModel.user.region.toString())
-                                .child(viewModel.user.userId)
-                                .setValue(viewModel.user)
+
+                        // TODO REMOVE
+//                        // update user info on firebase
+//                        FirebaseDatabase.getInstance().reference
+//                                .child(FirebaseDbNames.USERS.toString())
+//                                .child(FirebaseDbNames.STATE.toString())
+//                                .child(viewModel.user.state.toString())
+//                                .child(FirebaseDbNames.REGION.toString())
+//                                .child(viewModel.user.region.toString())
+//                                .child(viewModel.user.userId)
+//                                .setValue(viewModel.user)
 
                         // Update user info in USER ID DIRECTORY
                         FirebaseDatabase.getInstance().reference

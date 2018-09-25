@@ -13,6 +13,5 @@ enum class FirebaseDbNames {
     SKILLS,
     SKILLS_BY_USER,
     STATE,
-    USERS,
     USER_ID_DIRECTORY
 }
