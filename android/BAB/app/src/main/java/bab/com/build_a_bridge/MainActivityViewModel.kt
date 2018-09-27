@@ -76,7 +76,6 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         })
 
         requestRepository = RequestRepository()
-
     }
 
     override fun onCleared() {
