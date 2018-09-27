@@ -63,14 +63,10 @@ class CreateRequestFragment : Fragment() {
         request_title.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 val string = p0.toString().trim()
-                val titleValidation = ValidationUtil.isNameValid(string, ' ')
-                if (titleValidation == null && string.length <= 40)
+                if (string.length <= 40)
                     viewModel.newRequest?.title = string
-                else if (string.length > 40) {
+                else {
                     request_title.error = getString(R.string.request_title_length_error)
-                    viewModel.newRequest?.title = ""
-                } else {
-                    request_title.error = "${getString(R.string.invalid_character)} $titleValidation"
                     viewModel.newRequest?.title = ""
                 }
 
@@ -90,7 +86,7 @@ class CreateRequestFragment : Fragment() {
         request_details.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 val string = p0.toString().trim()
-                if (string.length > 240) {
+                if (string.length > 2000) {
                     request_details.error = getString(R.string.request_details_length_error)
                     viewModel.newRequest?.details = ""
                 } else
@@ -110,14 +106,14 @@ class CreateRequestFragment : Fragment() {
     }
 
     private fun setupBottomAppBar() {
-        activity?.fab?.hide(object : FloatingActionButton.OnVisibilityChangedListener(){
+        activity?.fab?.hide(object : FloatingActionButton.OnVisibilityChangedListener() {
             override fun onHidden(fab: FloatingActionButton?) {
                 super.onHidden(fab)
                 activity?.bottom_app_bar?.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
                 activity?.fab?.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_send))
 
                 val handler = Handler()
-                handler.postDelayed(object: Runnable{
+                handler.postDelayed(object : Runnable {
                     override fun run() {
                         activity?.fab?.show()
                     }
@@ -127,7 +123,6 @@ class CreateRequestFragment : Fragment() {
         })
 
     }
-
 
 
     override fun onResume() {
@@ -162,7 +157,7 @@ class CreateRequestFragment : Fragment() {
     /**
      * Pushes the new request to the firebase DB
      */
-     fun requestCreation() {
+    fun requestCreation() {
 
         // add request to REQUESTS on firabse DB
         var db = FirebaseDatabase.getInstance().reference

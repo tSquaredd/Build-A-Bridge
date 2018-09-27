@@ -57,7 +57,7 @@
     <string name="requested">Requested</string>
     <string name="requester">Requester</string>
     <string name="request_description">Request Description</string>
-    <string name="request_details_length_error">Details cannot exceed 240 characters</string>
+    <string name="request_details_length_error">Details cannot exceed 2000 characters</string>
     <string name="request_title">Request Title</string>
     <string name="request_title_length_error">Title cannot exceed 40 characters</string>
     <string name="requests">Requests</string>
