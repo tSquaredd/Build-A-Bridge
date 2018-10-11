@@ -1,5 +1,7 @@
 package bab.com.build_a_bridge
 
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialogFragment
@@ -9,10 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import bab.com.build_a_bridge.admin.AdminSkillsFragment
 import bab.com.build_a_bridge.presentation.*
+import bab.com.build_a_bridge.utils.FirebaseStorageRefUtil
+import com.bumptech.glide.Glide
+import com.firebase.ui.storage.images.FirebaseImageLoader
 import kotlinx.android.synthetic.main.bottom_sheet.*
 
 class BottomNavDrawerFragment: BottomSheetDialogFragment() {
 
+    val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
 
     companion object {
         const val ARG_CURRENT_SELECTION = "current_selection"
@@ -22,6 +28,7 @@ class BottomNavDrawerFragment: BottomSheetDialogFragment() {
         const val MESSAGES = "messages"
         const val FRIENDS = "friends"
         const val SETTINGS = "settings"
+        const val PROFILE = "profile"
 
         const val ADMIN_SKILLS = "admin_skills"
     }
@@ -32,7 +39,16 @@ class BottomNavDrawerFragment: BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i("TAG", "ARG IS " + arguments?.getString(ARG_CURRENT_SELECTION))
+
+        Glide.with(this)
+                .using(FirebaseImageLoader())
+                .load(FirebaseStorageRefUtil.profilePicRef(viewModel.user.userId))
+                .into(nav_user_icon_iv)
+
+        val username = "${viewModel.user.firstName} ${viewModel.user.lastName}"
+        nav_username_tv.text = username
+
+        nav_user_email_tv.text = viewModel.user.email
 
         when (arguments?.getString(ARG_CURRENT_SELECTION)){
             FEED -> {
@@ -56,6 +72,9 @@ class BottomNavDrawerFragment: BottomSheetDialogFragment() {
             }
             ADMIN_SKILLS -> {
                 navigation_view.setCheckedItem(R.id.nav_admin_skills)
+            }
+            PROFILE -> {
+                navigation_view.setCheckedItem(R.id.nav_profile)
             }
         }
 

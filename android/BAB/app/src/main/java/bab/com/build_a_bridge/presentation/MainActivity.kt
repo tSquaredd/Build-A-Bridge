@@ -137,6 +137,9 @@ class MainActivity : AppCompatActivity() {
             is AdminSkillsFragment, is AdminEditSkillsFragment -> {
                 bundle.putString(BottomNavDrawerFragment.ARG_CURRENT_SELECTION, BottomNavDrawerFragment.ADMIN_SKILLS)
             }
+            is EditProfileFragment -> {
+                bundle.putString(BottomNavDrawerFragment.ARG_CURRENT_SELECTION, BottomNavDrawerFragment.PROFILE)
+            }
         }
 
         bottomFragment.arguments = bundle
@@ -163,8 +166,6 @@ class MainActivity : AppCompatActivity() {
                         .commit()
             }
         }
-
-//        bottomAppBarSetup()
     }
 
     /**
