@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import bab.com.build_a_bridge.*
@@ -15,6 +16,8 @@ import bab.com.build_a_bridge.admin.AdminSkillsFragment
 import bab.com.build_a_bridge.enums.BundleParamNames
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.PreferenceNames
+import bab.com.build_a_bridge.objects.Region
+import bab.com.build_a_bridge.objects.Regions
 import bab.com.build_a_bridge.utils.ProfilePicUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -34,6 +37,32 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+//        var test = Regions(arrayListOf())
+//        test.locations.add(Region("New York",
+//                arrayListOf("Albany", "Buffalo", "Mt. Vernon", "New York City",
+//                        "Schenectady", "Syracuse", "Yonkers")))
+//
+//        val dbRef = FirebaseDatabase.getInstance().reference
+//                .child("REGIONS")
+//                .setValue(test)
+
+        val dbRef = FirebaseDatabase.getInstance().reference
+                .child("REGIONS")
+                .addListenerForSingleValueEvent(object : ValueEventListener{
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val data = p0.getValue(Regions::class.java)
+                        for(i in data!!.locations)
+                            for(j in i.areas){
+                                Log.i("MainActivity", "onDataChange: $j")
+                            }
+                    }
+
+                })
 
 
         // Check if user signed in

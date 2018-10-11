@@ -7,6 +7,7 @@ import android.arch.lifecycle.Observer
 import android.preference.PreferenceManager
 import bab.com.build_a_bridge.enums.FirebaseDbNames
 import bab.com.build_a_bridge.enums.PreferenceNames
+import bab.com.build_a_bridge.objects.Regions
 import bab.com.build_a_bridge.objects.Request
 import bab.com.build_a_bridge.objects.Skill
 import bab.com.build_a_bridge.objects.User
@@ -40,6 +41,8 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     var userToMessage: User = User()
     var messageId: String = ""
     var feedSkillFilterList = arrayListOf<String>()
+    var states: ArrayList<String> = arrayListOf()
+    var areas: MutableMap<String, ArrayList<String>> = hashMapOf()
 
     // Repos
     private val requestRepository: RequestRepository
@@ -107,6 +110,33 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     fun filterRequests(allRequests: List<Request>){
        feedFragmentList = RequestListUtil.filterRequests(allRequests, feedSkillFilterList,
                user.userId)
+    }
+
+    fun getRegions(){
+        FirebaseDatabase.getInstance().reference
+                .child("REGIONS")
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val data = p0.getValue(Regions::class.java)
+                        data?.let {
+                            for( region in it.locations){
+                                states.add(region.state)
+
+                                val areaList = arrayListOf<String>()
+                                for( area in region.areas){
+                                    areaList.add(area)
+
+                                }
+                                areas.put(region.state, areaList)
+                            }
+                        }
+                    }
+
+                })
     }
 
 

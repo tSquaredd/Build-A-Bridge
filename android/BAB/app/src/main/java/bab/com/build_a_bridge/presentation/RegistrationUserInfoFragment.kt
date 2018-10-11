@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -183,9 +184,8 @@ class RegistrationUserInfoFragment : Fragment() {
      * Sets up the spinners for choosing state and region
      */
     private fun spinnerSetup() {
-        val states = resources.getStringArray(R.array.states)
         val adapter = ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,
-                states)
+                viewModel.states)
         state_spinner.adapter = adapter
         state_spinner.setTitle(getString(R.string.select_state))
         region_spinner.setTitle(getString(R.string.select_region))
@@ -198,16 +198,15 @@ class RegistrationUserInfoFragment : Fragment() {
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, selecetedItemView: View?, position: Int, p3: Long) {
-                when (position) {
-                    34 -> {
-                        viewModel.state = RegionCodes.NEW_YORK
-                        val regions = resources.getStringArray(R.array.new_york_regions)
-                        val regionAdapter = ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,
-                                regions)
-                        region_spinner.adapter = regionAdapter
-                        region_spinner.isEnabled = true
-                    }
-                }
+                viewModel.state = viewModel.states[position]
+                Log.i("RegistrationUserInfo", "onItemSelected: STATE IS ${viewModel.state}")
+                val regions = viewModel.areas[viewModel.state!!]
+                Log.i("RegistrationFragment", "onItemSelected: ${regions.toString()} ")
+                val regionAdapter = ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,
+                        regions)
+
+                region_spinner.adapter = regionAdapter
+                region_spinner.isEnabled = true
             }
         }
 
@@ -217,20 +216,10 @@ class RegistrationUserInfoFragment : Fragment() {
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                viewModel.region = when (viewModel.state) {
-                    RegionCodes.NEW_YORK -> when (position) {
-                        0 -> RegionCodes.ALBANY
-                        1 -> RegionCodes.BUFFALO
-                        2 -> RegionCodes.MT_VERNON
-                        3 -> RegionCodes.NEW_YORK_CITY
-                        4 -> RegionCodes.ROCHESTER
-                        5 -> RegionCodes.SCHENECTADY
-                        6 -> RegionCodes.SYRACUSE
-                        7 -> RegionCodes.YONKERS
-                        else -> null
-                    }
-                    else -> null
+                viewModel.areas[viewModel.state]?.let {
+                    viewModel.region = it[position]
                 }
+
                 checkIfShouldEnableButton()
             }
         }
@@ -271,9 +260,8 @@ class RegistrationUserInfoFragment : Fragment() {
                 // And state and region are checked above.
                 val user = User(viewModel.firstName!!, viewModel.lastName!!,
                         viewModel.phoneNumber, viewModel.state!!, viewModel.region!!,
-                         FirebaseAuth.getInstance().currentUser?.email!!,
+                        FirebaseAuth.getInstance().currentUser?.email!!,
                         FirebaseAuth.getInstance().uid.toString())
-
 
 
                 val userDirectoryDb = FirebaseDatabase.getInstance().reference
