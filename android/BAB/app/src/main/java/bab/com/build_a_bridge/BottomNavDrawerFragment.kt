@@ -45,6 +45,7 @@ class BottomNavDrawerFragment: BottomSheetDialogFragment() {
                 .load(FirebaseStorageRefUtil.profilePicRef(viewModel.user.userId))
                 .into(nav_user_icon_iv)
 
+
         val username = "${viewModel.user.firstName} ${viewModel.user.lastName}"
         nav_username_tv.text = username
 
@@ -102,6 +103,9 @@ class BottomNavDrawerFragment: BottomSheetDialogFragment() {
                 R.id.nav_friends -> {
                     activity.swapFragments(FriendsFragment(), true)
 
+                }
+                R.id.nav_profile -> {
+                    activity.swapFragments(EditProfileFragment(), true)
                 }
                 R.id.nav_settings -> {
                     activity.swapFragments(SettingsFragment(), true)

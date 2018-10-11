@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="@+id/nav_username_tv"
         app:layout_constraintTop_toBottomOf="@+id/nav_username_tv" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/nav_user_icon_iv"
         android:layout_width="48dp"
         android:layout_height="48dp"
