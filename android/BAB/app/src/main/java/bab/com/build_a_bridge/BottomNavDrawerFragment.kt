@@ -40,7 +40,7 @@ class BottomNavDrawerFragment: BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Glide.with(this)
+        Glide.with(context)
                 .using(FirebaseImageLoader())
                 .load(FirebaseStorageRefUtil.profilePicRef(viewModel.user.userId))
                 .into(nav_user_icon_iv)

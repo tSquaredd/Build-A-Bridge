@@ -37,34 +37,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-//        var test = Regions(arrayListOf())
-//        test.locations.add(Region("New York",
-//                arrayListOf("Albany", "Buffalo", "Mt. Vernon", "New York City",
-//                        "Schenectady", "Syracuse", "Yonkers")))
-//
-//        val dbRef = FirebaseDatabase.getInstance().reference
-//                .child("REGIONS")
-//                .setValue(test)
-
-        val dbRef = FirebaseDatabase.getInstance().reference
-                .child("REGIONS")
-                .addListenerForSingleValueEvent(object : ValueEventListener{
-                    override fun onCancelled(p0: DatabaseError) {
-
-                    }
-
-                    override fun onDataChange(p0: DataSnapshot) {
-                        val data = p0.getValue(Regions::class.java)
-                        for(i in data!!.locations)
-                            for(j in i.areas){
-                                Log.i("MainActivity", "onDataChange: $j")
-                            }
-                    }
-
-                })
-
-
         // Check if user signed in
         checkFirebaseCredentials(this)
     }
@@ -75,7 +47,6 @@ class MainActivity : AppCompatActivity() {
     fun finishOnCreate() {
         setSupportActionBar(bottom_app_bar)
         title = ""
-
 
         val messageBundle = intent.extras.getBundle(BundleParamNames.MESSAGE_BUNDLE.toString())
         if (messageBundle != null) {
@@ -119,7 +90,10 @@ class MainActivity : AppCompatActivity() {
                     else {
                         // TODO: Give context as to why request is not ready
                     }
-
+                }
+                is EditProfileFragment -> {
+                    // TODO UPDATE PROFILE INFO
+                    (currentFragment as EditProfileFragment).saveProfile()
                 }
             }
         }

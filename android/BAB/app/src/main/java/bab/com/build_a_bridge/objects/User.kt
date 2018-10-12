@@ -14,4 +14,9 @@ class User(var firstName: String = "",
            val userId: String = "",
            var fcmToken: String = "",
            var numRatings: Int = 0,
-           var ratingTotal: Double = 0.0)
+           var ratingTotal: Double = 0.0){
+
+    override fun toString(): String {
+        return "User(firstName='$firstName', lastName='$lastName', phoneNumber=$phoneNumber, state='$state', region='$region', email='$email', userId='$userId', fcmToken='$fcmToken', numRatings=$numRatings, ratingTotal=$ratingTotal)"
+    }
+}
