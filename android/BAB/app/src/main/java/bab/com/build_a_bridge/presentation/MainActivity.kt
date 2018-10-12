@@ -92,8 +92,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 is EditProfileFragment -> {
-                    // TODO UPDATE PROFILE INFO
                     (currentFragment as EditProfileFragment).saveProfile()
+                    onBackPressed()
                 }
             }
         }
