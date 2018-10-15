@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 import com.firebase.ui.storage.images.FirebaseImageLoader
 import kotlinx.android.synthetic.main.bottom_sheet.*
 
-class BottomNavDrawerFragment: BottomSheetDialogFragment() {
+class BottomNavDrawerFragment : BottomSheetDialogFragment() {
 
     val viewModel by lazy { ViewModelProviders.of(activity!!).get(MainActivityViewModel::class.java) }
 
@@ -51,7 +51,7 @@ class BottomNavDrawerFragment: BottomSheetDialogFragment() {
 
         nav_user_email_tv.text = viewModel.user.email
 
-        when (arguments?.getString(ARG_CURRENT_SELECTION)){
+        when (arguments?.getString(ARG_CURRENT_SELECTION)) {
             FEED -> {
                 navigation_view.setCheckedItem(R.id.nav_feed)
 
@@ -79,40 +79,61 @@ class BottomNavDrawerFragment: BottomSheetDialogFragment() {
             }
         }
 
+        val profileClickListener =
+                View.OnClickListener {
+                    val activity = activity as MainActivity
+                    if (activity.getCurrentFragment() !is EditProfileFragment)
+                        activity.swapFragments(EditProfileFragment(),
+                                true)
+                    this.dismiss()
+                }
+
+        nav_username_tv.setOnClickListener(profileClickListener)
+        nav_user_email_tv.setOnClickListener(profileClickListener)
+        nav_user_icon_iv.setOnClickListener(profileClickListener)
+
 
         navigation_view.setNavigationItemSelectedListener {
             val itemId = it.itemId
             val activity = activity as MainActivity
             when (itemId) {
                 R.id.nav_feed -> {
-                    activity.swapFragments(FeedFragment(), true)
+                    if (activity.getCurrentFragment() !is FeedFragment)
+                        activity.swapFragments(FeedFragment(), true)
 
                 }
                 R.id.nav_requests -> {
-                    activity.swapFragments(RequestsFragment(), true)
+                    if (activity.getCurrentFragment() !is RequestsFragment)
+                        activity.swapFragments(RequestsFragment(), true)
 
                 }
                 R.id.nav_skills -> {
-                    activity.swapFragments(SkillsFragment(), true)
+                    if (activity.getCurrentFragment() !is SkillsFragment)
+                        activity.swapFragments(SkillsFragment(), true)
 
                 }
                 R.id.nav_messages -> {
-                    activity.swapFragments(ConversationsFragment(), true)
+                    if (activity.getCurrentFragment() !is ConversationsFragment)
+                        activity.swapFragments(ConversationsFragment(), true)
 
                 }
                 R.id.nav_friends -> {
-                    activity.swapFragments(FriendsFragment(), true)
+                    if (activity.getCurrentFragment() !is FriendsFragment)
+                        activity.swapFragments(FriendsFragment(), true)
 
                 }
                 R.id.nav_profile -> {
-                    activity.swapFragments(EditProfileFragment(), true)
+                    if (activity.getCurrentFragment() !is EditProfileFragment)
+                        activity.swapFragments(EditProfileFragment(), true)
                 }
                 R.id.nav_settings -> {
-                    activity.swapFragments(SettingsFragment(), true)
+                    if (activity.getCurrentFragment() !is SettingsFragment)
+                        activity.swapFragments(SettingsFragment(), true)
 
                 }
                 R.id.nav_admin_skills -> {
-                    activity.swapFragments(AdminSkillsFragment(), true)
+                    if (activity.getCurrentFragment() !is AdminSkillsFragment)
+                        activity.swapFragments(AdminSkillsFragment(), true)
 
                 }
                 R.id.nav_sign_out -> {
@@ -125,7 +146,7 @@ class BottomNavDrawerFragment: BottomSheetDialogFragment() {
         }
     }
 
-    fun setSelected(){
+    fun setSelected() {
         navigation_view.setCheckedItem(R.id.nav_feed)
     }
 }

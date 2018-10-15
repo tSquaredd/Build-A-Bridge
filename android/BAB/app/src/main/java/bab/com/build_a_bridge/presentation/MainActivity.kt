@@ -171,6 +171,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun getCurrentFragment() = supportFragmentManager.findFragmentById(R.id.content_frame)
+
+
     /**
      * Check if user is signed in through FIrebaseAuth
      *
